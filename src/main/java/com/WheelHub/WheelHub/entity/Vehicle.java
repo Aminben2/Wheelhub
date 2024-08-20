@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Data
-@Table(name = "vehicles")
 @Entity
+@Table(name = "Vehicles")
 public class Vehicle {
 
     @Id
@@ -25,30 +25,40 @@ public class Vehicle {
     @JoinColumn(name = "seller_id")
     private User seller;
 
-    @Column(name = "make")
+    @Column(name = "make", nullable = false)
     private String make;
 
-    @Column(name = "model")
+    @Column(name = "model", nullable = false)
     private String model;
 
     @Column(name = "year")
-    private int year;
+    private Integer year;
 
     @Column(name = "mileage")
-    private int mileage;
+    private Integer mileage;
 
-    @Column(name = "price")
+    @Column(name = "price", precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "description")
     private String description;
 
     @Column(name = "location")
     private String location;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
