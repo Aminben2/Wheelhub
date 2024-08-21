@@ -11,12 +11,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
 
+    @Override
+    public List<UserDTO> getAllUsers() {
+        return userRepo.findAll().stream()
+                .map(UserMapper::entityToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<UserDTO> getUserById(Long id) {
+        return userRepo.findById(id)
+                .map(UserMapper::entityToDTO);
+    }
+    
     @Override
     public ResponseEntity<UserDTO> createUser(UserDTO userDTO) {
         User user = UserMapper.dtoToEntity(userDTO);
@@ -60,5 +77,6 @@ public class UserServiceImpl implements UserService {
 
         return ResponseEntity.ok(updatedUserDTO);
     }
+
 
 }
