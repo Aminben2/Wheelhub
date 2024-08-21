@@ -28,6 +28,7 @@ public class DealershipInventory {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
+    @Column(name = "stock")
     private int stock;
 
     @Column(name = "created_at")
@@ -35,6 +36,4 @@ public class DealershipInventory {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    // Constructors, Getters, Setters
 }

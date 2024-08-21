@@ -24,5 +24,4 @@ public class Language {
 
     @Column(name = "language_name", nullable = false)
     private String languageName;
-
 }

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -15,7 +17,7 @@ import java.util.Set;
 @Builder
 @Data
 @Entity
-@Table(name = "Roles")
+@Table(name = "roles")
 public class Role {
 
     @Id
@@ -25,7 +27,6 @@ public class Role {
     @Column(name = "name", length = 50, unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "role")
-    private Set<User> users;
-
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>();
 }
