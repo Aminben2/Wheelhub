@@ -4,3 +4,4 @@ public enum NotificationType {
     PRICE_DROP,
     NEW_LISTING
 }
+
