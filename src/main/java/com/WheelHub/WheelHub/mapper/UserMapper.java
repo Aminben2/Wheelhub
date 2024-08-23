@@ -3,6 +3,8 @@ package com.WheelHub.WheelHub.mapper;
 import com.WheelHub.WheelHub.dto.UserDTO;
 import com.WheelHub.WheelHub.entity.User;
 
+import java.util.stream.Collectors;
+
 public class UserMapper {
 
     public static UserDTO entityToDTO(User user) {
@@ -14,24 +16,24 @@ public class UserMapper {
                 .updatedAt(user.getUpdatedAt())
                 .roles(user.getRoles().stream()
                         .map(RoleMapper::entityToDTO)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList())) // Collect to List
                 .vehicles(user.getVehicles().stream()
                         .map(VehicleMapper::entityToDTO)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList())) // Collect to List
                 .appointments(user.getAppointments().stream()
                         .map(AppointmentMapper::entityToDTO)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList())) // Collect to List
                 .notifications(user.getNotifications().stream()
                         .map(NotificationMapper::entityToDTO)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList())) // Collect to List
                 .savedSearches(user.getSavedSearches().stream()
                         .map(SavedSearchMapper::entityToDTO)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList())) // Collect to List
                 .build();
     }
 
     public static User dtoToEntity(UserDTO userDTO) {
-        return User.builder()
+        return  User.builder()
                 .id(userDTO.getId())
                 .username(userDTO.getUsername())
                 .email(userDTO.getEmail())
@@ -39,20 +41,20 @@ public class UserMapper {
                 .updatedAt(userDTO.getUpdatedAt())
                 .roles(userDTO.getRoles().stream()
                         .map(RoleMapper::dtoToEntity)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList()))
                 .vehicles(userDTO.getVehicles().stream()
                         .map(VehicleMapper::dtoToEntity)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList()))
                 .appointments(userDTO.getAppointments().stream()
                         .map(AppointmentMapper::dtoToEntity)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList()))
                 .notifications(userDTO.getNotifications().stream()
                         .map(NotificationMapper::dtoToEntity)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList()))
                 .savedSearches(userDTO.getSavedSearches().stream()
                         .map(SavedSearchMapper::dtoToEntity)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toList()))
                 .build();
     }
-
 }
+

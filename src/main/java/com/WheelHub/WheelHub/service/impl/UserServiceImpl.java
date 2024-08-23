@@ -22,18 +22,20 @@ public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
 
     @Override
-    public List<UserDTO> getAllUsers() {
-        return userRepo.findAll().stream()
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> users = userRepo.findAll().stream()
                 .map(UserMapper::entityToDTO)
                 .collect(Collectors.toList());
+        return ResponseEntity.ok(users);
     }
 
     @Override
-    public Optional<UserDTO> getUserById(Long id) {
+    public ResponseEntity<UserDTO> getUserById(Long id) {
         return userRepo.findById(id)
-                .map(UserMapper::entityToDTO);
+                .map(user -> ResponseEntity.ok(UserMapper.entityToDTO(user)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
-    
+
     @Override
     public ResponseEntity<UserDTO> createUser(UserDTO userDTO) {
         User user = UserMapper.dtoToEntity(userDTO);

@@ -24,6 +24,7 @@ public class VehicleImage {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
+    @Column(name = "image_url")
     private String imageUrl;
 
     @Column(name = "created_at")

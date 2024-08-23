@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,8 +19,9 @@ public class UserDTO {
     private String role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private ArrayList<VehicleDTO> vehicles;
-    private ArrayList<AppointmentDTO> appointments;
-    private ArrayList<NotificationDTO> notifications;
-    private ArrayList<SavedSearchDTO> savedSearches;
+    private List<VehicleDTO> vehicles;
+    private List<AppointmentDTO> appointments;
+    private List<NotificationDTO> notifications;
+    private List<SavedSearchDTO> savedSearches;
+    private List<RoleDTO> roles;
 }

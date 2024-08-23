@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,7 +36,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private ArrayList<Role> roles;
+    private List<Role> roles;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -45,16 +45,16 @@ public class User {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "seller")
-    private ArrayList<Vehicle> vehicles;
+    private List<Vehicle> vehicles;
 
     @OneToMany(mappedBy = "user")
-    private ArrayList<Appointment> appointments;
+    private List<Appointment> appointments;
 
     @OneToMany(mappedBy = "user")
-    private ArrayList<Notification> notifications;
+    private List<Notification> notifications;
 
     @OneToMany(mappedBy = "user")
-    private ArrayList<SavedSearch> savedSearches;
+    private List<SavedSearch> savedSearches;
 
     @PreUpdate
     protected void onUpdate() {
