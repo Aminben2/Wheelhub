@@ -2,7 +2,7 @@ package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.UserDTO;
 import com.WheelHub.WheelHub.entity.User;
-import com.WheelHub.WheelHub.mapper.UserMapper;
+import com.WheelHub.WheelHub.mapper.*;
 import com.WheelHub.WheelHub.repository.UserRepo;
 import com.WheelHub.WheelHub.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +63,9 @@ public class UserServiceImpl implements UserService {
         if (!userRepo.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        User existingUser = userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        User existingUser = userRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (userDTO.getUsername() != null) {
             existingUser.setUsername(userDTO.getUsername());
@@ -71,7 +73,12 @@ public class UserServiceImpl implements UserService {
         if (userDTO.getEmail() != null) {
             existingUser.setEmail(userDTO.getEmail());
         }
-        // Handle other fields similarly
+        if (userDTO.getCreatedAt() != null) {
+            existingUser.setCreatedAt(userDTO.getCreatedAt());
+        }
+        if (userDTO.getUpdatedAt() != null) {
+            existingUser.setUpdatedAt(userDTO.getUpdatedAt());
+        }
 
         User updatedUser = userRepo.save(existingUser);
 
@@ -79,6 +86,4 @@ public class UserServiceImpl implements UserService {
 
         return ResponseEntity.ok(updatedUserDTO);
     }
-
-
 }
