@@ -2,91 +2,62 @@ package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.UserDTO;
 import com.WheelHub.WheelHub.entity.User;
-import com.WheelHub.WheelHub.mapper.*;
-import com.WheelHub.WheelHub.repository.RoleRepo;
-import com.WheelHub.WheelHub.repository.UserRepo;
+import com.WheelHub.WheelHub.mapper.UserMapper;
+import com.WheelHub.WheelHub.repository.UserRepository;
 import com.WheelHub.WheelHub.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepo userRepo;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
+    @Override
+    public UserDTO createUser(UserDTO userDTO) {
+        User user = userMapper.dtoToEntity(userDTO);
+        user = userRepository.save(user);
+        return userMapper.entityToDTO(user);
+    }
 
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> users = userRepo.findAll().stream()
-                .map(UserMapper::entityToDTO)
+    @Override
+    public UserDTO getUserById(Long id) {
+        return userRepository.findById(id)
+                .map(userMapper::entityToDTO)
+                .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + id));
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(userMapper::entityToDTO) // Use non-static method via the injected instance
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(users);
     }
 
     @Override
-    public ResponseEntity<UserDTO> getUserById(Long id) {
-        return userRepo.findById(id)
-                .map(user -> ResponseEntity.ok(UserMapper.entityToDTO(user)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + id));
+
+        existingUser.setName(userDTO.getName());
+        existingUser.setUsername(userDTO.getUsername());
+        existingUser.setEmail(userDTO.getEmail());
+        existingUser.setUpdatedAt(userDTO.getUpdatedAt());
+
+        User updatedUser = userRepository.save(existingUser);
+        return userMapper.entityToDTO(updatedUser);
     }
 
     @Override
-    public ResponseEntity<UserDTO> createUser(UserDTO userDTO) {
-        User user = UserMapper.dtoToEntity(userDTO);
-
-        User savedUser = userRepo.save(user);
-
-        UserDTO savedUserDTO = UserMapper.entityToDTO(savedUser);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserDTO);
-    }
-
-    @Override
-    @Transactional
-    public ResponseEntity<Void> deleteUser(Long id) {
-        if (!userRepo.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        userRepo.deleteById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-    @Override
-    @Transactional
-    public ResponseEntity<UserDTO> updateUser(Long id, UserDTO userDTO) {
-        if (!userRepo.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        User existingUser = userRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (userDTO.getUsername() != null) {
-            existingUser.setUsername(userDTO.getUsername());
-        }
-        if (userDTO.getEmail() != null) {
-            existingUser.setEmail(userDTO.getEmail());
-        }
-        if (userDTO.getCreatedAt() != null) {
-            existingUser.setCreatedAt(userDTO.getCreatedAt());
-        }
-        if (userDTO.getUpdatedAt() != null) {
-            existingUser.setUpdatedAt(userDTO.getUpdatedAt());
-        }
-
-        User updatedUser = userRepo.save(existingUser);
-
-        UserDTO updatedUserDTO = UserMapper.entityToDTO(updatedUser);
-
-        return ResponseEntity.ok(updatedUserDTO);
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + id));
+        userRepository.delete(user);
     }
 }

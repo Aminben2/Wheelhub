@@ -4,8 +4,8 @@ import com.WheelHub.WheelHub.dto.LoginDto;
 import com.WheelHub.WheelHub.dto.SignUpDto;
 import com.WheelHub.WheelHub.entity.Role;
 import com.WheelHub.WheelHub.entity.User;
-import com.WheelHub.WheelHub.repository.RoleRepo;
-import com.WheelHub.WheelHub.repository.UserRepo;
+import com.WheelHub.WheelHub.repository.RoleRepository;
+import com.WheelHub.WheelHub.repository.UserRepository;
 import com.WheelHub.WheelHub.service.impl.CustomUserDetailsService;
 import com.WheelHub.WheelHub.util.JwtResponse;
 import com.WheelHub.WheelHub.util.JwtTokenUtil;
@@ -36,10 +36,10 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepo userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private RoleRepo roleRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
