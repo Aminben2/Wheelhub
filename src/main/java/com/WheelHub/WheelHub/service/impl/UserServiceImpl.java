@@ -3,14 +3,17 @@ package com.WheelHub.WheelHub.service.impl;
 import com.WheelHub.WheelHub.dto.UserDTO;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.mapper.*;
+import com.WheelHub.WheelHub.repository.RoleRepo;
 import com.WheelHub.WheelHub.repository.UserRepo;
 import com.WheelHub.WheelHub.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
 
-    @Override
+
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<UserDTO> users = userRepo.findAll().stream()
                 .map(UserMapper::entityToDTO)

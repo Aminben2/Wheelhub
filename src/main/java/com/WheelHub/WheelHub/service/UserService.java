@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.service;
 
 import com.WheelHub.WheelHub.dto.UserDTO;
+import com.WheelHub.WheelHub.entity.User;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

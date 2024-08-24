@@ -1,11 +1,9 @@
 package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.UserDTO;
-import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
