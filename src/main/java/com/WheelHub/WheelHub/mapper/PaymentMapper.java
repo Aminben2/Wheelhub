@@ -4,7 +4,10 @@ import com.WheelHub.WheelHub.dto.PaymentDTO;
 import com.WheelHub.WheelHub.entity.Payment;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class PaymentMapper {
 
     public static PaymentDTO entityToDTO(Payment payment) {

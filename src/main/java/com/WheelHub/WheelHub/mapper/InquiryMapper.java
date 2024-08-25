@@ -4,7 +4,10 @@ import com.WheelHub.WheelHub.dto.InquiryDTO;
 import com.WheelHub.WheelHub.entity.Inquiry;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class InquiryMapper {
 
     public static InquiryDTO entityToDTO(Inquiry inquiry) {

@@ -4,7 +4,10 @@ import com.WheelHub.WheelHub.dto.DealershipInventoryDTO;
 import com.WheelHub.WheelHub.entity.Dealership;
 import com.WheelHub.WheelHub.entity.DealershipInventory;
 import com.WheelHub.WheelHub.entity.Vehicle;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class DealershipInventoryMapper {
 
     public static DealershipInventoryDTO entityToDTO(DealershipInventory inventory) {

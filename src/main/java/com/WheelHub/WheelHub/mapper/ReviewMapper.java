@@ -4,7 +4,10 @@ import com.WheelHub.WheelHub.dto.ReviewDTO;
 import com.WheelHub.WheelHub.entity.Review;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class ReviewMapper {
 
     public static ReviewDTO entityToDTO(Review review) {

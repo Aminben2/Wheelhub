@@ -3,7 +3,10 @@ package com.WheelHub.WheelHub.mapper;
 import com.WheelHub.WheelHub.dto.NotificationDTO;
 import com.WheelHub.WheelHub.entity.Notification;
 import com.WheelHub.WheelHub.entity.User;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class NotificationMapper {
 
     public static NotificationDTO entityToDTO(Notification notification) {

@@ -5,7 +5,10 @@ import com.WheelHub.WheelHub.entity.Localization;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Language;
 import com.WheelHub.WheelHub.entity.Currency;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class LocalizationMapper {
 
     public static LocalizationDTO entityToDTO(Localization localization) {

@@ -17,5 +17,4 @@ public interface NotificationService {
 
     void deleteNotification(Long id);
     Notification findById(Long id);
-
 }

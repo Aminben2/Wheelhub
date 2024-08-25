@@ -18,5 +18,4 @@ public interface SavedSearchService {
     void deleteSavedSearch(Long id);
 
     SavedSearch findById(Long id);
-
 }

@@ -2,7 +2,10 @@ package com.WheelHub.WheelHub.mapper;
 
 import com.WheelHub.WheelHub.dto.LanguageDTO;
 import com.WheelHub.WheelHub.entity.Language;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class LanguageMapper {
 
     public static LanguageDTO entityToDTO(Language language) {

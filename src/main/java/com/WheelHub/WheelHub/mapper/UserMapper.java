@@ -12,11 +12,15 @@ import com.WheelHub.WheelHub.service.VehicleService;
 import com.WheelHub.WheelHub.service.AppointmentService;
 import com.WheelHub.WheelHub.service.NotificationService;
 import com.WheelHub.WheelHub.service.SavedSearchService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
+@RequiredArgsConstructor
 public class UserMapper {
 
     private final RoleService roleService;
@@ -24,15 +28,6 @@ public class UserMapper {
     private final AppointmentService appointmentService;
     private final NotificationService notificationService;
     private final SavedSearchService savedSearchService;
-
-    public UserMapper(RoleService roleService, VehicleService vehicleService, AppointmentService appointmentService,
-                      NotificationService notificationService, SavedSearchService savedSearchService) {
-        this.roleService = roleService;
-        this.vehicleService = vehicleService;
-        this.appointmentService = appointmentService;
-        this.notificationService = notificationService;
-        this.savedSearchService = savedSearchService;
-    }
 
     public UserDTO entityToDTO(User user) {
         Set<Long> roleIds = user.getRoles() != null ? user.getRoles().stream()
@@ -82,23 +77,23 @@ public class UserMapper {
 
         // Fetch entities for roles, vehicles, appointments, notifications, and saved searches
         Set<Role> roles = userDTO.getRoleIds().stream()
-                .map(roleId -> roleService.findById(roleId))
+                .map(roleService::findById)
                 .collect(Collectors.toSet());
 
         List<Vehicle> vehicles = userDTO.getVehicleIds().stream()
-                .map(vehicleId -> vehicleService.findById(vehicleId))
+                .map(vehicleService::findById)
                 .collect(Collectors.toList());
 
         List<Appointment> appointments = userDTO.getAppointmentIds().stream()
-                .map(appointmentId -> appointmentService.findById(appointmentId))
+                .map(appointmentService::findById)
                 .collect(Collectors.toList());
 
         List<Notification> notifications = userDTO.getNotificationIds().stream()
-                .map(notificationId -> notificationService.findById(notificationId))
+                .map(notificationService::findById)
                 .collect(Collectors.toList());
 
         List<SavedSearch> savedSearches = userDTO.getSavedSearchIds().stream()
-                .map(savedSearchId -> savedSearchService.findById(savedSearchId))
+                .map(savedSearchService::findById)
                 .collect(Collectors.toList());
 
         user.setRoles(roles);

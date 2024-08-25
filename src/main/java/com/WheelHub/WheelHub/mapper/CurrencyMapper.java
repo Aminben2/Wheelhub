@@ -2,7 +2,10 @@ package com.WheelHub.WheelHub.mapper;
 
 import com.WheelHub.WheelHub.dto.CurrencyDTO;
 import com.WheelHub.WheelHub.entity.Currency;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class CurrencyMapper {
 
     public static CurrencyDTO entityToDTO(Currency currency) {

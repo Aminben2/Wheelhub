@@ -2,7 +2,10 @@ package com.WheelHub.WheelHub.mapper;
 
 import com.WheelHub.WheelHub.dto.DealershipDTO;
 import com.WheelHub.WheelHub.entity.Dealership;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class DealershipMapper {
 
     public static DealershipDTO entityToDTO(Dealership dealership) {

@@ -3,7 +3,10 @@ package com.WheelHub.WheelHub.mapper;
 import com.WheelHub.WheelHub.dto.PriceDropDTO;
 import com.WheelHub.WheelHub.entity.PriceDrop;
 import com.WheelHub.WheelHub.entity.Vehicle;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class PriceDropMapper {
 
     public static PriceDropDTO entityToDTO(PriceDrop priceDrop) {

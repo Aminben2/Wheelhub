@@ -4,7 +4,10 @@ import com.WheelHub.WheelHub.dto.AppointmentDTO;
 import com.WheelHub.WheelHub.entity.Appointment;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class AppointmentMapper {
 
     public static AppointmentDTO entityToDTO(Appointment appointment) {

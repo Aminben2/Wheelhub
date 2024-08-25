@@ -3,10 +3,13 @@ package com.WheelHub.WheelHub.mapper;
 import com.WheelHub.WheelHub.dto.RoleDTO;
 import com.WheelHub.WheelHub.entity.Role;
 import com.WheelHub.WheelHub.entity.User;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
+@Component
 public class RoleMapper {
 
     public static RoleDTO entityToDTO(Role role) {

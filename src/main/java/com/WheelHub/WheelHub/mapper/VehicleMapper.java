@@ -3,7 +3,10 @@ package com.WheelHub.WheelHub.mapper;
 import com.WheelHub.WheelHub.dto.VehicleDTO;
 import com.WheelHub.WheelHub.entity.Vehicle;
 import com.WheelHub.WheelHub.entity.User;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class VehicleMapper {
 
     public static VehicleDTO entityToDTO(Vehicle vehicle) {
