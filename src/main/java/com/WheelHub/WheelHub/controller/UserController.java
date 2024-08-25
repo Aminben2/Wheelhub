@@ -4,6 +4,7 @@ import com.WheelHub.WheelHub.dto.UserDTO;
 import com.WheelHub.WheelHub.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,32 +19,65 @@ public class UserController {
     private final UserServiceImpl userService;
 
     @GetMapping("/all")
-    public List<UserDTO> getAllUsers()
-    {
-        return userService.getAllUsers();
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        try {
+            List<UserDTO> users = userService.getAllUsers();
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            log.error("Error retrieving all users", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/{id}")
-    public UserDTO getOneUser(@PathVariable Long id)
-    {
-        return userService.getUserById(id);
+    public ResponseEntity<UserDTO> getOneUser(@PathVariable Long id) {
+        try {
+            UserDTO user = userService.getUserById(id);
+            if (user != null) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            log.error("Error retrieving user with ID {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("/")
-    public UserDTO addUser(@RequestBody UserDTO user)
-    {
-        return userService.createUser(user);
+    public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO user) {
+        try {
+            UserDTO createdUser = userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+        } catch (Exception e) {
+            log.error("Error creating user", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PutMapping("/{id}")
-    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO user)
-    {
-        return userService.updateUser(id,user);
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO user) {
+        try {
+            UserDTO updatedUser = userService.updateUser(id, user);
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            log.error("Error updating user with ID {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id)
-    {
-        userService.deleteUser(id);
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            log.error("Error deleting user with ID {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
