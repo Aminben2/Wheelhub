@@ -39,10 +39,8 @@ public class PaymentController {
             PaymentDTO paymentDTO = paymentService.getPaymentById(id);
             return new ResponseEntity<>(paymentDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Payment not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -53,7 +51,6 @@ public class PaymentController {
             List<PaymentDTO> payments = paymentService.getAllPayments();
             return new ResponseEntity<>(payments, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,10 +61,8 @@ public class PaymentController {
             PaymentDTO updatedPayment = paymentService.updatePayment(id, paymentDTO);
             return new ResponseEntity<>(updatedPayment, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Payment not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,10 +73,8 @@ public class PaymentController {
             paymentService.deletePayment(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("Payment not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

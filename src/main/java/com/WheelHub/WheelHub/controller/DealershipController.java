@@ -36,10 +36,8 @@ public class DealershipController {
             DealershipDTO dealershipDTO = dealershipService.getDealershipById(id);
             return new ResponseEntity<>(dealershipDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Dealership not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -50,7 +48,6 @@ public class DealershipController {
             List<DealershipDTO> dealerships = dealershipService.getAllDealerships();
             return new ResponseEntity<>(dealerships, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -61,10 +58,8 @@ public class DealershipController {
             DealershipDTO updatedDealership = dealershipService.updateDealership(id, dealershipDTO);
             return new ResponseEntity<>(updatedDealership, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Dealership not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,10 +70,8 @@ public class DealershipController {
             dealershipService.deleteDealership(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("Dealership not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

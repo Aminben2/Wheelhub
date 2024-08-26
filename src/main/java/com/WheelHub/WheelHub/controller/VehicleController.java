@@ -25,10 +25,8 @@ public class VehicleController {
             VehicleDTO createdVehicle = vehicleService.createVehicle(vehicleDTO);
             return new ResponseEntity<>(createdVehicle, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
-            log.error("Error creating vehicle: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -39,10 +37,8 @@ public class VehicleController {
             VehicleDTO vehicleDTO = vehicleService.getVehicleById(id);
             return new ResponseEntity<>(vehicleDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Vehicle not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -53,7 +49,6 @@ public class VehicleController {
             List<VehicleDTO> vehicles = vehicleService.getAllVehicles();
             return new ResponseEntity<>(vehicles, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,10 +59,8 @@ public class VehicleController {
             VehicleDTO updatedVehicle = vehicleService.updateVehicle(id, vehicleDTO);
             return new ResponseEntity<>(updatedVehicle, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Vehicle not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,10 +71,8 @@ public class VehicleController {
             vehicleService.deleteVehicle(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("Vehicle not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -25,7 +25,6 @@ public class LanguageController {
             LanguageDTO createdLanguage = languageService.createLanguage(languageDTO);
             return new ResponseEntity<>(createdLanguage, HttpStatus.CREATED);
         } catch (Exception e) {
-            log.error("Error creating language: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -36,10 +35,8 @@ public class LanguageController {
             LanguageDTO languageDTO = languageService.getLanguageById(id);
             return new ResponseEntity<>(languageDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Language not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -50,7 +47,6 @@ public class LanguageController {
             List<LanguageDTO> languages = languageService.getAllLanguages();
             return new ResponseEntity<>(languages, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -61,10 +57,8 @@ public class LanguageController {
             LanguageDTO updatedLanguage = languageService.updateLanguage(id, languageDTO);
             return new ResponseEntity<>(updatedLanguage, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Language not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,10 +69,8 @@ public class LanguageController {
             languageService.deleteLanguage(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("Language not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

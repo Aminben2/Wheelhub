@@ -25,10 +25,8 @@ public class NotificationController {
             NotificationDTO createdNotification = notificationService.createNotification(notificationDTO);
             return new ResponseEntity<>(createdNotification, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
-            log.error("Error creating notification: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -39,10 +37,8 @@ public class NotificationController {
             NotificationDTO notificationDTO = notificationService.getNotificationById(id);
             return new ResponseEntity<>(notificationDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Notification not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -53,7 +49,6 @@ public class NotificationController {
             List<NotificationDTO> notifications = notificationService.getAllNotifications();
             return new ResponseEntity<>(notifications, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,10 +59,8 @@ public class NotificationController {
             NotificationDTO updatedNotification = notificationService.updateNotification(id, notificationDTO);
             return new ResponseEntity<>(updatedNotification, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Notification not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,10 +71,8 @@ public class NotificationController {
             notificationService.deleteNotification(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("Notification not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

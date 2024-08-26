@@ -25,10 +25,8 @@ public class PriceDropController {
             PriceDropDTO createdPriceDrop = priceDropService.createPriceDrop(priceDropDTO);
             return new ResponseEntity<>(createdPriceDrop, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
-            log.error("Error creating price drop: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -39,10 +37,8 @@ public class PriceDropController {
             PriceDropDTO priceDropDTO = priceDropService.getPriceDropById(id);
             return new ResponseEntity<>(priceDropDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("PriceDrop not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -53,7 +49,6 @@ public class PriceDropController {
             List<PriceDropDTO> priceDrops = priceDropService.getAllPriceDrops();
             return new ResponseEntity<>(priceDrops, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,10 +59,8 @@ public class PriceDropController {
             PriceDropDTO updatedPriceDrop = priceDropService.updatePriceDrop(id, priceDropDTO);
             return new ResponseEntity<>(updatedPriceDrop, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("PriceDrop not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,10 +71,8 @@ public class PriceDropController {
             priceDropService.deletePriceDrop(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("PriceDrop not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

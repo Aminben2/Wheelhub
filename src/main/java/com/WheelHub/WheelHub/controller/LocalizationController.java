@@ -26,10 +26,8 @@ public class LocalizationController {
             LocalizationDTO createdLocalization = localizationService.createLocalization(localizationDTO);
             return new ResponseEntity<>(createdLocalization, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
-            log.error("Error creating localization: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -40,10 +38,8 @@ public class LocalizationController {
             LocalizationDTO localizationDTO = localizationService.getLocalizationById(id);
             return new ResponseEntity<>(localizationDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Localization not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -54,7 +50,6 @@ public class LocalizationController {
             List<LocalizationDTO> localizations = localizationService.getAllLocalizations();
             return new ResponseEntity<>(localizations, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -65,10 +60,8 @@ public class LocalizationController {
             LocalizationDTO updatedLocalization = localizationService.updateLocalization(id, localizationDTO);
             return new ResponseEntity<>(updatedLocalization, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Localization not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -79,10 +72,8 @@ public class LocalizationController {
             localizationService.deleteLocalization(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("Localization not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

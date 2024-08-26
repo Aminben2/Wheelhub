@@ -25,10 +25,8 @@ public class SavedSearchController {
             SavedSearchDTO createdSavedSearch = savedSearchService.createSavedSearch(savedSearchDTO);
             return new ResponseEntity<>(createdSavedSearch, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
-            log.error("Error creating saved search: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -39,10 +37,8 @@ public class SavedSearchController {
             SavedSearchDTO savedSearchDTO = savedSearchService.getSavedSearchById(id);
             return new ResponseEntity<>(savedSearchDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("SavedSearch not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -53,7 +49,6 @@ public class SavedSearchController {
             List<SavedSearchDTO> savedSearches = savedSearchService.getAllSavedSearches();
             return new ResponseEntity<>(savedSearches, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,10 +59,8 @@ public class SavedSearchController {
             SavedSearchDTO updatedSavedSearch = savedSearchService.updateSavedSearch(id, savedSearchDTO);
             return new ResponseEntity<>(updatedSavedSearch, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("SavedSearch not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,10 +71,8 @@ public class SavedSearchController {
             savedSearchService.deleteSavedSearch(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("SavedSearch not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

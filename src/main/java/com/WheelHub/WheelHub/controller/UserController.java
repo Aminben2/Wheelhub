@@ -24,7 +24,6 @@ public class UserController {
             List<UserDTO> users = userService.getAllUsers();
             return ResponseEntity.ok(users);
         } catch (Exception e) {
-            log.error("Error retrieving all users", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -39,7 +38,6 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
         } catch (Exception e) {
-            log.error("Error retrieving user with ID {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -50,7 +48,6 @@ public class UserController {
             UserDTO createdUser = userService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         } catch (Exception e) {
-            log.error("Error creating user", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -65,7 +62,6 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
         } catch (Exception e) {
-            log.error("Error updating user with ID {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -76,7 +72,6 @@ public class UserController {
             userService.deleteUser(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            log.error("Error deleting user with ID {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

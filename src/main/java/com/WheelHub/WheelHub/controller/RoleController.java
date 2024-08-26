@@ -25,7 +25,6 @@ public class RoleController {
             RoleDTO createdRole = roleService.createRole(roleDTO);
             return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
         } catch (Exception e) {
-            log.error("Error creating role: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -36,10 +35,8 @@ public class RoleController {
             RoleDTO roleDTO = roleService.getRoleById(id);
             return new ResponseEntity<>(roleDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Role not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -50,7 +47,6 @@ public class RoleController {
             List<RoleDTO> roles = roleService.getAllRoles();
             return new ResponseEntity<>(roles, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -61,10 +57,8 @@ public class RoleController {
             RoleDTO updatedRole = roleService.updateRole(id, roleDTO);
             return new ResponseEntity<>(updatedRole, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Role not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,10 +69,8 @@ public class RoleController {
             roleService.deleteRole(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("Role not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

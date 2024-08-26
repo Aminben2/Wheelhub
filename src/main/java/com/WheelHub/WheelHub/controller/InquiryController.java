@@ -25,10 +25,8 @@ public class InquiryController {
             InquiryDTO createdInquiry = inquiryService.createInquiry(inquiryDTO);
             return new ResponseEntity<>(createdInquiry, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
-            log.error("Error creating inquiry: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -39,10 +37,8 @@ public class InquiryController {
             InquiryDTO inquiryDTO = inquiryService.getInquiryById(id);
             return new ResponseEntity<>(inquiryDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Inquiry not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -53,7 +49,6 @@ public class InquiryController {
             List<InquiryDTO> inquiries = inquiryService.getAllInquiries();
             return new ResponseEntity<>(inquiries, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,10 +59,8 @@ public class InquiryController {
             InquiryDTO updatedInquiry = inquiryService.updateInquiry(id, inquiryDTO);
             return new ResponseEntity<>(updatedInquiry, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Inquiry not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,10 +71,8 @@ public class InquiryController {
             inquiryService.deleteInquiry(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("Inquiry not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

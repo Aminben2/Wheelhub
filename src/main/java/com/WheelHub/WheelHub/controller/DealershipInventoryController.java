@@ -36,10 +36,8 @@ public class DealershipInventoryController {
             DealershipInventoryDTO dealershipInventoryDTO = dealershipInventoryService.getDealershipInventoryById(id);
             return new ResponseEntity<>(dealershipInventoryDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("DealershipInventory not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -50,7 +48,6 @@ public class DealershipInventoryController {
             List<DealershipInventoryDTO> dealershipInventories = dealershipInventoryService.getAllDealershipInventories();
             return new ResponseEntity<>(dealershipInventories, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -61,10 +58,8 @@ public class DealershipInventoryController {
             DealershipInventoryDTO updatedDealershipInventory = dealershipInventoryService.updateDealershipInventory(id, dealershipInventoryDTO);
             return new ResponseEntity<>(updatedDealershipInventory, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("DealershipInventory not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,10 +70,8 @@ public class DealershipInventoryController {
             dealershipInventoryService.deleteDealershipInventory(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("DealershipInventory not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

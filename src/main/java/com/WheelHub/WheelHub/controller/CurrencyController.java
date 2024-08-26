@@ -25,7 +25,6 @@ public class CurrencyController {
             CurrencyDTO createdCurrency = currencyService.createCurrency(currencyDTO);
             return new ResponseEntity<>(createdCurrency, HttpStatus.CREATED);
         } catch (Exception e) {
-            log.error("Error creating currency: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -36,10 +35,8 @@ public class CurrencyController {
             CurrencyDTO currencyDTO = currencyService.getCurrencyById(id);
             return new ResponseEntity<>(currencyDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Currency not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -50,7 +47,6 @@ public class CurrencyController {
             List<CurrencyDTO> currencies = currencyService.getAllCurrencies();
             return new ResponseEntity<>(currencies, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -61,10 +57,8 @@ public class CurrencyController {
             CurrencyDTO updatedCurrency = currencyService.updateCurrency(id, currencyDTO);
             return new ResponseEntity<>(updatedCurrency, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            log.error("Currency not found: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,10 +69,8 @@ public class CurrencyController {
             currencyService.deleteCurrency(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
-            log.error("Currency not found: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            log.error("Unexpected error: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
