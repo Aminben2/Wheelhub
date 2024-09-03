@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.AppointmentDTO;
+import com.WheelHub.WheelHub.dto.appointementsDtos.AppointmentDTO;
 import com.WheelHub.WheelHub.entity.Appointment;
 
 import java.util.List;

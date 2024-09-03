@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.AppointmentDTO;
+import com.WheelHub.WheelHub.dto.appointementsDtos.AppointmentDTO;
 import com.WheelHub.WheelHub.entity.Appointment;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;

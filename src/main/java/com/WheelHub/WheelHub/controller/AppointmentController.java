@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.AppointmentDTO;
+import com.WheelHub.WheelHub.dto.appointementsDtos.AppointmentDTO;
 import com.WheelHub.WheelHub.service.impl.AppointmentServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.WheelHub.WheelHub.dto;
+package com.WheelHub.WheelHub.dto.appointementsDtos;
 
 import com.WheelHub.WheelHub.constant.enums.AppointmentType;
 import lombok.AllArgsConstructor;

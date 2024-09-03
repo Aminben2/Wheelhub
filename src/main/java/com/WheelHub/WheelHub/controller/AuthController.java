@@ -9,67 +9,71 @@ import com.WheelHub.WheelHub.repository.UserRepository;
 import com.WheelHub.WheelHub.service.impl.CustomUserDetailsService;
 import com.WheelHub.WheelHub.util.JwtResponse;
 import com.WheelHub.WheelHub.util.JwtTokenUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.HashSet;
 import java.util.Set;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final CustomUserDetailsService userDetailsService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDto.getUsernameOrEmail(), loginDto.getPassword())
-        );
+        try {
+            // Authenticate user
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDto.getUsernameOrEmail(), loginDto.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            // Generate JWT Token
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(loginDto.getUsernameOrEmail());
+            final String jwt = jwtTokenUtil.generateToken(userDetails);
 
-        // Generate JWT Token
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(loginDto.getUsernameOrEmail());
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
-        User user = userRepository.findByUsernameOrEmail(loginDto.getUsernameOrEmail(), loginDto.getUsernameOrEmail())
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with username or email: "+ loginDto.getUsernameOrEmail()));
+            // Retrieve user details
+            User user = userRepository.findByUsernameOrEmail(loginDto.getUsernameOrEmail(), loginDto.getUsernameOrEmail())
+                    .orElseThrow(() ->
+                            new UsernameNotFoundException("User not found with username or email: " + loginDto.getUsernameOrEmail()));
 
-        return ResponseEntity.ok(new JwtResponse(jwt, user.getId()));
+            return ResponseEntity.ok(new JwtResponse(jwt, user.getId()));
+        } catch (BadCredentialsException e) {
+            // Invalid credentials
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
+        } catch (UsernameNotFoundException e) {
+            // User not found
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        } catch (Exception e) {
+            // General error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during authentication.");
+        }
     }
 
+
     @PostMapping("/signup")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
 
         // Check if username exists in the DB
@@ -91,11 +95,21 @@ public class AuthController {
 
         // Retrieve and set roles
         Set<Role> roles = new HashSet<>();
-        for (String roleName : signUpDto.getRoles()) {
-            Role role = roleRepository.findByName(roleName)
-                    .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
-            roles.add(role);
+
+        // Check if any roles are provided
+        if (signUpDto.getRoles() == null || signUpDto.getRoles().isEmpty()) {
+            // Set default role as "buyer"
+            Role defaultRole = roleRepository.findByName("BUYER")
+                    .orElseThrow(() -> new RuntimeException("Default role not found"));
+            roles.add(defaultRole);
+        } else {
+            for (String roleName : signUpDto.getRoles()) {
+                Role role = roleRepository.findByName(roleName)
+                        .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+                roles.add(role);
+            }
         }
+
         user.setRoles(roles);
 
         userRepository.save(user);
