@@ -3,8 +3,11 @@ package com.WheelHub.WheelHub.controller;
 import com.WheelHub.WheelHub.dto.localizationDtos.LocalizationDto;
 import com.WheelHub.WheelHub.service.impl.LocalizationServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +19,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/localizations")
 @RequiredArgsConstructor
+@Validated
 public class LocalizationController {
 
     private final LocalizationServiceImpl localizationService;
 
     @PostMapping("/")
-    public ResponseEntity<LocalizationDto> createLocalization(@RequestBody LocalizationDto localizationDTO) {
+    public ResponseEntity<LocalizationDto> createLocalization(@Valid @RequestBody LocalizationDto localizationDTO) {
         try {
             LocalizationDto createdLocalization = localizationService.createLocalization(localizationDTO);
             return new ResponseEntity<>(createdLocalization, HttpStatus.CREATED);
@@ -33,7 +37,7 @@ public class LocalizationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LocalizationDto> getLocalizationById(@PathVariable Long id) {
+    public ResponseEntity<LocalizationDto> getLocalizationById(@PathVariable @Min(1) Long id) {
         try {
             LocalizationDto localizationDTO = localizationService.getLocalizationById(id);
             return new ResponseEntity<>(localizationDTO, HttpStatus.OK);
@@ -55,7 +59,7 @@ public class LocalizationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LocalizationDto> updateLocalization(@PathVariable Long id, @RequestBody LocalizationDto localizationDTO) {
+    public ResponseEntity<LocalizationDto> updateLocalization(@PathVariable @Min(1) Long id,@Valid @RequestBody LocalizationDto localizationDTO) {
         try {
             LocalizationDto updatedLocalization = localizationService.updateLocalization(id, localizationDTO);
             return new ResponseEntity<>(updatedLocalization, HttpStatus.OK);
@@ -67,7 +71,7 @@ public class LocalizationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLocalization(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteLocalization(@PathVariable @Min(1) Long id) {
         try {
             localizationService.deleteLocalization(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

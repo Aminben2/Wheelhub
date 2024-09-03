@@ -3,8 +3,11 @@ package com.WheelHub.WheelHub.controller;
 import com.WheelHub.WheelHub.dto.DealershipInventoryDtos.DealershipInventoryDto;
 import com.WheelHub.WheelHub.service.impl.DealershipInventoryServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +18,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/dealership-inventories")
 @RequiredArgsConstructor
+@Validated
 public class DealershipInventoryController {
 
     private final DealershipInventoryServiceImpl dealershipInventoryService;
 
     @PostMapping("/")
-    public ResponseEntity<DealershipInventoryDto> createDealershipInventory(@RequestBody DealershipInventoryDto dealershipInventoryDTO) {
+    public ResponseEntity<DealershipInventoryDto> createDealershipInventory(@Valid @RequestBody DealershipInventoryDto dealershipInventoryDTO) {
         try {
             DealershipInventoryDto createdDealershipInventory = dealershipInventoryService.createDealershipInventory(dealershipInventoryDTO);
             return new ResponseEntity<>(createdDealershipInventory, HttpStatus.CREATED);
@@ -31,7 +35,7 @@ public class DealershipInventoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DealershipInventoryDto> getDealershipInventoryById(@PathVariable Long id) {
+    public ResponseEntity<DealershipInventoryDto> getDealershipInventoryById(@PathVariable @Min(1) Long id) {
         try {
             DealershipInventoryDto dealershipInventoryDTO = dealershipInventoryService.getDealershipInventoryById(id);
             return new ResponseEntity<>(dealershipInventoryDTO, HttpStatus.OK);
@@ -53,7 +57,7 @@ public class DealershipInventoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DealershipInventoryDto> updateDealershipInventory(@PathVariable Long id, @RequestBody DealershipInventoryDto dealershipInventoryDTO) {
+    public ResponseEntity<DealershipInventoryDto> updateDealershipInventory(@PathVariable @Min(1) Long id, @Valid @RequestBody DealershipInventoryDto dealershipInventoryDTO) {
         try {
             DealershipInventoryDto updatedDealershipInventory = dealershipInventoryService.updateDealershipInventory(id, dealershipInventoryDTO);
             return new ResponseEntity<>(updatedDealershipInventory, HttpStatus.OK);
@@ -65,7 +69,7 @@ public class DealershipInventoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDealershipInventory(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteDealershipInventory(@PathVariable @Min(1) Long id) {
         try {
             dealershipInventoryService.deleteDealershipInventory(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

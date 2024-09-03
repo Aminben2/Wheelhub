@@ -3,8 +3,11 @@ package com.WheelHub.WheelHub.controller;
 import com.WheelHub.WheelHub.dto.paymentDtos.PaymentDto;
 import com.WheelHub.WheelHub.service.impl.PaymentServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +18,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/payments")
 @RequiredArgsConstructor
+@Validated
 public class PaymentController {
 
     private final PaymentServiceImpl paymentService;
 
     @PostMapping("/")
-    public ResponseEntity<PaymentDto> createPayment(@RequestBody PaymentDto paymentDTO) {
+    public ResponseEntity<PaymentDto> createPayment(
+            @Valid @RequestBody PaymentDto paymentDTO) {
         try {
             PaymentDto createdPayment = paymentService.createPayment(paymentDTO);
             return new ResponseEntity<>(createdPayment, HttpStatus.CREATED);
@@ -34,7 +39,7 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentDto> getPaymentById(@PathVariable Long id) {
+    public ResponseEntity<PaymentDto> getPaymentById(@PathVariable @Min(1) Long id) {
         try {
             PaymentDto paymentDTO = paymentService.getPaymentById(id);
             return new ResponseEntity<>(paymentDTO, HttpStatus.OK);
@@ -56,7 +61,7 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaymentDto> updatePayment(@PathVariable Long id, @RequestBody PaymentDto paymentDTO) {
+    public ResponseEntity<PaymentDto> updatePayment(@PathVariable @Min(1) Long id,@Valid @RequestBody PaymentDto paymentDTO) {
         try {
             PaymentDto updatedPayment = paymentService.updatePayment(id, paymentDTO);
             return new ResponseEntity<>(updatedPayment, HttpStatus.OK);
@@ -68,7 +73,7 @@ public class PaymentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePayment(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePayment(@PathVariable @Min(1) Long id) {
         try {
             paymentService.deletePayment(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

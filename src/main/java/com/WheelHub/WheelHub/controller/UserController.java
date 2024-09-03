@@ -2,10 +2,13 @@ package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.service.impl.UserServiceImpl;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
+@Validated
 public class UserController {
 
     private final UserServiceImpl userService;
@@ -29,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getOneUser(@PathVariable Long id) {
+    public ResponseEntity<UserDto> getOneUser(@PathVariable @Min(1) Long id) {
         try {
             UserDto user = userService.getUserById(id);
             if (user != null) {
@@ -43,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserDto> addUser(@RequestBody UserDto user) {
+    public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserDto user) {
         try {
             UserDto createdUser = userService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
@@ -53,7 +57,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto user) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable @Min(1) Long id,@Valid @RequestBody UserDto user) {
         try {
             UserDto updatedUser = userService.updateUser(id, user);
             if (updatedUser != null) {
@@ -67,7 +71,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable @Min(1) Long id) {
         try {
             userService.deleteUser(id);
             return ResponseEntity.noContent().build();

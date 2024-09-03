@@ -9,6 +9,7 @@ import com.WheelHub.WheelHub.repository.UserRepository;
 import com.WheelHub.WheelHub.service.impl.CustomUserDetailsService;
 import com.WheelHub.WheelHub.util.JwtResponse;
 import com.WheelHub.WheelHub.util.JwtTokenUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class AuthController {
     private final CustomUserDetailsService userDetailsService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginDto loginDto) {
         try {
             // Authenticate user
             Authentication authentication = authenticationManager.authenticate(
@@ -73,7 +74,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpDto signUpDto){
 
         // Check if username exists in the DB
         if(userRepository.existsByUsername(signUpDto.getUsername())){

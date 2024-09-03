@@ -3,8 +3,11 @@ package com.WheelHub.WheelHub.controller;
 import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageDto;
 import com.WheelHub.WheelHub.service.impl.VehicleImageServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +18,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/vehicle-images")
 @RequiredArgsConstructor
+@Validated
 public class VehicleImageController {
 
     private final VehicleImageServiceImpl vehicleImageService;
 
     @PostMapping("/")
-    public ResponseEntity<VehicleImageDto> createVehicleImage(@RequestBody VehicleImageDto vehicleImageDTO) {
+    public ResponseEntity<VehicleImageDto> createVehicleImage(@Valid @RequestBody VehicleImageDto vehicleImageDTO) {
         try {
             VehicleImageDto createdVehicleImage = vehicleImageService.createVehicleImage(vehicleImageDTO);
             return new ResponseEntity<>(createdVehicleImage, HttpStatus.CREATED);
@@ -32,7 +36,7 @@ public class VehicleImageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VehicleImageDto> getVehicleImageById(@PathVariable Long id) {
+    public ResponseEntity<VehicleImageDto> getVehicleImageById(@PathVariable @Min(1) Long id) {
         try {
             VehicleImageDto vehicleImageDTO = vehicleImageService.getVehicleImageById(id);
             return new ResponseEntity<>(vehicleImageDTO, HttpStatus.OK);
@@ -54,7 +58,7 @@ public class VehicleImageController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VehicleImageDto> updateVehicleImage(@PathVariable Long id, @RequestBody VehicleImageDto vehicleImageDTO) {
+    public ResponseEntity<VehicleImageDto> updateVehicleImage(@PathVariable @Min(1) Long id,@Valid @RequestBody VehicleImageDto vehicleImageDTO) {
         try {
             VehicleImageDto updatedVehicleImage = vehicleImageService.updateVehicleImage(id, vehicleImageDTO);
             return new ResponseEntity<>(updatedVehicleImage, HttpStatus.OK);
@@ -66,7 +70,7 @@ public class VehicleImageController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVehicleImage(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteVehicleImage(@PathVariable @Min(1) Long id) {
         try {
             vehicleImageService.deleteVehicleImage(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

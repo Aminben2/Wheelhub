@@ -3,8 +3,11 @@ package com.WheelHub.WheelHub.controller;
 import com.WheelHub.WheelHub.dto.roleDtos.RoleDto;
 import com.WheelHub.WheelHub.service.impl.RoleServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +18,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/roles")
 @RequiredArgsConstructor
+@Validated
 public class RoleController {
 
     private final RoleServiceImpl roleService;
 
     @PostMapping("/")
-    public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto roleDTO) {
+    public ResponseEntity<RoleDto> createRole(@Valid  @RequestBody RoleDto roleDTO) {
         try {
             RoleDto createdRole = roleService.createRole(roleDTO);
             return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
@@ -30,7 +34,7 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoleDto> getRoleById(@PathVariable Long id) {
+    public ResponseEntity<RoleDto> getRoleById(@PathVariable @Min(1) Long id) {
         try {
             RoleDto roleDTO = roleService.getRoleById(id);
             return new ResponseEntity<>(roleDTO, HttpStatus.OK);
@@ -52,7 +56,7 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoleDto> updateRole(@PathVariable Long id, @RequestBody RoleDto roleDTO) {
+    public ResponseEntity<RoleDto> updateRole(@PathVariable @Min(1) Long id,@Valid @RequestBody RoleDto roleDTO) {
         try {
             RoleDto updatedRole = roleService.updateRole(id, roleDTO);
             return new ResponseEntity<>(updatedRole, HttpStatus.OK);
@@ -64,7 +68,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRole(@PathVariable @Min(1) Long id) {
         try {
             roleService.deleteRole(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

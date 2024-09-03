@@ -3,8 +3,11 @@ package com.WheelHub.WheelHub.controller;
 import com.WheelHub.WheelHub.dto.InquiryDtos.InquiryDto;
 import com.WheelHub.WheelHub.service.impl.InquiryServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +18,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/inquiries")
 @RequiredArgsConstructor
+@Validated
 public class InquiryController {
 
     private final InquiryServiceImpl inquiryService;
 
     @PostMapping("/")
-    public ResponseEntity<InquiryDto> createInquiry(@RequestBody InquiryDto inquiryDTO) {
+    public ResponseEntity<InquiryDto> createInquiry(@Valid @RequestBody InquiryDto inquiryDTO) {
         try {
             InquiryDto createdInquiry = inquiryService.createInquiry(inquiryDTO);
             return new ResponseEntity<>(createdInquiry, HttpStatus.CREATED);
@@ -32,7 +36,7 @@ public class InquiryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InquiryDto> getInquiryById(@PathVariable Long id) {
+    public ResponseEntity<InquiryDto> getInquiryById(@PathVariable @Min(1) Long id) {
         try {
             InquiryDto inquiryDTO = inquiryService.getInquiryById(id);
             return new ResponseEntity<>(inquiryDTO, HttpStatus.OK);
@@ -54,7 +58,8 @@ public class InquiryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<InquiryDto> updateInquiry(@PathVariable Long id, @RequestBody InquiryDto inquiryDTO) {
+    public ResponseEntity<InquiryDto> updateInquiry(@PathVariable @Min(1) Long id,
+                                                    @Valid @RequestBody InquiryDto inquiryDTO) {
         try {
             InquiryDto updatedInquiry = inquiryService.updateInquiry(id, inquiryDTO);
             return new ResponseEntity<>(updatedInquiry, HttpStatus.OK);
@@ -66,7 +71,7 @@ public class InquiryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteInquiry(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteInquiry(@PathVariable @Min(1) Long id) {
         try {
             inquiryService.deleteInquiry(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

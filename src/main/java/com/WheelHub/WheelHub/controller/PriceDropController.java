@@ -3,6 +3,8 @@ package com.WheelHub.WheelHub.controller;
 import com.WheelHub.WheelHub.dto.priceDropDtos.PriceDropDto;
 import com.WheelHub.WheelHub.service.impl.PriceDropServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/price-drops")
 @RequiredArgsConstructor
+@Valid
 public class PriceDropController {
 
     private final PriceDropServiceImpl priceDropService;
 
     @PostMapping("/")
-    public ResponseEntity<PriceDropDto> createPriceDrop(@RequestBody PriceDropDto priceDropDTO) {
+    public ResponseEntity<PriceDropDto> createPriceDrop(@Valid @RequestBody PriceDropDto priceDropDTO) {
         try {
             PriceDropDto createdPriceDrop = priceDropService.createPriceDrop(priceDropDTO);
             return new ResponseEntity<>(createdPriceDrop, HttpStatus.CREATED);
@@ -32,7 +35,7 @@ public class PriceDropController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PriceDropDto> getPriceDropById(@PathVariable Long id) {
+    public ResponseEntity<PriceDropDto> getPriceDropById(@PathVariable @Min(1) Long id) {
         try {
             PriceDropDto priceDropDTO = priceDropService.getPriceDropById(id);
             return new ResponseEntity<>(priceDropDTO, HttpStatus.OK);
@@ -54,7 +57,7 @@ public class PriceDropController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PriceDropDto> updatePriceDrop(@PathVariable Long id, @RequestBody PriceDropDto priceDropDTO) {
+    public ResponseEntity<PriceDropDto> updatePriceDrop(@PathVariable @Min(1) Long id,@Valid @RequestBody PriceDropDto priceDropDTO) {
         try {
             PriceDropDto updatedPriceDrop = priceDropService.updatePriceDrop(id, priceDropDTO);
             return new ResponseEntity<>(updatedPriceDrop, HttpStatus.OK);
@@ -66,7 +69,7 @@ public class PriceDropController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePriceDrop(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePriceDrop(@PathVariable @Min(1) Long id) {
         try {
             priceDropService.deletePriceDrop(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

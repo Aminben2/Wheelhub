@@ -3,8 +3,11 @@ package com.WheelHub.WheelHub.controller;
 import com.WheelHub.WheelHub.dto.savedSearchDtos.SavedSearchDto;
 import com.WheelHub.WheelHub.service.impl.SavedSearchServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +18,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/saved-searches")
 @RequiredArgsConstructor
+@Validated
 public class SavedSearchController {
 
     private final SavedSearchServiceImpl savedSearchService;
 
     @PostMapping("/")
-    public ResponseEntity<SavedSearchDto> createSavedSearch(@RequestBody SavedSearchDto savedSearchDTO) {
+    public ResponseEntity<SavedSearchDto> createSavedSearch(@Valid  @RequestBody SavedSearchDto savedSearchDTO) {
         try {
             SavedSearchDto createdSavedSearch = savedSearchService.createSavedSearch(savedSearchDTO);
             return new ResponseEntity<>(createdSavedSearch, HttpStatus.CREATED);
@@ -32,7 +36,7 @@ public class SavedSearchController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SavedSearchDto> getSavedSearchById(@PathVariable Long id) {
+    public ResponseEntity<SavedSearchDto> getSavedSearchById(@PathVariable @Min(1) Long id) {
         try {
             SavedSearchDto savedSearchDTO = savedSearchService.getSavedSearchById(id);
             return new ResponseEntity<>(savedSearchDTO, HttpStatus.OK);
@@ -54,7 +58,7 @@ public class SavedSearchController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SavedSearchDto> updateSavedSearch(@PathVariable Long id, @RequestBody SavedSearchDto savedSearchDTO) {
+    public ResponseEntity<SavedSearchDto> updateSavedSearch(@PathVariable @Min(1) Long id,@Valid @RequestBody SavedSearchDto savedSearchDTO) {
         try {
             SavedSearchDto updatedSavedSearch = savedSearchService.updateSavedSearch(id, savedSearchDTO);
             return new ResponseEntity<>(updatedSavedSearch, HttpStatus.OK);
@@ -66,7 +70,7 @@ public class SavedSearchController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSavedSearch(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSavedSearch(@PathVariable @Min(1) Long id) {
         try {
             savedSearchService.deleteSavedSearch(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
