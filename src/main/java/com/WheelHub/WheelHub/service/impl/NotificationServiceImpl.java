@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.NotificationDTO;
+import com.WheelHub.WheelHub.dto.notificationDtos.NotificationDto;
 import com.WheelHub.WheelHub.entity.Notification;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.mapper.NotificationMapper;
@@ -22,7 +22,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final UserRepository userRepository;
 
     @Override
-    public NotificationDTO createNotification(NotificationDTO notificationDTO) {
+    public NotificationDto createNotification(NotificationDto notificationDTO) {
         User user = userRepository.findById(notificationDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + notificationDTO.getUserId()));
 
@@ -40,21 +40,21 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public NotificationDTO getNotificationById(Long id) {
+    public NotificationDto getNotificationById(Long id) {
         return notificationRepository.findById(id)
                 .map(NotificationMapper::entityToDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Notification not found for id:" + id));
     }
 
     @Override
-    public List<NotificationDTO> getAllNotifications() {
+    public List<NotificationDto> getAllNotifications() {
         return notificationRepository.findAll().stream()
                 .map(NotificationMapper::entityToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public NotificationDTO updateNotification(Long id, NotificationDTO notificationDTO) {
+    public NotificationDto updateNotification(Long id, NotificationDto notificationDTO) {
         Notification existingNotification = notificationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Notification not found for id:" + id));
 
@@ -64,7 +64,6 @@ public class NotificationServiceImpl implements NotificationService {
         existingNotification.setUser(user);
         existingNotification.setNotificationType(notificationDTO.getNotificationType());
         existingNotification.setDetails(notificationDTO.getDetails());
-        existingNotification.setCreatedAt(notificationDTO.getCreatedAt());
 
         Notification updatedNotification = notificationRepository.save(existingNotification);
         return NotificationMapper.entityToDTO(updatedNotification);

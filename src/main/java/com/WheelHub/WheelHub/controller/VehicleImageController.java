@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.VehicleImageDTO;
+import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageDto;
 import com.WheelHub.WheelHub.service.impl.VehicleImageServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class VehicleImageController {
     private final VehicleImageServiceImpl vehicleImageService;
 
     @PostMapping("/")
-    public ResponseEntity<VehicleImageDTO> createVehicleImage(@RequestBody VehicleImageDTO vehicleImageDTO) {
+    public ResponseEntity<VehicleImageDto> createVehicleImage(@RequestBody VehicleImageDto vehicleImageDTO) {
         try {
-            VehicleImageDTO createdVehicleImage = vehicleImageService.createVehicleImage(vehicleImageDTO);
+            VehicleImageDto createdVehicleImage = vehicleImageService.createVehicleImage(vehicleImageDTO);
             return new ResponseEntity<>(createdVehicleImage, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -32,9 +32,9 @@ public class VehicleImageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VehicleImageDTO> getVehicleImageById(@PathVariable Long id) {
+    public ResponseEntity<VehicleImageDto> getVehicleImageById(@PathVariable Long id) {
         try {
-            VehicleImageDTO vehicleImageDTO = vehicleImageService.getVehicleImageById(id);
+            VehicleImageDto vehicleImageDTO = vehicleImageService.getVehicleImageById(id);
             return new ResponseEntity<>(vehicleImageDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -44,9 +44,9 @@ public class VehicleImageController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<VehicleImageDTO>> getAllVehicleImages() {
+    public ResponseEntity<List<VehicleImageDto>> getAllVehicleImages() {
         try {
-            List<VehicleImageDTO> vehicleImages = vehicleImageService.getAllVehicleImages();
+            List<VehicleImageDto> vehicleImages = vehicleImageService.getAllVehicleImages();
             return new ResponseEntity<>(vehicleImages, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,9 +54,9 @@ public class VehicleImageController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VehicleImageDTO> updateVehicleImage(@PathVariable Long id, @RequestBody VehicleImageDTO vehicleImageDTO) {
+    public ResponseEntity<VehicleImageDto> updateVehicleImage(@PathVariable Long id, @RequestBody VehicleImageDto vehicleImageDTO) {
         try {
-            VehicleImageDTO updatedVehicleImage = vehicleImageService.updateVehicleImage(id, vehicleImageDTO);
+            VehicleImageDto updatedVehicleImage = vehicleImageService.updateVehicleImage(id, vehicleImageDTO);
             return new ResponseEntity<>(updatedVehicleImage, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

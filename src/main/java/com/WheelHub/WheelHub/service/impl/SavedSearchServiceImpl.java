@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.SavedSearchDTO;
+import com.WheelHub.WheelHub.dto.savedSearchDtos.SavedSearchDto;
 import com.WheelHub.WheelHub.entity.SavedSearch;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.mapper.SavedSearchMapper;
@@ -22,7 +22,7 @@ public class SavedSearchServiceImpl implements SavedSearchService {
     private final UserRepository userRepository;
 
     @Override
-    public SavedSearchDTO createSavedSearch(SavedSearchDTO savedSearchDTO) {
+    public SavedSearchDto createSavedSearch(SavedSearchDto savedSearchDTO) {
         User user = userRepository.findById(savedSearchDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + savedSearchDTO.getUserId()));
 
@@ -33,14 +33,14 @@ public class SavedSearchServiceImpl implements SavedSearchService {
     }
 
     @Override
-    public SavedSearchDTO getSavedSearchById(Long id) {
+    public SavedSearchDto getSavedSearchById(Long id) {
         return savedSearchRepository.findById(id)
                 .map(SavedSearchMapper::entityToDTO)
                 .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));
     }
 
     @Override
-    public List<SavedSearchDTO> getAllSavedSearches() {
+    public List<SavedSearchDto> getAllSavedSearches() {
         return savedSearchRepository.findAll().stream()
                 .map(SavedSearchMapper::entityToDTO)
                 .collect(Collectors.toList());
@@ -52,7 +52,7 @@ public class SavedSearchServiceImpl implements SavedSearchService {
     }
 
     @Override
-    public SavedSearchDTO updateSavedSearch(Long id, SavedSearchDTO savedSearchDTO) {
+    public SavedSearchDto updateSavedSearch(Long id, SavedSearchDto savedSearchDTO) {
         SavedSearch existingSavedSearch = savedSearchRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));
 
@@ -61,7 +61,6 @@ public class SavedSearchServiceImpl implements SavedSearchService {
 
         existingSavedSearch.setUser(user);
         existingSavedSearch.setSearchCriteria(savedSearchDTO.getSearchCriteria());
-        existingSavedSearch.setCreatedAt(savedSearchDTO.getCreatedAt());
 
         SavedSearch updatedSavedSearch = savedSearchRepository.save(existingSavedSearch);
         return SavedSearchMapper.entityToDTO(updatedSavedSearch);

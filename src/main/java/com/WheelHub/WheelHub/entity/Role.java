@@ -29,10 +29,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "name", length = 50, unique = true, nullable = false)
     @NotNull(message = "Role name must not be null")
-    private RoleName name;
+    private String name;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();

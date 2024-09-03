@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.DealershipDTO;
+import com.WheelHub.WheelHub.dto.dealershipDtos.DealershipDto;
 import com.WheelHub.WheelHub.service.impl.DealershipServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class DealershipController {
     private final DealershipServiceImpl dealershipService;
 
     @PostMapping("/")
-    public ResponseEntity<DealershipDTO> createDealership(@RequestBody DealershipDTO dealershipDTO) {
+    public ResponseEntity<DealershipDto> createDealership(@RequestBody DealershipDto dealershipDTO) {
         try {
-            DealershipDTO createdDealership = dealershipService.createDealership(dealershipDTO);
+            DealershipDto createdDealership = dealershipService.createDealership(dealershipDTO);
             return new ResponseEntity<>(createdDealership, HttpStatus.CREATED);
         } catch (Exception e) {
             log.error("Error creating dealership: {}", e.getMessage());
@@ -31,9 +31,9 @@ public class DealershipController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DealershipDTO> getDealershipById(@PathVariable Long id) {
+    public ResponseEntity<DealershipDto> getDealershipById(@PathVariable Long id) {
         try {
-            DealershipDTO dealershipDTO = dealershipService.getDealershipById(id);
+            DealershipDto dealershipDTO = dealershipService.getDealershipById(id);
             return new ResponseEntity<>(dealershipDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -43,9 +43,9 @@ public class DealershipController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<DealershipDTO>> getAllDealerships() {
+    public ResponseEntity<List<DealershipDto>> getAllDealerships() {
         try {
-            List<DealershipDTO> dealerships = dealershipService.getAllDealerships();
+            List<DealershipDto> dealerships = dealershipService.getAllDealerships();
             return new ResponseEntity<>(dealerships, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -53,9 +53,9 @@ public class DealershipController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DealershipDTO> updateDealership(@PathVariable Long id, @RequestBody DealershipDTO dealershipDTO) {
+    public ResponseEntity<DealershipDto> updateDealership(@PathVariable Long id, @RequestBody DealershipDto dealershipDTO) {
         try {
-            DealershipDTO updatedDealership = dealershipService.updateDealership(id, dealershipDTO);
+            DealershipDto updatedDealership = dealershipService.updateDealership(id, dealershipDTO);
             return new ResponseEntity<>(updatedDealership, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

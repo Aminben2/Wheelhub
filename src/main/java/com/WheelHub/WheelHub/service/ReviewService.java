@@ -1,18 +1,18 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.ReviewDTO;
+import com.WheelHub.WheelHub.dto.reviewDtos.ReviewDto;
 
 import java.util.List;
 
 public interface ReviewService {
 
-    ReviewDTO createReview(ReviewDTO reviewDTO);
+    ReviewDto createReview(ReviewDto reviewDTO);
 
-    ReviewDTO getReviewById(Long id);
+    ReviewDto getReviewById(Long id);
 
-    List<ReviewDTO> getAllReviews();
+    List<ReviewDto> getAllReviews();
 
-    ReviewDTO updateReview(Long id, ReviewDTO reviewDTO);
+    ReviewDto updateReview(Long id, ReviewDto reviewDTO);
 
     void deleteReview(Long id);
 }

@@ -1,18 +1,18 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.InquiryDTO;
+import com.WheelHub.WheelHub.dto.InquiryDtos.InquiryDto;
 
 import java.util.List;
 
 public interface InquiryService {
 
-    InquiryDTO createInquiry(InquiryDTO inquiryDTO);
+    InquiryDto createInquiry(InquiryDto inquiryDTO);
 
-    InquiryDTO getInquiryById(Long id);
+    InquiryDto getInquiryById(Long id);
 
-    List<InquiryDTO> getAllInquiries();
+    List<InquiryDto> getAllInquiries();
 
-    InquiryDTO updateInquiry(Long id, InquiryDTO inquiryDTO);
+    InquiryDto updateInquiry(Long id, InquiryDto inquiryDTO);
 
     void deleteInquiry(Long id);
 }

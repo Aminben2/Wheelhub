@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.InquiryDTO;
+import com.WheelHub.WheelHub.dto.InquiryDtos.InquiryDto;
 import com.WheelHub.WheelHub.service.impl.InquiryServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class InquiryController {
     private final InquiryServiceImpl inquiryService;
 
     @PostMapping("/")
-    public ResponseEntity<InquiryDTO> createInquiry(@RequestBody InquiryDTO inquiryDTO) {
+    public ResponseEntity<InquiryDto> createInquiry(@RequestBody InquiryDto inquiryDTO) {
         try {
-            InquiryDTO createdInquiry = inquiryService.createInquiry(inquiryDTO);
+            InquiryDto createdInquiry = inquiryService.createInquiry(inquiryDTO);
             return new ResponseEntity<>(createdInquiry, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -32,9 +32,9 @@ public class InquiryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InquiryDTO> getInquiryById(@PathVariable Long id) {
+    public ResponseEntity<InquiryDto> getInquiryById(@PathVariable Long id) {
         try {
-            InquiryDTO inquiryDTO = inquiryService.getInquiryById(id);
+            InquiryDto inquiryDTO = inquiryService.getInquiryById(id);
             return new ResponseEntity<>(inquiryDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -44,9 +44,9 @@ public class InquiryController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<InquiryDTO>> getAllInquiries() {
+    public ResponseEntity<List<InquiryDto>> getAllInquiries() {
         try {
-            List<InquiryDTO> inquiries = inquiryService.getAllInquiries();
+            List<InquiryDto> inquiries = inquiryService.getAllInquiries();
             return new ResponseEntity<>(inquiries, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,9 +54,9 @@ public class InquiryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<InquiryDTO> updateInquiry(@PathVariable Long id, @RequestBody InquiryDTO inquiryDTO) {
+    public ResponseEntity<InquiryDto> updateInquiry(@PathVariable Long id, @RequestBody InquiryDto inquiryDTO) {
         try {
-            InquiryDTO updatedInquiry = inquiryService.updateInquiry(id, inquiryDTO);
+            InquiryDto updatedInquiry = inquiryService.updateInquiry(id, inquiryDTO);
             return new ResponseEntity<>(updatedInquiry, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

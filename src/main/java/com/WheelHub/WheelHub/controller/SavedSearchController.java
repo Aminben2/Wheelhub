@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.SavedSearchDTO;
+import com.WheelHub.WheelHub.dto.savedSearchDtos.SavedSearchDto;
 import com.WheelHub.WheelHub.service.impl.SavedSearchServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class SavedSearchController {
     private final SavedSearchServiceImpl savedSearchService;
 
     @PostMapping("/")
-    public ResponseEntity<SavedSearchDTO> createSavedSearch(@RequestBody SavedSearchDTO savedSearchDTO) {
+    public ResponseEntity<SavedSearchDto> createSavedSearch(@RequestBody SavedSearchDto savedSearchDTO) {
         try {
-            SavedSearchDTO createdSavedSearch = savedSearchService.createSavedSearch(savedSearchDTO);
+            SavedSearchDto createdSavedSearch = savedSearchService.createSavedSearch(savedSearchDTO);
             return new ResponseEntity<>(createdSavedSearch, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -32,9 +32,9 @@ public class SavedSearchController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SavedSearchDTO> getSavedSearchById(@PathVariable Long id) {
+    public ResponseEntity<SavedSearchDto> getSavedSearchById(@PathVariable Long id) {
         try {
-            SavedSearchDTO savedSearchDTO = savedSearchService.getSavedSearchById(id);
+            SavedSearchDto savedSearchDTO = savedSearchService.getSavedSearchById(id);
             return new ResponseEntity<>(savedSearchDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -44,9 +44,9 @@ public class SavedSearchController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<SavedSearchDTO>> getAllSavedSearches() {
+    public ResponseEntity<List<SavedSearchDto>> getAllSavedSearches() {
         try {
-            List<SavedSearchDTO> savedSearches = savedSearchService.getAllSavedSearches();
+            List<SavedSearchDto> savedSearches = savedSearchService.getAllSavedSearches();
             return new ResponseEntity<>(savedSearches, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,9 +54,9 @@ public class SavedSearchController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SavedSearchDTO> updateSavedSearch(@PathVariable Long id, @RequestBody SavedSearchDTO savedSearchDTO) {
+    public ResponseEntity<SavedSearchDto> updateSavedSearch(@PathVariable Long id, @RequestBody SavedSearchDto savedSearchDTO) {
         try {
-            SavedSearchDTO updatedSavedSearch = savedSearchService.updateSavedSearch(id, savedSearchDTO);
+            SavedSearchDto updatedSavedSearch = savedSearchService.updateSavedSearch(id, savedSearchDTO);
             return new ResponseEntity<>(updatedSavedSearch, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

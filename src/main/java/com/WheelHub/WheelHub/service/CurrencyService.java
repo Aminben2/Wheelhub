@@ -1,18 +1,18 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.CurrencyDTO;
+import com.WheelHub.WheelHub.dto.currencyDtos.CurrencyDto;
 
 import java.util.List;
 
 public interface CurrencyService {
 
-    CurrencyDTO createCurrency(CurrencyDTO currencyDTO);
+    CurrencyDto createCurrency(CurrencyDto currencyDTO);
 
-    CurrencyDTO getCurrencyById(Long id);
+    CurrencyDto getCurrencyById(Long id);
 
-    List<CurrencyDTO> getAllCurrencies();
+    List<CurrencyDto> getAllCurrencies();
 
-    CurrencyDTO updateCurrency(Long id, CurrencyDTO currencyDTO);
+    CurrencyDto updateCurrency(Long id, CurrencyDto currencyDTO);
 
     void deleteCurrency(Long id);
 }

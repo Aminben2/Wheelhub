@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.mapper;
 
-import com.WheelHub.WheelHub.dto.UserDTO;
+import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Role;
 import com.WheelHub.WheelHub.entity.Vehicle;
@@ -29,7 +29,7 @@ public class UserMapper {
     private final NotificationService notificationService;
     private final SavedSearchService savedSearchService;
 
-    public UserDTO entityToDTO(User user) {
+    public UserDto entityToDTO(User user) {
         Set<Long> roleIds = user.getRoles() != null ? user.getRoles().stream()
                 .map(Role::getId)
                 .collect(Collectors.toSet()) : Set.of();
@@ -50,58 +50,26 @@ public class UserMapper {
                 .map(SavedSearch::getId)
                 .collect(Collectors.toList()) : List.of();
 
-        return UserDTO.builder()
-                .id(user.getId())
+        return UserDto.builder()
                 .name(user.getName())
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .roleIds(roleIds)
-                .createdAt(user.getCreatedAt())
-                .updatedAt(user.getUpdatedAt())
-                .vehicleIds(vehicleIds)
-                .appointmentIds(appointmentIds)
-                .notificationIds(notificationIds)
-                .savedSearchIds(savedSearchIds)
                 .build();
     }
 
-    public User dtoToEntity(UserDTO userDTO) {
+    public User dtoToEntity(UserDto userDTO) {
         User user = User.builder()
-                .id(userDTO.getId())
                 .name(userDTO.getName())
                 .username(userDTO.getUsername())
                 .email(userDTO.getEmail())
-                .createdAt(userDTO.getCreatedAt())
-                .updatedAt(userDTO.getUpdatedAt())
                 .build();
 
-        // Fetch entities for roles, vehicles, appointments, notifications, and saved searches
         Set<Role> roles = userDTO.getRoleIds().stream()
                 .map(roleService::findById)
                 .collect(Collectors.toSet());
 
-        List<Vehicle> vehicles = userDTO.getVehicleIds().stream()
-                .map(vehicleService::findById)
-                .collect(Collectors.toList());
-
-        List<Appointment> appointments = userDTO.getAppointmentIds().stream()
-                .map(appointmentService::findById)
-                .collect(Collectors.toList());
-
-        List<Notification> notifications = userDTO.getNotificationIds().stream()
-                .map(notificationService::findById)
-                .collect(Collectors.toList());
-
-        List<SavedSearch> savedSearches = userDTO.getSavedSearchIds().stream()
-                .map(savedSearchService::findById)
-                .collect(Collectors.toList());
-
         user.setRoles(roles);
-        user.setVehicles(vehicles);
-        user.setAppointments(appointments);
-        user.setNotifications(notifications);
-        user.setSavedSearches(savedSearches);
-
         return user;
     }
 }

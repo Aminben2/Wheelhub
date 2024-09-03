@@ -1,19 +1,19 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.SavedSearchDTO;
+import com.WheelHub.WheelHub.dto.savedSearchDtos.SavedSearchDto;
 import com.WheelHub.WheelHub.entity.SavedSearch;
 
 import java.util.List;
 
 public interface SavedSearchService {
 
-    SavedSearchDTO createSavedSearch(SavedSearchDTO savedSearchDTO);
+    SavedSearchDto createSavedSearch(SavedSearchDto savedSearchDTO);
 
-    SavedSearchDTO getSavedSearchById(Long id);
+    SavedSearchDto getSavedSearchById(Long id);
 
-    List<SavedSearchDTO> getAllSavedSearches();
+    List<SavedSearchDto> getAllSavedSearches();
 
-    SavedSearchDTO updateSavedSearch(Long id, SavedSearchDTO savedSearchDTO);
+    SavedSearchDto updateSavedSearch(Long id, SavedSearchDto savedSearchDTO);
 
     void deleteSavedSearch(Long id);
 

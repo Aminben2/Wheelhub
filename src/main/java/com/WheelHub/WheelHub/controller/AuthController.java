@@ -1,7 +1,7 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.LoginDto;
-import com.WheelHub.WheelHub.dto.SignUpDto;
+import com.WheelHub.WheelHub.dto.loginDtos.LoginDto;
+import com.WheelHub.WheelHub.dto.signupDtos.SignUpDto;
 import com.WheelHub.WheelHub.entity.Role;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.repository.RoleRepository;
@@ -10,7 +10,6 @@ import com.WheelHub.WheelHub.service.impl.CustomUserDetailsService;
 import com.WheelHub.WheelHub.util.JwtResponse;
 import com.WheelHub.WheelHub.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.LanguageDTO;
+import com.WheelHub.WheelHub.dto.languageDtos.LanguageDto;
 import com.WheelHub.WheelHub.service.impl.LanguageServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class LanguageController {
     private final LanguageServiceImpl languageService;
 
     @PostMapping("/")
-    public ResponseEntity<LanguageDTO> createLanguage(@RequestBody LanguageDTO languageDTO) {
+    public ResponseEntity<LanguageDto> createLanguage(@RequestBody LanguageDto languageDTO) {
         try {
-            LanguageDTO createdLanguage = languageService.createLanguage(languageDTO);
+            LanguageDto createdLanguage = languageService.createLanguage(languageDTO);
             return new ResponseEntity<>(createdLanguage, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -30,9 +30,9 @@ public class LanguageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LanguageDTO> getLanguageById(@PathVariable Long id) {
+    public ResponseEntity<LanguageDto> getLanguageById(@PathVariable Long id) {
         try {
-            LanguageDTO languageDTO = languageService.getLanguageById(id);
+            LanguageDto languageDTO = languageService.getLanguageById(id);
             return new ResponseEntity<>(languageDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -42,9 +42,9 @@ public class LanguageController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<LanguageDTO>> getAllLanguages() {
+    public ResponseEntity<List<LanguageDto>> getAllLanguages() {
         try {
-            List<LanguageDTO> languages = languageService.getAllLanguages();
+            List<LanguageDto> languages = languageService.getAllLanguages();
             return new ResponseEntity<>(languages, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,9 +52,9 @@ public class LanguageController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LanguageDTO> updateLanguage(@PathVariable Long id, @RequestBody LanguageDTO languageDTO) {
+    public ResponseEntity<LanguageDto> updateLanguage(@PathVariable Long id, @RequestBody LanguageDto languageDTO) {
         try {
-            LanguageDTO updatedLanguage = languageService.updateLanguage(id, languageDTO);
+            LanguageDto updatedLanguage = languageService.updateLanguage(id, languageDTO);
             return new ResponseEntity<>(updatedLanguage, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

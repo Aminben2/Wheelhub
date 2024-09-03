@@ -1,18 +1,18 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.PaymentDTO;
+import com.WheelHub.WheelHub.dto.paymentDtos.PaymentDto;
 
 import java.util.List;
 
 public interface PaymentService {
 
-    PaymentDTO createPayment(PaymentDTO paymentDTO);
+    PaymentDto createPayment(PaymentDto paymentDTO);
 
-    PaymentDTO getPaymentById(Long id);
+    PaymentDto getPaymentById(Long id);
 
-    List<PaymentDTO> getAllPayments();
+    List<PaymentDto> getAllPayments();
 
-    PaymentDTO updatePayment(Long id, PaymentDTO paymentDTO);
+    PaymentDto updatePayment(Long id, PaymentDto paymentDTO);
 
     void deletePayment(Long id);
 }

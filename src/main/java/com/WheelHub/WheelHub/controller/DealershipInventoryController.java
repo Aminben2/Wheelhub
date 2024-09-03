@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.DealershipInventoryDTO;
+import com.WheelHub.WheelHub.dto.DealershipInventoryDtos.DealershipInventoryDto;
 import com.WheelHub.WheelHub.service.impl.DealershipInventoryServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class DealershipInventoryController {
     private final DealershipInventoryServiceImpl dealershipInventoryService;
 
     @PostMapping("/")
-    public ResponseEntity<DealershipInventoryDTO> createDealershipInventory(@RequestBody DealershipInventoryDTO dealershipInventoryDTO) {
+    public ResponseEntity<DealershipInventoryDto> createDealershipInventory(@RequestBody DealershipInventoryDto dealershipInventoryDTO) {
         try {
-            DealershipInventoryDTO createdDealershipInventory = dealershipInventoryService.createDealershipInventory(dealershipInventoryDTO);
+            DealershipInventoryDto createdDealershipInventory = dealershipInventoryService.createDealershipInventory(dealershipInventoryDTO);
             return new ResponseEntity<>(createdDealershipInventory, HttpStatus.CREATED);
         } catch (Exception e) {
             log.error("Error creating dealership inventory: {}", e.getMessage());
@@ -31,9 +31,9 @@ public class DealershipInventoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DealershipInventoryDTO> getDealershipInventoryById(@PathVariable Long id) {
+    public ResponseEntity<DealershipInventoryDto> getDealershipInventoryById(@PathVariable Long id) {
         try {
-            DealershipInventoryDTO dealershipInventoryDTO = dealershipInventoryService.getDealershipInventoryById(id);
+            DealershipInventoryDto dealershipInventoryDTO = dealershipInventoryService.getDealershipInventoryById(id);
             return new ResponseEntity<>(dealershipInventoryDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -43,9 +43,9 @@ public class DealershipInventoryController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<DealershipInventoryDTO>> getAllDealershipInventories() {
+    public ResponseEntity<List<DealershipInventoryDto>> getAllDealershipInventories() {
         try {
-            List<DealershipInventoryDTO> dealershipInventories = dealershipInventoryService.getAllDealershipInventories();
+            List<DealershipInventoryDto> dealershipInventories = dealershipInventoryService.getAllDealershipInventories();
             return new ResponseEntity<>(dealershipInventories, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -53,9 +53,9 @@ public class DealershipInventoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DealershipInventoryDTO> updateDealershipInventory(@PathVariable Long id, @RequestBody DealershipInventoryDTO dealershipInventoryDTO) {
+    public ResponseEntity<DealershipInventoryDto> updateDealershipInventory(@PathVariable Long id, @RequestBody DealershipInventoryDto dealershipInventoryDTO) {
         try {
-            DealershipInventoryDTO updatedDealershipInventory = dealershipInventoryService.updateDealershipInventory(id, dealershipInventoryDTO);
+            DealershipInventoryDto updatedDealershipInventory = dealershipInventoryService.updateDealershipInventory(id, dealershipInventoryDTO);
             return new ResponseEntity<>(updatedDealershipInventory, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.mapper;
 
-import com.WheelHub.WheelHub.dto.DealershipDTO;
+import com.WheelHub.WheelHub.dto.dealershipDtos.DealershipDto;
 import com.WheelHub.WheelHub.entity.Dealership;
 import org.springframework.stereotype.Component;
 
@@ -8,25 +8,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class DealershipMapper {
 
-    public static DealershipDTO entityToDTO(Dealership dealership) {
-        return DealershipDTO.builder()
-                .id(dealership.getId())
+    public static DealershipDto entityToDTO(Dealership dealership) {
+        return DealershipDto.builder()
                 .name(dealership.getName())
                 .location(dealership.getLocation())
                 .contactInfo(dealership.getContactInfo())
-                .createdAt(dealership.getCreatedAt())
-                .updatedAt(dealership.getUpdatedAt())
                 .build();
     }
 
-    public static Dealership dtoToEntity(DealershipDTO dealershipDTO) {
+    public static Dealership dtoToEntity(DealershipDto dealershipDTO) {
         return Dealership.builder()
-                .id(dealershipDTO.getId())
                 .name(dealershipDTO.getName())
                 .location(dealershipDTO.getLocation())
                 .contactInfo(dealershipDTO.getContactInfo())
-                .createdAt(dealershipDTO.getCreatedAt())
-                .updatedAt(dealershipDTO.getUpdatedAt())
                 .build();
     }
 }

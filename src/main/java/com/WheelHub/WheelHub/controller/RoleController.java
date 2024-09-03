@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.RoleDTO;
+import com.WheelHub.WheelHub.dto.roleDtos.RoleDto;
 import com.WheelHub.WheelHub.service.impl.RoleServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class RoleController {
     private final RoleServiceImpl roleService;
 
     @PostMapping("/")
-    public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO roleDTO) {
+    public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto roleDTO) {
         try {
-            RoleDTO createdRole = roleService.createRole(roleDTO);
+            RoleDto createdRole = roleService.createRole(roleDTO);
             return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -30,9 +30,9 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoleDTO> getRoleById(@PathVariable Long id) {
+    public ResponseEntity<RoleDto> getRoleById(@PathVariable Long id) {
         try {
-            RoleDTO roleDTO = roleService.getRoleById(id);
+            RoleDto roleDTO = roleService.getRoleById(id);
             return new ResponseEntity<>(roleDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -42,9 +42,9 @@ public class RoleController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<RoleDTO>> getAllRoles() {
+    public ResponseEntity<List<RoleDto>> getAllRoles() {
         try {
-            List<RoleDTO> roles = roleService.getAllRoles();
+            List<RoleDto> roles = roleService.getAllRoles();
             return new ResponseEntity<>(roles, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,9 +52,9 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoleDTO> updateRole(@PathVariable Long id, @RequestBody RoleDTO roleDTO) {
+    public ResponseEntity<RoleDto> updateRole(@PathVariable Long id, @RequestBody RoleDto roleDTO) {
         try {
-            RoleDTO updatedRole = roleService.updateRole(id, roleDTO);
+            RoleDto updatedRole = roleService.updateRole(id, roleDTO);
             return new ResponseEntity<>(updatedRole, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

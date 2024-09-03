@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.mapper;
 
-import com.WheelHub.WheelHub.dto.LocalizationDTO;
+import com.WheelHub.WheelHub.dto.localizationDtos.LocalizationDto;
 import com.WheelHub.WheelHub.entity.Localization;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Language;
@@ -11,20 +11,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class LocalizationMapper {
 
-    public static LocalizationDTO entityToDTO(Localization localization) {
-        return LocalizationDTO.builder()
-                .id(localization.getId())
+    public static LocalizationDto entityToDTO(Localization localization) {
+        return LocalizationDto.builder()
                 .userId(localization.getUser() != null ? localization.getUser().getId() : null)
                 .languageId(localization.getLanguage() != null ? localization.getLanguage().getId() : null)
                 .currencyId(localization.getCurrency() != null ? localization.getCurrency().getId() : null)
-                .createdAt(localization.getCreatedAt())
                 .build();
     }
 
-    public static Localization dtoToEntity(LocalizationDTO localizationDTO) {
+    public static Localization dtoToEntity(LocalizationDto localizationDTO) {
         Localization localization = Localization.builder()
-                .id(localizationDTO.getId())
-                .createdAt(localizationDTO.getCreatedAt())
                 .build();
 
         if (localizationDTO.getUserId() != null) {

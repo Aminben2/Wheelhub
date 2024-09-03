@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.ReviewDTO;
+import com.WheelHub.WheelHub.dto.reviewDtos.ReviewDto;
 import com.WheelHub.WheelHub.service.impl.ReviewServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class ReviewController {
     private final ReviewServiceImpl reviewService;
 
     @PostMapping("/")
-    public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewDto reviewDTO) {
         try {
-            ReviewDTO createdReview = reviewService.createReview(reviewDTO);
+            ReviewDto createdReview = reviewService.createReview(reviewDTO);
             return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -32,9 +32,9 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReviewDTO> getReviewById(@PathVariable Long id) {
+    public ResponseEntity<ReviewDto> getReviewById(@PathVariable Long id) {
         try {
-            ReviewDTO reviewDTO = reviewService.getReviewById(id);
+            ReviewDto reviewDTO = reviewService.getReviewById(id);
             return new ResponseEntity<>(reviewDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -44,9 +44,9 @@ public class ReviewController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ReviewDTO>> getAllReviews() {
+    public ResponseEntity<List<ReviewDto>> getAllReviews() {
         try {
-            List<ReviewDTO> reviews = reviewService.getAllReviews();
+            List<ReviewDto> reviews = reviewService.getAllReviews();
             return new ResponseEntity<>(reviews, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,9 +54,9 @@ public class ReviewController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ReviewDTO> updateReview(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<ReviewDto> updateReview(@PathVariable Long id, @RequestBody ReviewDto reviewDTO) {
         try {
-            ReviewDTO updatedReview = reviewService.updateReview(id, reviewDTO);
+            ReviewDto updatedReview = reviewService.updateReview(id, reviewDTO);
             return new ResponseEntity<>(updatedReview, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

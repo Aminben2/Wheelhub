@@ -1,18 +1,18 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.PriceDropDTO;
+import com.WheelHub.WheelHub.dto.priceDropDtos.PriceDropDto;
 
 import java.util.List;
 
 public interface PriceDropService {
 
-    PriceDropDTO createPriceDrop(PriceDropDTO priceDropDTO);
+    PriceDropDto createPriceDrop(PriceDropDto priceDropDTO);
 
-    PriceDropDTO getPriceDropById(Long id);
+    PriceDropDto getPriceDropById(Long id);
 
-    List<PriceDropDTO> getAllPriceDrops();
+    List<PriceDropDto> getAllPriceDrops();
 
-    PriceDropDTO updatePriceDrop(Long id, PriceDropDTO priceDropDTO);
+    PriceDropDto updatePriceDrop(Long id, PriceDropDto priceDropDTO);
 
     void deletePriceDrop(Long id);
 }

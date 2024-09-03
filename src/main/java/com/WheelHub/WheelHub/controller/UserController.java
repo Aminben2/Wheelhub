@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.UserDTO;
+import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +19,9 @@ public class UserController {
     private final UserServiceImpl userService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         try {
-            List<UserDTO> users = userService.getAllUsers();
+            List<UserDto> users = userService.getAllUsers();
             return ResponseEntity.ok(users);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -29,9 +29,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getOneUser(@PathVariable Long id) {
+    public ResponseEntity<UserDto> getOneUser(@PathVariable Long id) {
         try {
-            UserDTO user = userService.getUserById(id);
+            UserDto user = userService.getUserById(id);
             if (user != null) {
                 return ResponseEntity.ok(user);
             } else {
@@ -43,9 +43,9 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO user) {
+    public ResponseEntity<UserDto> addUser(@RequestBody UserDto user) {
         try {
-            UserDTO createdUser = userService.createUser(user);
+            UserDto createdUser = userService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -53,9 +53,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO user) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto user) {
         try {
-            UserDTO updatedUser = userService.updateUser(id, user);
+            UserDto updatedUser = userService.updateUser(id, user);
             if (updatedUser != null) {
                 return ResponseEntity.ok(updatedUser);
             } else {

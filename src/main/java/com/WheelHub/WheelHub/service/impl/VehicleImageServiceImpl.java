@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.VehicleImageDTO;
+import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageDto;
 import com.WheelHub.WheelHub.entity.Vehicle;
 import com.WheelHub.WheelHub.entity.VehicleImage;
 import com.WheelHub.WheelHub.mapper.VehicleImageMapper;
@@ -22,7 +22,7 @@ public class VehicleImageServiceImpl implements VehicleImageService {
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public VehicleImageDTO createVehicleImage(VehicleImageDTO vehicleImageDTO) {
+    public VehicleImageDto createVehicleImage(VehicleImageDto vehicleImageDTO) {
         Vehicle vehicle = vehicleRepository.findById(vehicleImageDTO.getVehicleId())
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + vehicleImageDTO.getVehicleId()));
 
@@ -34,21 +34,21 @@ public class VehicleImageServiceImpl implements VehicleImageService {
     }
 
     @Override
-    public VehicleImageDTO getVehicleImageById(Long id) {
+    public VehicleImageDto getVehicleImageById(Long id) {
         return vehicleImageRepository.findById(id)
                 .map(VehicleImageMapper::entityToDTO)
                 .orElseThrow(() -> new EntityNotFoundException("VehicleImage not found for id:" + id));
     }
 
     @Override
-    public List<VehicleImageDTO> getAllVehicleImages() {
+    public List<VehicleImageDto> getAllVehicleImages() {
         return vehicleImageRepository.findAll().stream()
                 .map(VehicleImageMapper::entityToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public VehicleImageDTO updateVehicleImage(Long id, VehicleImageDTO vehicleImageDTO) {
+    public VehicleImageDto updateVehicleImage(Long id, VehicleImageDto vehicleImageDTO) {
         VehicleImage existingVehicleImage = vehicleImageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("VehicleImage not found for id:" + id));
 
@@ -57,7 +57,6 @@ public class VehicleImageServiceImpl implements VehicleImageService {
 
         existingVehicleImage.setVehicle(vehicle);
         existingVehicleImage.setImageUrl(vehicleImageDTO.getImageUrl());
-        existingVehicleImage.setCreatedAt(vehicleImageDTO.getCreatedAt());
 
         VehicleImage updatedVehicleImage = vehicleImageRepository.save(existingVehicleImage);
         return VehicleImageMapper.entityToDTO(updatedVehicleImage);

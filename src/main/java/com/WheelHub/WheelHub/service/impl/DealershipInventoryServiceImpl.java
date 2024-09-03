@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.DealershipInventoryDTO;
+import com.WheelHub.WheelHub.dto.DealershipInventoryDtos.DealershipInventoryDto;
 import com.WheelHub.WheelHub.entity.Dealership;
 import com.WheelHub.WheelHub.entity.DealershipInventory;
 import com.WheelHub.WheelHub.entity.Vehicle;
@@ -25,7 +25,7 @@ public class DealershipInventoryServiceImpl implements DealershipInventoryServic
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public DealershipInventoryDTO createDealershipInventory(DealershipInventoryDTO dealershipInventoryDTO) {
+    public DealershipInventoryDto createDealershipInventory(DealershipInventoryDto dealershipInventoryDTO) {
         Dealership dealership = dealershipRepository.findById(dealershipInventoryDTO.getDealershipId())
                 .orElseThrow(() -> new EntityNotFoundException("Dealership not found for id:" + dealershipInventoryDTO.getDealershipId()));
         Vehicle vehicle = vehicleRepository.findById(dealershipInventoryDTO.getVehicleId())
@@ -40,21 +40,21 @@ public class DealershipInventoryServiceImpl implements DealershipInventoryServic
     }
 
     @Override
-    public DealershipInventoryDTO getDealershipInventoryById(Long id) {
+    public DealershipInventoryDto getDealershipInventoryById(Long id) {
         return dealershipInventoryRepository.findById(id)
                 .map(DealershipInventoryMapper::entityToDTO)
                 .orElseThrow(() -> new EntityNotFoundException("DealershipInventory not found for id:" + id));
     }
 
     @Override
-    public List<DealershipInventoryDTO> getAllDealershipInventories() {
+    public List<DealershipInventoryDto> getAllDealershipInventories() {
         return dealershipInventoryRepository.findAll().stream()
                 .map(DealershipInventoryMapper::entityToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public DealershipInventoryDTO updateDealershipInventory(Long id, DealershipInventoryDTO dealershipInventoryDTO) {
+    public DealershipInventoryDto updateDealershipInventory(Long id, DealershipInventoryDto dealershipInventoryDTO) {
         DealershipInventory existingDealershipInventory = dealershipInventoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("DealershipInventory not found for id:" + id));
 
@@ -66,8 +66,6 @@ public class DealershipInventoryServiceImpl implements DealershipInventoryServic
         existingDealershipInventory.setDealership(dealership);
         existingDealershipInventory.setVehicle(vehicle);
         existingDealershipInventory.setStock(dealershipInventoryDTO.getStock());
-        existingDealershipInventory.setCreatedAt(dealershipInventoryDTO.getCreatedAt());
-        existingDealershipInventory.setUpdatedAt(dealershipInventoryDTO.getUpdatedAt());
 
         DealershipInventory updatedDealershipInventory = dealershipInventoryRepository.save(existingDealershipInventory);
         return DealershipInventoryMapper.entityToDTO(updatedDealershipInventory);

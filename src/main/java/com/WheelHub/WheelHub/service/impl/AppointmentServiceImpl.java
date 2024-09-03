@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.appointementsDtos.AppointmentDTO;
+import com.WheelHub.WheelHub.dto.appointementsDtos.AppointmentDto;
 import com.WheelHub.WheelHub.entity.Appointment;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;
@@ -25,7 +25,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public AppointmentDTO createAppointment(AppointmentDTO appointmentDTO) {
+    public AppointmentDto createAppointment(AppointmentDto appointmentDTO) {
         User user = userRepository.findById(appointmentDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + appointmentDTO.getUserId()));
         Vehicle vehicle = vehicleRepository.findById(appointmentDTO.getVehicleId())
@@ -45,21 +45,21 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .orElseThrow(() -> new EntityNotFoundException("Appointment not found for id:" + id));
     }
     @Override
-    public AppointmentDTO getAppointmentById(Long id) {
+    public AppointmentDto getAppointmentById(Long id) {
         return appointmentRepository.findById(id)
                 .map(AppointmentMapper::entityToDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Appointment not found for id:" + id));
     }
 
     @Override
-    public List<AppointmentDTO> getAllAppointments() {
+    public List<AppointmentDto> getAllAppointments() {
         return appointmentRepository.findAll().stream()
                 .map(AppointmentMapper::entityToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public AppointmentDTO updateAppointment(Long id, AppointmentDTO appointmentDTO) {
+    public AppointmentDto updateAppointment(Long id, AppointmentDto appointmentDTO) {
         Appointment existingAppointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Appointment not found for id:" + id));
 
@@ -72,7 +72,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         existingAppointment.setVehicle(vehicle);
         existingAppointment.setAppointmentType(appointmentDTO.getAppointmentType());
         existingAppointment.setScheduledAt(appointmentDTO.getScheduledAt());
-        existingAppointment.setCreatedAt(appointmentDTO.getCreatedAt());
 
         Appointment updatedAppointment = appointmentRepository.save(existingAppointment);
         return AppointmentMapper.entityToDTO(updatedAppointment);

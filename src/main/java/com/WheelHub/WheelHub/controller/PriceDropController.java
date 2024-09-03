@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.PriceDropDTO;
+import com.WheelHub.WheelHub.dto.priceDropDtos.PriceDropDto;
 import com.WheelHub.WheelHub.service.impl.PriceDropServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class PriceDropController {
     private final PriceDropServiceImpl priceDropService;
 
     @PostMapping("/")
-    public ResponseEntity<PriceDropDTO> createPriceDrop(@RequestBody PriceDropDTO priceDropDTO) {
+    public ResponseEntity<PriceDropDto> createPriceDrop(@RequestBody PriceDropDto priceDropDTO) {
         try {
-            PriceDropDTO createdPriceDrop = priceDropService.createPriceDrop(priceDropDTO);
+            PriceDropDto createdPriceDrop = priceDropService.createPriceDrop(priceDropDTO);
             return new ResponseEntity<>(createdPriceDrop, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -32,9 +32,9 @@ public class PriceDropController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PriceDropDTO> getPriceDropById(@PathVariable Long id) {
+    public ResponseEntity<PriceDropDto> getPriceDropById(@PathVariable Long id) {
         try {
-            PriceDropDTO priceDropDTO = priceDropService.getPriceDropById(id);
+            PriceDropDto priceDropDTO = priceDropService.getPriceDropById(id);
             return new ResponseEntity<>(priceDropDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -44,9 +44,9 @@ public class PriceDropController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<PriceDropDTO>> getAllPriceDrops() {
+    public ResponseEntity<List<PriceDropDto>> getAllPriceDrops() {
         try {
-            List<PriceDropDTO> priceDrops = priceDropService.getAllPriceDrops();
+            List<PriceDropDto> priceDrops = priceDropService.getAllPriceDrops();
             return new ResponseEntity<>(priceDrops, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,9 +54,9 @@ public class PriceDropController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PriceDropDTO> updatePriceDrop(@PathVariable Long id, @RequestBody PriceDropDTO priceDropDTO) {
+    public ResponseEntity<PriceDropDto> updatePriceDrop(@PathVariable Long id, @RequestBody PriceDropDto priceDropDTO) {
         try {
-            PriceDropDTO updatedPriceDrop = priceDropService.updatePriceDrop(id, priceDropDTO);
+            PriceDropDto updatedPriceDrop = priceDropService.updatePriceDrop(id, priceDropDTO);
             return new ResponseEntity<>(updatedPriceDrop, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

@@ -1,19 +1,19 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.RoleDTO;
+import com.WheelHub.WheelHub.dto.roleDtos.RoleDto;
 import com.WheelHub.WheelHub.entity.Role;
 
 import java.util.List;
 
 public interface RoleService {
 
-    RoleDTO createRole(RoleDTO roleDTO);
+    RoleDto createRole(RoleDto roleDTO);
 
-    RoleDTO getRoleById(Long id);
+    RoleDto getRoleById(Long id);
 
-    List<RoleDTO> getAllRoles();
+    List<RoleDto> getAllRoles();
 
-    RoleDTO updateRole(Long id, RoleDTO roleDTO);
+    RoleDto updateRole(Long id, RoleDto roleDTO);
 
     void deleteRole(Long id);
 

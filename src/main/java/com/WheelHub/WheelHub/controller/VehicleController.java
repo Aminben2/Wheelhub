@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
-import com.WheelHub.WheelHub.dto.VehicleDTO;
+import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.service.impl.VehicleServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class VehicleController {
     private final VehicleServiceImpl vehicleService;
 
     @PostMapping("/")
-    public ResponseEntity<VehicleDTO> createVehicle(@RequestBody VehicleDTO vehicleDTO) {
+    public ResponseEntity<VehicleDto> createVehicle(@RequestBody VehicleDto vehicleDTO) {
         try {
-            VehicleDTO createdVehicle = vehicleService.createVehicle(vehicleDTO);
+            VehicleDto createdVehicle = vehicleService.createVehicle(vehicleDTO);
             return new ResponseEntity<>(createdVehicle, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -32,9 +32,9 @@ public class VehicleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VehicleDTO> getVehicleById(@PathVariable Long id) {
+    public ResponseEntity<VehicleDto> getVehicleById(@PathVariable Long id) {
         try {
-            VehicleDTO vehicleDTO = vehicleService.getVehicleById(id);
+            VehicleDto vehicleDTO = vehicleService.getVehicleById(id);
             return new ResponseEntity<>(vehicleDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -44,9 +44,9 @@ public class VehicleController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<VehicleDTO>> getAllVehicles() {
+    public ResponseEntity<List<VehicleDto>> getAllVehicles() {
         try {
-            List<VehicleDTO> vehicles = vehicleService.getAllVehicles();
+            List<VehicleDto> vehicles = vehicleService.getAllVehicles();
             return new ResponseEntity<>(vehicles, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,9 +54,9 @@ public class VehicleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VehicleDTO> updateVehicle(@PathVariable Long id, @RequestBody VehicleDTO vehicleDTO) {
+    public ResponseEntity<VehicleDto> updateVehicle(@PathVariable Long id, @RequestBody VehicleDto vehicleDTO) {
         try {
-            VehicleDTO updatedVehicle = vehicleService.updateVehicle(id, vehicleDTO);
+            VehicleDto updatedVehicle = vehicleService.updateVehicle(id, vehicleDTO);
             return new ResponseEntity<>(updatedVehicle, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

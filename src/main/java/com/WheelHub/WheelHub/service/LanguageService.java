@@ -1,18 +1,18 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.LanguageDTO;
+import com.WheelHub.WheelHub.dto.languageDtos.LanguageDto;
 
 import java.util.List;
 
 public interface LanguageService {
 
-    LanguageDTO createLanguage(LanguageDTO languageDTO);
+    LanguageDto createLanguage(LanguageDto languageDTO);
 
-    LanguageDTO getLanguageById(Long id);
+    LanguageDto getLanguageById(Long id);
 
-    List<LanguageDTO> getAllLanguages();
+    List<LanguageDto> getAllLanguages();
 
-    LanguageDTO updateLanguage(Long id, LanguageDTO languageDTO);
+    LanguageDto updateLanguage(Long id, LanguageDto languageDTO);
 
     void deleteLanguage(Long id);
 }

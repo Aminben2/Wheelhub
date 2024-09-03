@@ -1,18 +1,18 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.DealershipDTO;
+import com.WheelHub.WheelHub.dto.dealershipDtos.DealershipDto;
 
 import java.util.List;
 
 public interface DealershipService {
 
-    DealershipDTO createDealership(DealershipDTO dealershipDTO);
+    DealershipDto createDealership(DealershipDto dealershipDTO);
 
-    DealershipDTO getDealershipById(Long id);
+    DealershipDto getDealershipById(Long id);
 
-    List<DealershipDTO> getAllDealerships();
+    List<DealershipDto> getAllDealerships();
 
-    DealershipDTO updateDealership(Long id, DealershipDTO dealershipDTO);
+    DealershipDto updateDealership(Long id, DealershipDto dealershipDTO);
 
     void deleteDealership(Long id);
 }
