@@ -1,6 +1,10 @@
 package com.WheelHub.WheelHub.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,15 +27,23 @@ public class User {
     private Long id;
 
     @Column(name = "name", length = 255)
+    @Size(max = 255, message = "Name cannot exceed 255 characters")
     private String name;
 
     @Column(name = "username", length = 255, unique = true, nullable = false)
+    @NotBlank(message = "Username is mandatory")
+    @Size(max = 255, message = "Username cannot exceed 255 characters")
     private String username;
 
     @Column(name = "password", length = 255, nullable = false)
+    @NotBlank(message = "Password is mandatory")
+    @Size(min = 8, max = 255, message = "Password must be between 8 and 255 characters")
     private String password;
 
     @Column(name = "email", length = 255, unique = true, nullable = false)
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be valid")
+    @Size(max = 255, message = "Email cannot exceed 255 characters")
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -42,10 +54,12 @@ public class User {
     )
     private Set<Role> roles;
 
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at")
+    @PastOrPresent(message = "Created at must be in the past or present")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
+    @PastOrPresent(message = "Updated at must be in the past or present")
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "seller")
