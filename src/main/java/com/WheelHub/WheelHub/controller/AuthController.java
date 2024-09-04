@@ -45,18 +45,18 @@ public class AuthController {
             // Authenticate user
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            loginDto.getUsernameOrEmail(), loginDto.getPassword())
+                            loginDto.getUsername(), loginDto.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // Generate JWT Token
-            final UserDetails userDetails = userDetailsService.loadUserByUsername(loginDto.getUsernameOrEmail());
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(loginDto.getUsername());
             final String jwt = jwtTokenUtil.generateToken(userDetails);
 
             // Retrieve user details
-            User user = userRepository.findByUsernameOrEmail(loginDto.getUsernameOrEmail(), loginDto.getUsernameOrEmail())
-                    .orElseThrow(() ->
-                            new UsernameNotFoundException("User not found with username or email: " + loginDto.getUsernameOrEmail()));
+            User user = userRepository.getUserByUsername(loginDto.getUsername());
+            if (user == null)
+                throw new UsernameNotFoundException("User not found with username: " + loginDto.getUsername());
 
             return ResponseEntity.ok(new JwtResponse(jwt, user.getId()));
         } catch (BadCredentialsException e) {

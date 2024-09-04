@@ -16,6 +16,6 @@ public class RoleDto {
 
     @NotBlank(message = "Role name cannot be blank")
     @Size(max = 50, message = "Role name cannot exceed 50 characters")
-    @Pattern(regexp = "^(BUYER|SELLER|ADMIN)$", message = "Role name must be one of the following: BUYER, SELLER, ADMIN")
+    @Pattern(regexp = "^(BUYER|SELLER|ADMIN|USER)$", message = "Role name must be one of the following: BUYER, SELLER, ADMIN")
     private String name;
 }
