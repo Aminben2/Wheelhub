@@ -1,7 +1,6 @@
 package com.WheelHub.WheelHub.config;
 
 import com.WheelHub.WheelHub.repository.UserRepository;
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

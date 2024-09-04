@@ -33,9 +33,23 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getOneUser(@PathVariable @Min(1) Long id) {
+    public ResponseEntity<UserDto> getOneUserById(@PathVariable @Min(1) Long id) {
         try {
             UserDto user = userService.getUserById(id);
+            if (user != null) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserDto> getOneUserByUsername(@PathVariable String username) {
+        try {
+            UserDto user = userService.getUserByUsername(username);
             if (user != null) {
                 return ResponseEntity.ok(user);
             } else {

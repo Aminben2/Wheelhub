@@ -34,6 +34,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(userMapper::entityToDTO)
+                .orElseThrow(() -> new EntityNotFoundException("User not found for username:" + username));
+    }
+
+    @Override
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::entityToDTO) // Use non-static method via the injected instance
