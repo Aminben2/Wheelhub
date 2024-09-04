@@ -61,8 +61,6 @@ public class User implements UserDetails {
     )
     private Set<Role> roles;
 
-    private boolean enabled;
-
     @Column(name = "created_at")
     @PastOrPresent(message = "Created at must be in the past or present")
     private LocalDateTime createdAt;
