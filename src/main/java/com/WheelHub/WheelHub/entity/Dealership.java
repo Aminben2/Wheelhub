@@ -33,8 +33,8 @@ public class Dealership {
     @Size(max = 255, message = "Dealership location cannot exceed 255 characters")
     private String location;
 
-    @Column(name = "contact_info", columnDefinition = "TEXT")
-    @Size(max = 2000, message = "Contact info cannot exceed 2000 characters")
+    @Column(name = "contact_info")
+    @Size(max = 255, message = "Contact info cannot exceed 2000 characters")
     private String contactInfo;
 
     @Column(name = "created_at")

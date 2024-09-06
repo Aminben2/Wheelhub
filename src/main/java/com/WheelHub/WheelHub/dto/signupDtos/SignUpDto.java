@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.util.Set;
-
 @Data
 public class SignUpDto {
     @NotBlank(message = "Name is required")
@@ -26,5 +24,5 @@ public class SignUpDto {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 
-    private Set<String> roles;
+    private String role;
 }

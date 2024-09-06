@@ -1,5 +1,6 @@
 package com.WheelHub.WheelHub.dto.userDtos;
 
+import com.WheelHub.WheelHub.constant.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -29,5 +30,5 @@ public class UserDto {
     @Size(max = 255, message = "Email must be less than 255 characters")
     private String email;
 
-    private Set<Long> roleIds;
+    private Role role;
 }

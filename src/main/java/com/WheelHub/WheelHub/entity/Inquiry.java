@@ -34,7 +34,6 @@ public class Inquiry {
     @NotNull(message = "Vehicle must not be null")
     private Vehicle vehicle;
 
-    @Column(columnDefinition = "TEXT")
     @NotBlank(message = "Message must not be blank")
     private String message;
 

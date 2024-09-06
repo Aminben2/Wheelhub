@@ -28,8 +28,8 @@ public class SavedSearch {
     @NotNull(message = "User must not be null") // Ensure user is not null
     private User user;
 
-    @Column(name = "search_criteria", columnDefinition = "TEXT")
-    @Size(max = 1000, message = "Search criteria cannot exceed 1000 characters") // Adjust max size as needed
+    @Column(name = "search_criteria")
+    @Size(max = 255, message = "Search criteria cannot exceed 1000 characters") // Adjust max size as needed
     private String searchCriteria;
 
     @Column(name = "created_at")

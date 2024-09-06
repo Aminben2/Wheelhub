@@ -1,10 +1,7 @@
 package com.WheelHub.WheelHub.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,7 +36,8 @@ public class Review {
     @Max(value = 5, message = "Rating must be at most 5") // Ensure rating is between 1 and 5
     private int rating;
 
-    @Column(columnDefinition = "TEXT")
+    @NotBlank
+    @NotNull
     private String comment;
 
     @Column(name = "created_at")
