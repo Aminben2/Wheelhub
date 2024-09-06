@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.PaymentDTO;
+import com.WheelHub.WheelHub.dto.paymentDtos.PaymentDto;
 import com.WheelHub.WheelHub.entity.Payment;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;
@@ -25,7 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public PaymentDTO createPayment(PaymentDTO paymentDTO) {
+    public PaymentDto createPayment(PaymentDto paymentDTO) {
         User user = userRepository.findById(paymentDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + paymentDTO.getUserId()));
         Vehicle vehicle = vehicleRepository.findById(paymentDTO.getVehicleId())
@@ -40,21 +40,21 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentDTO getPaymentById(Long id) {
+    public PaymentDto getPaymentById(Long id) {
         return paymentRepository.findById(id)
                 .map(PaymentMapper::entityToDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Payment not found for id:" + id));
     }
 
     @Override
-    public List<PaymentDTO> getAllPayments() {
+    public List<PaymentDto> getAllPayments() {
         return paymentRepository.findAll().stream()
                 .map(PaymentMapper::entityToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public PaymentDTO updatePayment(Long id, PaymentDTO paymentDTO) {
+    public PaymentDto updatePayment(Long id, PaymentDto paymentDTO) {
         Payment existingPayment = paymentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Payment not found for id:" + id));
 
@@ -68,7 +68,6 @@ public class PaymentServiceImpl implements PaymentService {
         existingPayment.setAmount(paymentDTO.getAmount());
         existingPayment.setPaymentMethod(paymentDTO.getPaymentMethod());
         existingPayment.setStatus(paymentDTO.getStatus());
-        existingPayment.setCreatedAt(paymentDTO.getCreatedAt());
 
         Payment updatedPayment = paymentRepository.save(existingPayment);
         return PaymentMapper.entityToDTO(updatedPayment);

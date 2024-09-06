@@ -1,21 +1,21 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.VehicleDTO;
+import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.entity.Vehicle;
 
 import java.util.List;
 
 public interface VehicleService {
 
-    VehicleDTO createVehicle(VehicleDTO vehicleDTO);
+    VehicleDto createVehicle(VehicleDto vehicleDTO);
 
-    VehicleDTO getVehicleById(Long id);
+    VehicleDto getVehicleById(Long id);
 
-    List<VehicleDTO> getAllVehicles();
+    List<VehicleDto> getAllVehicles();
 
-    VehicleDTO updateVehicle(Long id, VehicleDTO vehicleDTO);
+    VehicleDto updateVehicle(Long id, VehicleDto vehicleDTO);
 
     void deleteVehicle(Long id);
-    Vehicle findById(Long id);
 
+    Vehicle findById(Long id);
 }

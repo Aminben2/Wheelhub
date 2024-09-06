@@ -1,25 +1,24 @@
 package com.WheelHub.WheelHub.mapper;
 
-import com.WheelHub.WheelHub.dto.SavedSearchDTO;
+import com.WheelHub.WheelHub.dto.savedSearchDtos.SavedSearchDto;
 import com.WheelHub.WheelHub.entity.SavedSearch;
 import com.WheelHub.WheelHub.entity.User;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class SavedSearchMapper {
 
-    public static SavedSearchDTO entityToDTO(SavedSearch savedSearch) {
-        return SavedSearchDTO.builder()
-                .id(savedSearch.getId())
+    public static SavedSearchDto entityToDTO(SavedSearch savedSearch) {
+        return SavedSearchDto.builder()
                 .userId(savedSearch.getUser() != null ? savedSearch.getUser().getId() : null)
                 .searchCriteria(savedSearch.getSearchCriteria())
-                .createdAt(savedSearch.getCreatedAt())
                 .build();
     }
 
-    public static SavedSearch dtoToEntity(SavedSearchDTO savedSearchDTO) {
+    public static SavedSearch dtoToEntity(SavedSearchDto savedSearchDTO) {
         SavedSearch savedSearch = SavedSearch.builder()
-                .id(savedSearchDTO.getId())
                 .searchCriteria(savedSearchDTO.getSearchCriteria())
-                .createdAt(savedSearchDTO.getCreatedAt())
                 .build();
 
         if (savedSearchDTO.getUserId() != null) {

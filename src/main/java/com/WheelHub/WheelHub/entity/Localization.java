@@ -1,6 +1,8 @@
 package com.WheelHub.WheelHub.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +24,7 @@ public class Localization {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @NotNull(message = "User must not be null")
     private User user;
 
     @ManyToOne
@@ -32,8 +35,18 @@ public class Localization {
     @JoinColumn(name = "currency_id")
     private Currency currency;
 
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at")
+    @PastOrPresent(message = "Created at must be in the past or present")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @PastOrPresent(message = "Updated at must be in the past or present")
+    private LocalDateTime updatedAt;
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
     @PrePersist
     protected void onCreate() {

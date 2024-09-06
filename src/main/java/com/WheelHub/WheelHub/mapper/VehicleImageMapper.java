@@ -1,33 +1,32 @@
 package com.WheelHub.WheelHub.mapper;
 
-import com.WheelHub.WheelHub.dto.VehicleImageDTO;
+import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageDto;
 import com.WheelHub.WheelHub.entity.VehicleImage;
 import com.WheelHub.WheelHub.entity.Vehicle;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class VehicleImageMapper {
 
-    public static VehicleImageDTO entityToDTO(VehicleImage vehicleImage) {
+    public static VehicleImageDto entityToDTO(VehicleImage vehicleImage) {
         if (vehicleImage == null) {
             return null;
         }
 
-        return VehicleImageDTO.builder()
-                .id(vehicleImage.getId())
+        return VehicleImageDto.builder()
                 .vehicleId(vehicleImage.getVehicle() != null ? vehicleImage.getVehicle().getId() : null)
                 .imageUrl(vehicleImage.getImageUrl())
-                .createdAt(vehicleImage.getCreatedAt())
                 .build();
     }
 
-    public static VehicleImage dtoToEntity(VehicleImageDTO vehicleImageDTO) {
+    public static VehicleImage dtoToEntity(VehicleImageDto vehicleImageDTO) {
         if (vehicleImageDTO == null) {
             return null;
         }
 
         VehicleImage.VehicleImageBuilder vehicleImageBuilder = VehicleImage.builder()
-                .id(vehicleImageDTO.getId())
-                .imageUrl(vehicleImageDTO.getImageUrl())
-                .createdAt(vehicleImageDTO.getCreatedAt());
+                .imageUrl(vehicleImageDTO.getImageUrl());
 
         if (vehicleImageDTO.getVehicleId() != null) {
             Vehicle vehicle = new Vehicle();

@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.InquiryDTO;
+import com.WheelHub.WheelHub.dto.InquiryDtos.InquiryDto;
 import com.WheelHub.WheelHub.entity.Inquiry;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;
@@ -25,7 +25,7 @@ public class InquiryServiceImpl implements InquiryService {
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public InquiryDTO createInquiry(InquiryDTO inquiryDTO) {
+    public InquiryDto createInquiry(InquiryDto inquiryDTO) {
         User user = userRepository.findById(inquiryDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + inquiryDTO.getUserId()));
         Vehicle vehicle = vehicleRepository.findById(inquiryDTO.getVehicleId())
@@ -40,21 +40,21 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     @Override
-    public InquiryDTO getInquiryById(Long id) {
+    public InquiryDto getInquiryById(Long id) {
         return inquiryRepository.findById(id)
                 .map(InquiryMapper::entityToDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Inquiry not found for id:" + id));
     }
 
     @Override
-    public List<InquiryDTO> getAllInquiries() {
+    public List<InquiryDto> getAllInquiries() {
         return inquiryRepository.findAll().stream()
                 .map(InquiryMapper::entityToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public InquiryDTO updateInquiry(Long id, InquiryDTO inquiryDTO) {
+    public InquiryDto updateInquiry(Long id, InquiryDto inquiryDTO) {
         Inquiry existingInquiry = inquiryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Inquiry not found for id:" + id));
 
@@ -66,7 +66,6 @@ public class InquiryServiceImpl implements InquiryService {
         existingInquiry.setUser(user);
         existingInquiry.setVehicle(vehicle);
         existingInquiry.setMessage(inquiryDTO.getMessage());
-        existingInquiry.setCreatedAt(inquiryDTO.getCreatedAt());
 
         Inquiry updatedInquiry = inquiryRepository.save(existingInquiry);
         return InquiryMapper.entityToDTO(updatedInquiry);

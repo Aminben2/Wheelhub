@@ -1,27 +1,26 @@
 package com.WheelHub.WheelHub.mapper;
 
-import com.WheelHub.WheelHub.dto.InquiryDTO;
+import com.WheelHub.WheelHub.dto.InquiryDtos.InquiryDto;
 import com.WheelHub.WheelHub.entity.Inquiry;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class InquiryMapper {
 
-    public static InquiryDTO entityToDTO(Inquiry inquiry) {
-        return InquiryDTO.builder()
-                .id(inquiry.getId())
+    public static InquiryDto entityToDTO(Inquiry inquiry) {
+        return InquiryDto.builder()
                 .userId(inquiry.getUser() != null ? inquiry.getUser().getId() : null)
                 .vehicleId(inquiry.getVehicle() != null ? inquiry.getVehicle().getId() : null)
                 .message(inquiry.getMessage())
-                .createdAt(inquiry.getCreatedAt())
                 .build();
     }
 
-    public static Inquiry dtoToEntity(InquiryDTO inquiryDTO) {
+    public static Inquiry dtoToEntity(InquiryDto inquiryDTO) {
         Inquiry inquiry = Inquiry.builder()
-                .id(inquiryDTO.getId())
                 .message(inquiryDTO.getMessage())
-                .createdAt(inquiryDTO.getCreatedAt())
                 .build();
 
         if (inquiryDTO.getUserId() != null) {

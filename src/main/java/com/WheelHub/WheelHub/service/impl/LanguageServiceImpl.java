@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.LanguageDTO;
+import com.WheelHub.WheelHub.dto.languageDtos.LanguageDto;
 import com.WheelHub.WheelHub.entity.Language;
 import com.WheelHub.WheelHub.mapper.LanguageMapper;
 import com.WheelHub.WheelHub.repository.LanguageRepository;
@@ -19,28 +19,28 @@ public class LanguageServiceImpl implements LanguageService {
     private final LanguageRepository languageRepository;
 
     @Override
-    public LanguageDTO createLanguage(LanguageDTO languageDTO) {
+    public LanguageDto createLanguage(LanguageDto languageDTO) {
         Language language = LanguageMapper.dtoToEntity(languageDTO);
         language = languageRepository.save(language);
         return LanguageMapper.entityToDTO(language);
     }
 
     @Override
-    public LanguageDTO getLanguageById(Long id) {
+    public LanguageDto getLanguageById(Long id) {
         return languageRepository.findById(id)
                 .map(LanguageMapper::entityToDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Language not found for id:" + id));
     }
 
     @Override
-    public List<LanguageDTO> getAllLanguages() {
+    public List<LanguageDto> getAllLanguages() {
         return languageRepository.findAll().stream()
                 .map(LanguageMapper::entityToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public LanguageDTO updateLanguage(Long id, LanguageDTO languageDTO) {
+    public LanguageDto updateLanguage(Long id, LanguageDto languageDTO) {
         Language existingLanguage = languageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Language not found for id:" + id));
 

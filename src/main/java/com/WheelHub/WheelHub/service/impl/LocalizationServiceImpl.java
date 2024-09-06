@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.LocalizationDTO;
+import com.WheelHub.WheelHub.dto.localizationDtos.LocalizationDto;
 import com.WheelHub.WheelHub.entity.Localization;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Language;
@@ -28,7 +28,7 @@ public class LocalizationServiceImpl implements LocalizationService {
     private final CurrencyRepository currencyRepository;
 
     @Override
-    public LocalizationDTO createLocalization(LocalizationDTO localizationDTO) {
+    public LocalizationDto createLocalization(LocalizationDto localizationDTO) {
         User user = userRepository.findById(localizationDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + localizationDTO.getUserId()));
         Language language = languageRepository.findById(localizationDTO.getLanguageId())
@@ -46,21 +46,21 @@ public class LocalizationServiceImpl implements LocalizationService {
     }
 
     @Override
-    public LocalizationDTO getLocalizationById(Long id) {
+    public LocalizationDto getLocalizationById(Long id) {
         return localizationRepository.findById(id)
                 .map(LocalizationMapper::entityToDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Localization not found for id:" + id));
     }
 
     @Override
-    public List<LocalizationDTO> getAllLocalizations() {
+    public List<LocalizationDto> getAllLocalizations() {
         return localizationRepository.findAll().stream()
                 .map(LocalizationMapper::entityToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public LocalizationDTO updateLocalization(Long id, LocalizationDTO localizationDTO) {
+    public LocalizationDto updateLocalization(Long id, LocalizationDto localizationDTO) {
         Localization existingLocalization = localizationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Localization not found for id:" + id));
 
@@ -74,7 +74,6 @@ public class LocalizationServiceImpl implements LocalizationService {
         existingLocalization.setUser(user);
         existingLocalization.setLanguage(language);
         existingLocalization.setCurrency(currency);
-        existingLocalization.setCreatedAt(localizationDTO.getCreatedAt());
 
         Localization updatedLocalization = localizationRepository.save(existingLocalization);
         return LocalizationMapper.entityToDTO(updatedLocalization);

@@ -1,15 +1,18 @@
 package com.WheelHub.WheelHub.mapper;
 
-import com.WheelHub.WheelHub.dto.RoleDTO;
+import com.WheelHub.WheelHub.dto.roleDtos.RoleDto;
 import com.WheelHub.WheelHub.entity.Role;
 import com.WheelHub.WheelHub.entity.User;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
+@Component
 public class RoleMapper {
 
-    public static RoleDTO entityToDTO(Role role) {
+    public static RoleDto entityToDTO(Role role) {
         if (role == null) {
             return null;
         }
@@ -18,32 +21,18 @@ public class RoleMapper {
                 .map(User::getId)
                 .collect(Collectors.toSet()) : Set.of();
 
-        return RoleDTO.builder()
-                .id(role.getId())
+        return RoleDto.builder()
                 .name(role.getName())
-                .userIds(userIds)
                 .build();
     }
 
-    public static Role dtoToEntity(RoleDTO roleDTO) {
+    public static Role dtoToEntity(RoleDto roleDTO) {
         if (roleDTO == null) {
             return null;
         }
 
         Role.RoleBuilder roleBuilder = Role.builder()
-                .id(roleDTO.getId())
                 .name(roleDTO.getName());
-
-        if (roleDTO.getUserIds() != null) {
-            Set<User> users = roleDTO.getUserIds().stream()
-                    .map(userId -> {
-                        User user = new User();
-                        user.setId(userId);
-                        return user;
-                    })
-                    .collect(Collectors.toSet());
-            roleBuilder.users(users);
-        }
 
         return roleBuilder.build();
     }

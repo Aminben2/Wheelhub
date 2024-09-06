@@ -1,13 +1,17 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.VehicleImageDTO;
+import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageDto;
 
 import java.util.List;
 
 public interface VehicleImageService {
-    VehicleImageDTO createVehicleImage(VehicleImageDTO vehicleImageDTO);
-    VehicleImageDTO getVehicleImageById(Long id);
-    List<VehicleImageDTO> getAllVehicleImages();
-    VehicleImageDTO updateVehicleImage(Long id, VehicleImageDTO vehicleImageDTO);
+    VehicleImageDto createVehicleImage(VehicleImageDto vehicleImageDTO);
+
+    VehicleImageDto getVehicleImageById(Long id);
+
+    List<VehicleImageDto> getAllVehicleImages();
+
+    VehicleImageDto updateVehicleImage(Long id, VehicleImageDto vehicleImageDTO);
+
     void deleteVehicleImage(Long id);
 }

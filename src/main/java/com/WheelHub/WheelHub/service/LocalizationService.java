@@ -1,18 +1,18 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.LocalizationDTO;
+import com.WheelHub.WheelHub.dto.localizationDtos.LocalizationDto;
 
 import java.util.List;
 
 public interface LocalizationService {
 
-    LocalizationDTO createLocalization(LocalizationDTO localizationDTO);
+    LocalizationDto createLocalization(LocalizationDto localizationDTO);
 
-    LocalizationDTO getLocalizationById(Long id);
+    LocalizationDto getLocalizationById(Long id);
 
-    List<LocalizationDTO> getAllLocalizations();
+    List<LocalizationDto> getAllLocalizations();
 
-    LocalizationDTO updateLocalization(Long id, LocalizationDTO localizationDTO);
+    LocalizationDto updateLocalization(Long id, LocalizationDto localizationDTO);
 
     void deleteLocalization(Long id);
 }

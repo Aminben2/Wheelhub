@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,30 +27,43 @@ public class Vehicle {
     private User seller;
 
     @Column(name = "make", nullable = false)
+    @NotBlank(message = "Make is mandatory") // Ensure make is not blank
+    @Size(max = 50, message = "Make cannot exceed 50 characters") // Set max length
     private String make;
 
     @Column(name = "model", nullable = false)
+    @NotBlank(message = "Model is mandatory") // Ensure model is not blank
+    @Size(max = 50, message = "Model cannot exceed 50 characters") // Set max length
     private String model;
 
     @Column(name = "year")
+    @Min(value = 1886, message = "Year must be greater than or equal to 1886") // Validate minimum year
+    @Max(value = 2100, message = "Year must be less than or equal to 2100") // Validate maximum year
     private Integer year;
 
     @Column(name = "mileage")
+    @Min(value = 0, message = "Mileage must be zero or greater") // Validate minimum mileage
     private Integer mileage;
 
     @Column(name = "price", precision = 10, scale = 2, nullable = false)
+    @NotNull(message = "Price is mandatory") // Ensure price is not null
+    @DecimalMin(value = "0.00", message = "Price must be greater than or equal to 0.00") // Validate minimum price
     private BigDecimal price;
 
     @Column(name = "description")
+    @Size(max = 1000, message = "Description cannot exceed 1000 characters") // Set max length
     private String description;
 
     @Column(name = "location")
+    @Size(max = 255, message = "Location cannot exceed 255 characters") // Set max length
     private String location;
 
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at")
+    @PastOrPresent(message = "Created at must be in the past or present")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
+    @PastOrPresent(message = "Updated at must be in the past or present")
     private LocalDateTime updatedAt;
 
     @PreUpdate

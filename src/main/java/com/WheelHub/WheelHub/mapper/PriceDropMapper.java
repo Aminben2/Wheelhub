@@ -1,14 +1,16 @@
 package com.WheelHub.WheelHub.mapper;
 
-import com.WheelHub.WheelHub.dto.PriceDropDTO;
+import com.WheelHub.WheelHub.dto.priceDropDtos.PriceDropDto;
 import com.WheelHub.WheelHub.entity.PriceDrop;
 import com.WheelHub.WheelHub.entity.Vehicle;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class PriceDropMapper {
 
-    public static PriceDropDTO entityToDTO(PriceDrop priceDrop) {
-        return PriceDropDTO.builder()
-                .id(priceDrop.getId())
+    public static PriceDropDto entityToDTO(PriceDrop priceDrop) {
+        return PriceDropDto.builder()
                 .vehicleId(priceDrop.getVehicle() != null ? priceDrop.getVehicle().getId() : null)
                 .oldPrice(priceDrop.getOldPrice())
                 .newPrice(priceDrop.getNewPrice())
@@ -16,9 +18,8 @@ public class PriceDropMapper {
                 .build();
     }
 
-    public static PriceDrop dtoToEntity(PriceDropDTO priceDropDTO) {
+    public static PriceDrop dtoToEntity(PriceDropDto priceDropDTO) {
         PriceDrop priceDrop = PriceDrop.builder()
-                .id(priceDropDTO.getId())
                 .oldPrice(priceDropDTO.getOldPrice())
                 .newPrice(priceDropDTO.getNewPrice())
                 .droppedAt(priceDropDTO.getDroppedAt())

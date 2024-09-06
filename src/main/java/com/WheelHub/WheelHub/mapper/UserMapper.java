@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.mapper;
 
-import com.WheelHub.WheelHub.dto.UserDTO;
+import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Role;
 import com.WheelHub.WheelHub.entity.Vehicle;
@@ -12,11 +12,15 @@ import com.WheelHub.WheelHub.service.VehicleService;
 import com.WheelHub.WheelHub.service.AppointmentService;
 import com.WheelHub.WheelHub.service.NotificationService;
 import com.WheelHub.WheelHub.service.SavedSearchService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
+@RequiredArgsConstructor
 public class UserMapper {
 
     private final RoleService roleService;
@@ -25,16 +29,7 @@ public class UserMapper {
     private final NotificationService notificationService;
     private final SavedSearchService savedSearchService;
 
-    public UserMapper(RoleService roleService, VehicleService vehicleService, AppointmentService appointmentService,
-                      NotificationService notificationService, SavedSearchService savedSearchService) {
-        this.roleService = roleService;
-        this.vehicleService = vehicleService;
-        this.appointmentService = appointmentService;
-        this.notificationService = notificationService;
-        this.savedSearchService = savedSearchService;
-    }
-
-    public UserDTO entityToDTO(User user) {
+    public UserDto entityToDTO(User user) {
         Set<Long> roleIds = user.getRoles() != null ? user.getRoles().stream()
                 .map(Role::getId)
                 .collect(Collectors.toSet()) : Set.of();
@@ -55,58 +50,26 @@ public class UserMapper {
                 .map(SavedSearch::getId)
                 .collect(Collectors.toList()) : List.of();
 
-        return UserDTO.builder()
-                .id(user.getId())
+        return UserDto.builder()
                 .name(user.getName())
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .roleIds(roleIds)
-                .createdAt(user.getCreatedAt())
-                .updatedAt(user.getUpdatedAt())
-                .vehicleIds(vehicleIds)
-                .appointmentIds(appointmentIds)
-                .notificationIds(notificationIds)
-                .savedSearchIds(savedSearchIds)
                 .build();
     }
 
-    public User dtoToEntity(UserDTO userDTO) {
+    public User dtoToEntity(UserDto userDTO) {
         User user = User.builder()
-                .id(userDTO.getId())
                 .name(userDTO.getName())
                 .username(userDTO.getUsername())
                 .email(userDTO.getEmail())
-                .createdAt(userDTO.getCreatedAt())
-                .updatedAt(userDTO.getUpdatedAt())
                 .build();
 
-        // Fetch entities for roles, vehicles, appointments, notifications, and saved searches
         Set<Role> roles = userDTO.getRoleIds().stream()
-                .map(roleId -> roleService.findById(roleId))
+                .map(roleService::findById)
                 .collect(Collectors.toSet());
 
-        List<Vehicle> vehicles = userDTO.getVehicleIds().stream()
-                .map(vehicleId -> vehicleService.findById(vehicleId))
-                .collect(Collectors.toList());
-
-        List<Appointment> appointments = userDTO.getAppointmentIds().stream()
-                .map(appointmentId -> appointmentService.findById(appointmentId))
-                .collect(Collectors.toList());
-
-        List<Notification> notifications = userDTO.getNotificationIds().stream()
-                .map(notificationId -> notificationService.findById(notificationId))
-                .collect(Collectors.toList());
-
-        List<SavedSearch> savedSearches = userDTO.getSavedSearchIds().stream()
-                .map(savedSearchId -> savedSearchService.findById(savedSearchId))
-                .collect(Collectors.toList());
-
         user.setRoles(roles);
-        user.setVehicles(vehicles);
-        user.setAppointments(appointments);
-        user.setNotifications(notifications);
-        user.setSavedSearches(savedSearches);
-
         return user;
     }
 }

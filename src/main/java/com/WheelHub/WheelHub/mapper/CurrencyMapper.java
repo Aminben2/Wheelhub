@@ -1,22 +1,23 @@
 package com.WheelHub.WheelHub.mapper;
 
-import com.WheelHub.WheelHub.dto.CurrencyDTO;
+import com.WheelHub.WheelHub.dto.currencyDtos.CurrencyDto;
 import com.WheelHub.WheelHub.entity.Currency;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class CurrencyMapper {
 
-    public static CurrencyDTO entityToDTO(Currency currency) {
-        return CurrencyDTO.builder()
-                .id(currency.getId())
+    public static CurrencyDto entityToDTO(Currency currency) {
+        return CurrencyDto.builder()
                 .currencyCode(currency.getCurrencyCode())
                 .currencyName(currency.getCurrencyName())
                 .exchangeRate(currency.getExchangeRate())
                 .build();
     }
 
-    public static Currency dtoToEntity(CurrencyDTO currencyDTO) {
+    public static Currency dtoToEntity(CurrencyDto currencyDTO) {
         return Currency.builder()
-                .id(currencyDTO.getId())
                 .currencyCode(currencyDTO.getCurrencyCode())
                 .currencyName(currencyDTO.getCurrencyName())
                 .exchangeRate(currencyDTO.getExchangeRate())

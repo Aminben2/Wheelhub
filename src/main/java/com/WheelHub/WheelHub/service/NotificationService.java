@@ -1,21 +1,20 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.NotificationDTO;
+import com.WheelHub.WheelHub.dto.notificationDtos.NotificationDto;
 import com.WheelHub.WheelHub.entity.Notification;
 
 import java.util.List;
 
 public interface NotificationService {
 
-    NotificationDTO createNotification(NotificationDTO notificationDTO);
+    NotificationDto createNotification(NotificationDto notificationDTO);
 
-    NotificationDTO getNotificationById(Long id);
+    NotificationDto getNotificationById(Long id);
 
-    List<NotificationDTO> getAllNotifications();
+    List<NotificationDto> getAllNotifications();
 
-    NotificationDTO updateNotification(Long id, NotificationDTO notificationDTO);
+    NotificationDto updateNotification(Long id, NotificationDto notificationDTO);
 
     void deleteNotification(Long id);
     Notification findById(Long id);
-
 }

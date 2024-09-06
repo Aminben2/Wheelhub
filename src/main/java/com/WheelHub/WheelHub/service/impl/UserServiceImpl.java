@@ -1,6 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
-import com.WheelHub.WheelHub.dto.UserDTO;
+import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.mapper.UserMapper;
 import com.WheelHub.WheelHub.repository.UserRepository;
@@ -20,35 +20,41 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public UserDTO createUser(UserDTO userDTO) {
+    public UserDto createUser(UserDto userDTO) {
         User user = userMapper.dtoToEntity(userDTO);
         user = userRepository.save(user);
         return userMapper.entityToDTO(user);
     }
 
     @Override
-    public UserDTO getUserById(Long id) {
+    public UserDto getUserById(Long id) {
         return userRepository.findById(id)
                 .map(userMapper::entityToDTO)
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + id));
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
+    public UserDto getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(userMapper::entityToDTO)
+                .orElseThrow(() -> new EntityNotFoundException("User not found for username:" + username));
+    }
+
+    @Override
+    public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::entityToDTO) // Use non-static method via the injected instance
                 .collect(Collectors.toList());
     }
 
     @Override
-    public UserDTO updateUser(Long id, UserDTO userDTO) {
+    public UserDto updateUser(Long id, UserDto userDTO) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + id));
 
         existingUser.setName(userDTO.getName());
         existingUser.setUsername(userDTO.getUsername());
         existingUser.setEmail(userDTO.getEmail());
-        existingUser.setUpdatedAt(userDTO.getUpdatedAt());
 
         User updatedUser = userRepository.save(existingUser);
         return userMapper.entityToDTO(updatedUser);
