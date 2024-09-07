@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ import java.io.PrintWriter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -48,7 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
@@ -62,22 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         }  catch (Exception e) {
-            // Ensure the response hasn't been committed
-            if (!response.isCommitted()) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setContentType("application/json");
-                try (PrintWriter out = response.getWriter()) {
-                    out.write("{\"error\": \"Unauthorized access: " + e.getMessage() + "\"}");
-                    out.flush();
-                } catch (IOException ioException) {
-                    // Log the exception or handle it as needed
-                    log.error("Error writing to response", ioException);
-                }
-            } else {
-                // Log the exception or handle it if response is already committed
-                log.error("Response already committed. Error: " + e.getMessage());
-            }
-
+            log.error("JWT Authentication error: {}", e.getMessage());
         }
 
         filterChain.doFilter(request, response);

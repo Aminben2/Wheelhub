@@ -39,7 +39,7 @@ public class JwtService {
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         // Set expiration duration to one week (7 days)
         long expirationDuration = 1000 * 60 * 60 * 24 * 7; // 7 days in milliseconds
-
+        extraClaims.put("roles", userDetails.getAuthorities());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
