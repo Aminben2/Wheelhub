@@ -51,7 +51,6 @@ public class SecurityConfig {
         };
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -59,11 +58,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("/api/users/**").hasAnyRole(ADMIN.name())
+//                                .requestMatchers("/api/users/**").hasAnyRole(ADMIN.name())
 //                                .requestMatchers(GET, "/api/users/**").hasAnyAuthority(USERS_READ.name())
-                                .requestMatchers(POST, "/api/users/**").hasAnyAuthority(USERS_CREATE.name())
-                                .requestMatchers(PUT, "/api/users/**").hasAnyAuthority(USERS_UPDATE.name())
-                                .requestMatchers(DELETE, "/api/users/**").hasAnyAuthority(USERS_DELETE.name())
+//                                .requestMatchers(POST, "/api/users/**").hasAnyAuthority(USERS_CREATE.name())
+//                                .requestMatchers(PUT, "/api/users/**").hasAnyAuthority(USERS_UPDATE.name())
+//                                .requestMatchers(DELETE, "/api/users/**").hasAnyAuthority(USERS_DELETE.name())
                                 .anyRequest()
                                 .authenticated()
                 )

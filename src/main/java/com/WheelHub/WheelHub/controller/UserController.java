@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +19,13 @@ import java.util.List;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasRole('ADMIN')")
 public class UserController {
 
     private final UserServiceImpl userService;
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('users:read')")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         try {
             List<UserDto> users = userService.getAllUsers();
@@ -33,6 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('users:read')")
     public ResponseEntity<UserDto> getOneUserById(@PathVariable @Min(1) Long id) {
         try {
             UserDto user = userService.getUserById(id);
@@ -47,6 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}")
+    @PreAuthorize("hasAuthority('users:read')")
     public ResponseEntity<UserDto> getOneUserByUsername(@PathVariable String username) {
         try {
             UserDto user = userService.getUserByUsername(username);
@@ -61,6 +66,7 @@ public class UserController {
     }
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('users:create')")
     public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserDto user) {
         try {
             UserDto createdUser = userService.createUser(user);
@@ -71,6 +77,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('users:update')")
     public ResponseEntity<UserDto> updateUser(@PathVariable @Min(1) Long id,@Valid @RequestBody UserDto user) {
         try {
             UserDto updatedUser = userService.updateUser(id, user);
@@ -85,6 +92,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('users:delete')")
     public ResponseEntity<Void> deleteUser(@PathVariable @Min(1) Long id) {
         try {
             userService.deleteUser(id);
