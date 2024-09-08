@@ -56,7 +56,7 @@ public class VehicleTypeController {
     @PutMapping("/{id}")
     public ResponseEntity<VehicleTypeDto> updateVehicleType(@PathVariable @Min(1) Long id, @Valid @RequestBody VehicleTypeDto vehicleTypeDto) {
         try {
-            VehicleTypeDto updatedVehicleType = vehicleTypeService.save(id, vehicleTypeDto);
+            VehicleTypeDto updatedVehicleType = vehicleTypeService.update(id, vehicleTypeDto);
             return new ResponseEntity<>(updatedVehicleType, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
