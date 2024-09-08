@@ -40,11 +40,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment findById(Long id) {
-        return appointmentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Appointment not found for id:" + id));
-    }
-    @Override
     public AppointmentDto getAppointmentById(Long id) {
         return appointmentRepository.findById(id)
                 .map(AppointmentMapper::entityToDTO)
