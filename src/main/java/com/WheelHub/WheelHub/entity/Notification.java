@@ -32,11 +32,11 @@ public class Notification {
 
     @Column(name = "notification_type", length = 50, nullable = false)
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Notification type must not be null") // Ensure notificationType is set
+    @NotNull(message = "Notification type must not be null")
     private NotificationType notificationType;
 
     @Column(name = "details")
-    @Size(max = 1000, message = "Details must not exceed 1000 characters") // Optional, adjust based on requirements
+    @Size(max = 1000, message = "Details must not exceed 1000 characters")
     private String details;
 
     @Column(name = "created_at")

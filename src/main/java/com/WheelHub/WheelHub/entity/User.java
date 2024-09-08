@@ -33,6 +33,12 @@ public class User implements UserDetails {
     @Size(max = 255, message = "Name cannot exceed 255 characters")
     private String name;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "profile_picture")
+    private String profilePicture;
+
     @Column(name = "username", length = 255, unique = true, nullable = false)
     @NotBlank(message = "Username is mandatory")
     @Size(max = 255, message = "Username cannot exceed 255 characters")

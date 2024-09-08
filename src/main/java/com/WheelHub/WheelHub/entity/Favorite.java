@@ -1,9 +1,7 @@
 package com.WheelHub.WheelHub.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,26 +9,27 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "saved_searches")
-public class SavedSearch {
+@Table(name = "favorites")
+public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    @NotNull(message = "User must not be null")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "search_criteria")
-    @Size(max = 255, message = "Search criteria cannot exceed 1000 characters")
-    private String searchCriteria;
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
+
 
     @Column(name = "created_at")
     @PastOrPresent(message = "Created at must be in the past or present")
@@ -49,4 +48,5 @@ public class SavedSearch {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
+
 }

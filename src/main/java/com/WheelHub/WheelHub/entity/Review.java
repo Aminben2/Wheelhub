@@ -1,5 +1,6 @@
 package com.WheelHub.WheelHub.entity;
 
+import com.WheelHub.WheelHub.constant.enums.ReviewType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -23,22 +24,26 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @NotNull(message = "User must not be null") // Ensure user is not null
+    @NotNull(message = "User must not be null")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
-    @NotNull(message = "Vehicle must not be null") // Ensure vehicle is not null
+    @NotNull(message = "Vehicle must not be null")
     private Vehicle vehicle;
 
     @Column(name = "rating")
-    @Min(value = 1, message = "Rating must be at least 1") // Ensure rating is between 1 and 5
-    @Max(value = 5, message = "Rating must be at most 5") // Ensure rating is between 1 and 5
+    @Min(value = 1, message = "Rating must be at least 1")
+    @Max(value = 5, message = "Rating must be at most 5")
     private int rating;
 
     @NotBlank
     @NotNull
     private String comment;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "review_type", nullable = false)
+    private ReviewType reviewType;
 
     @Column(name = "created_at")
     @PastOrPresent(message = "Created at must be in the past or present")

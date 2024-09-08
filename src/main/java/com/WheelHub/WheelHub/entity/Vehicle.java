@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,36 +28,53 @@ public class Vehicle {
     @JoinColumn(name = "seller_id")
     private User seller;
 
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private VehicleType vehicleType;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private VehicleCategory category;
+
+    @ManyToMany
+    @JoinTable(
+            name = "vehicle_feature_mapping",
+            joinColumns = @JoinColumn(name = "vehicle_id"),
+            inverseJoinColumns = @JoinColumn(name = "feature_id")
+    )
+    private Set<VehicleFeature> features = new HashSet<>();
+
+
     @Column(name = "make", nullable = false)
-    @NotBlank(message = "Make is mandatory") // Ensure make is not blank
-    @Size(max = 50, message = "Make cannot exceed 50 characters") // Set max length
+    @NotBlank(message = "Make is mandatory")
+    @Size(max = 50, message = "Make cannot exceed 50 characters")
     private String make;
 
     @Column(name = "model", nullable = false)
-    @NotBlank(message = "Model is mandatory") // Ensure model is not blank
-    @Size(max = 50, message = "Model cannot exceed 50 characters") // Set max length
+    @NotBlank(message = "Model is mandatory")
+    @Size(max = 50, message = "Model cannot exceed 50 characters")
     private String model;
 
     @Column(name = "year")
-    @Min(value = 1886, message = "Year must be greater than or equal to 1886") // Validate minimum year
-    @Max(value = 2100, message = "Year must be less than or equal to 2100") // Validate maximum year
+    @Min(value = 1886, message = "Year must be greater than or equal to 1886")
+    @Max(value = 2100, message = "Year must be less than or equal to 2100")
     private Integer year;
 
     @Column(name = "mileage")
-    @Min(value = 0, message = "Mileage must be zero or greater") // Validate minimum mileage
+    @Min(value = 0, message = "Mileage must be zero or greater")
     private Integer mileage;
 
     @Column(name = "price", precision = 10, scale = 2, nullable = false)
-    @NotNull(message = "Price is mandatory") // Ensure price is not null
-    @DecimalMin(value = "0.00", message = "Price must be greater than or equal to 0.00") // Validate minimum price
+    @NotNull(message = "Price is mandatory")
+    @DecimalMin(value = "0.00", message = "Price must be greater than or equal to 0.00")
     private BigDecimal price;
 
     @Column(name = "description")
-    @Size(max = 1000, message = "Description cannot exceed 1000 characters") // Set max length
+    @Size(max = 1000, message = "Description cannot exceed 1000 characters")
     private String description;
 
     @Column(name = "location")
-    @Size(max = 255, message = "Location cannot exceed 255 characters") // Set max length
+    @Size(max = 255, message = "Location cannot exceed 255 characters")
     private String location;
 
     @Column(name = "created_at")
