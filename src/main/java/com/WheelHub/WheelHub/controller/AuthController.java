@@ -40,14 +40,14 @@ public class AuthController {
     )
     {
         if (bindingResult.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
-            bindingResult.getAllErrors().forEach((error) -> {
-                String fieldName = ((FieldError) error).getField();
-                String errorMessage = error.getDefaultMessage();
-                errors.put(fieldName, errorMessage);
-            });
-            return ResponseEntity.badRequest().body(errors);
+            FieldError firstError = bindingResult.getFieldError();
+            if (firstError != null) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", firstError.getDefaultMessage());
+                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            }
         }
+
         return ResponseEntity.ok(authServiceImp.register(signUpDto));
     }
 }

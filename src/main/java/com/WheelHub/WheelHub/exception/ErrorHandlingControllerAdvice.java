@@ -20,28 +20,25 @@ class ErrorHandlingControllerAdvice {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    ValidationErrorResponse onConstraintValidationException(
-            ConstraintViolationException e) {
-        ValidationErrorResponse error = new ValidationErrorResponse();
-        for (ConstraintViolation violation : e.getConstraintViolations()) {
-            error.getViolations().add(
-                    new Violation(violation.getPropertyPath().toString(), violation.getMessage()));
-        }
+    public Map<String, String> onConstraintValidationException(ConstraintViolationException e) {
+        ConstraintViolation<?> violation = e.getConstraintViolations().iterator().next();
+        Map<String, String> error = new HashMap<>();
+        error.put("error", violation.getMessage());
         return error;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    ValidationErrorResponse onMethodArgumentNotValidException(
-            MethodArgumentNotValidException e) {
-        ValidationErrorResponse error = new ValidationErrorResponse();
-        for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
-            error.getViolations().add(
-                    new Violation(fieldError.getField(), fieldError.getDefaultMessage()));
+    public Map<String, String> onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        FieldError fieldError = e.getBindingResult().getFieldError();
+        Map<String, String> error = new HashMap<>();
+        if (fieldError != null) {
+            error.put("error", fieldError.getDefaultMessage());
         }
         return error;
     }
+
 
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<Map<String, String>> handleDuplicateResourceException(DuplicateResourceException ex) {
