@@ -1,6 +1,8 @@
 package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.userDtos.UserDto;
+import com.WheelHub.WheelHub.dto.userDtos.UserResponseDto;
+import com.WheelHub.WheelHub.dto.userDtos.UserResponseDtoForGetByUsername;
 import com.WheelHub.WheelHub.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -26,9 +28,9 @@ public class UserController {
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('users:read')")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         try {
-            List<UserDto> users = userService.getAllUsers();
+            List<UserResponseDto> users = userService.getAllUsers();
             return ResponseEntity.ok(users);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -37,9 +39,9 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('users:read')")
-    public ResponseEntity<UserDto> getOneUserById(@PathVariable @Min(1) Long id) {
+    public ResponseEntity<UserResponseDto> getOneUserById(@PathVariable @Min(1) Long id) {
         try {
-            UserDto user = userService.getUserById(id);
+            UserResponseDto user = userService.getUserById(id);
             if (user != null) {
                 return ResponseEntity.ok(user);
             } else {
@@ -52,9 +54,9 @@ public class UserController {
 
     @GetMapping("/username/{username}")
     @PreAuthorize("hasAuthority('users:read-by-username')")
-    public ResponseEntity<UserDto> getOneUserByUsername(@PathVariable String username) {
+    public ResponseEntity<UserResponseDtoForGetByUsername> getOneUserByUsername(@PathVariable String username) {
         try {
-            UserDto user = userService.getUserByUsername(username);
+            UserResponseDtoForGetByUsername user = userService.getUserByUsername(username);
             if (user != null) {
                 return ResponseEntity.ok(user);
             } else {
@@ -67,9 +69,9 @@ public class UserController {
 
     @PostMapping("/")
     @PreAuthorize("hasAuthority('users:create')")
-    public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserDto user) {
+    public ResponseEntity<UserResponseDto> addUser(@Valid @RequestBody UserDto user) {
         try {
-            UserDto createdUser = userService.createUser(user);
+            UserResponseDto createdUser = userService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -78,9 +80,9 @@ public class UserController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('users:update')")
-    public ResponseEntity<UserDto> updateUser(@PathVariable @Min(1) Long id,@Valid @RequestBody UserDto user) {
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable @Min(1) Long id,@Valid @RequestBody UserDto user) {
         try {
-            UserDto updatedUser = userService.updateUser(id, user);
+            UserResponseDto updatedUser = userService.updateUser(id, user);
             if (updatedUser != null) {
                 return ResponseEntity.ok(updatedUser);
             } else {

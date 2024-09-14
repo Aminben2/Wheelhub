@@ -2,6 +2,7 @@ package com.WheelHub.WheelHub.service;
 
 import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.dto.userDtos.UserResponseDto;
+import com.WheelHub.WheelHub.dto.userDtos.UserResponseDtoForGetByUsername;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface UserService {
 
     UserResponseDto getUserById(Long id);
 
-    UserResponseDto getUserByUsername(String username);
+    UserResponseDtoForGetByUsername getUserByUsername(String username);
 
     List<UserResponseDto> getAllUsers();
 

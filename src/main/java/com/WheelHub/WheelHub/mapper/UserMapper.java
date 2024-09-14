@@ -2,6 +2,7 @@ package com.WheelHub.WheelHub.mapper;
 
 import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.dto.userDtos.UserResponseDto;
+import com.WheelHub.WheelHub.dto.userDtos.UserResponseDtoForGetByUsername;
 import com.WheelHub.WheelHub.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,13 @@ public class UserMapper {
                 .name(user.getName())
                 .username(user.getUsername())
                 .email(user.getEmail())
+                .role(user.getRole())
+                .build();
+    }
+
+    public UserResponseDtoForGetByUsername entityToResponseDtoForGetByUsername(User user) {
+        return UserResponseDtoForGetByUsername.builder()
+                .username(user.getUsername())
                 .role(user.getRole())
                 .build();
     }

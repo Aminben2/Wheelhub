@@ -2,6 +2,7 @@ package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.dto.userDtos.UserResponseDto;
+import com.WheelHub.WheelHub.dto.userDtos.UserResponseDtoForGetByUsername;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.mapper.UserMapper;
 import com.WheelHub.WheelHub.repository.UserRepository;
@@ -35,9 +36,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto getUserByUsername(String username) {
+    public UserResponseDtoForGetByUsername getUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .map(userMapper::entityToResponseDTO)
+                .map(userMapper::entityToResponseDtoForGetByUsername)
                 .orElseThrow(() -> new EntityNotFoundException("User not found for username:" + username));
     }
 
