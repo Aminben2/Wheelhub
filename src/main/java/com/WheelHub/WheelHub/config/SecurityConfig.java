@@ -18,9 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import static com.WheelHub.WheelHub.constant.enums.Permission.*;
-import static com.WheelHub.WheelHub.constant.enums.Role.*;
-import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableMethodSecurity
@@ -58,11 +55,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-//                                .requestMatchers("/api/users/**").hasAnyRole(ADMIN.name())
-//                                .requestMatchers(GET, "/api/users/**").hasAnyAuthority(USERS_READ.name())
-//                                .requestMatchers(POST, "/api/users/**").hasAnyAuthority(USERS_CREATE.name())
-//                                .requestMatchers(PUT, "/api/users/**").hasAnyAuthority(USERS_UPDATE.name())
-//                                .requestMatchers(DELETE, "/api/users/**").hasAnyAuthority(USERS_DELETE.name())
                                 .anyRequest()
                                 .authenticated()
                 )

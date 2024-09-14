@@ -18,6 +18,11 @@ public enum Permission {
     VEHICLES_CREATE("vehicles:create"),
     VEHICLES_DELETE("vehicles:delete"),
 
+    REVIEWS_READ("reviews:read"),
+    REVIEWS_UPDATE("reviews:update"),
+    REVIEWS_CREATE("reviews:create"),
+    REVIEWS_DELETE("reviews:delete"),
+
     ;
 
     private final String permission;

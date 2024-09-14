@@ -43,7 +43,7 @@ public class AuthServiceImp {
                 .email(signUpDto.getEmail())
                 .username(signUpDto.getUsername())
                 .password(passwordEncoder.encode(signUpDto.getPassword()))
-                .role(signUpDto.getRole() != null ? Role.valueOf(signUpDto.getRole()) : Role.USER)
+                .role(signUpDto.getRole() != null ? Role.valueOf(signUpDto.getRole()) : Role.BUYER)
                 .build();
 
 

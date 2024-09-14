@@ -1,6 +1,8 @@
 package com.WheelHub.WheelHub.service.impl;
 
+import com.WheelHub.WheelHub.constant.enums.ReviewType;
 import com.WheelHub.WheelHub.dto.reviewDtos.ReviewDto;
+import com.WheelHub.WheelHub.dto.reviewDtos.ReviewResponseDto;
 import com.WheelHub.WheelHub.entity.Review;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;
@@ -50,6 +52,14 @@ public class ReviewServiceImpl implements ReviewService {
     public List<ReviewDto> getAllReviews() {
         return reviewRepository.findAll().stream()
                 .map(ReviewMapper::entityToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ReviewResponseDto> getAllReviewsForVehicle(Long id, String type) {
+        ReviewType reviewTypeEnum = ReviewType.valueOf(type.toUpperCase());
+        return reviewRepository.findByVehicleIdAndReviewType(id,reviewTypeEnum).stream()
+                .map(ReviewMapper::entityToResponseDTO)
                 .collect(Collectors.toList());
     }
 

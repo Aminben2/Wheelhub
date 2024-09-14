@@ -1,12 +1,14 @@
 package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.reviewDtos.ReviewDto;
+import com.WheelHub.WheelHub.dto.reviewDtos.ReviewResponseDto;
 import com.WheelHub.WheelHub.service.impl.ReviewServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +21,13 @@ import java.util.List;
 @RequestMapping("/api/reviews")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('ADMIN','BUYER','SELLER')")
 public class ReviewController {
 
     private final ReviewServiceImpl reviewService;
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('reviews:create')")
     public ResponseEntity<ReviewDto> createReview(
             @Valid @RequestBody ReviewDto reviewDTO) {
         try {
@@ -37,6 +41,7 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('reviews:read')")
     public ResponseEntity<ReviewDto> getReviewById(@PathVariable @Min(1) Long id) {
         try {
             ReviewDto reviewDTO = reviewService.getReviewById(id);
@@ -48,10 +53,33 @@ public class ReviewController {
         }
     }
 
+    @GetMapping("/vehicle/{id}/{type}")
+    @PreAuthorize("hasAuthority('reviews:read')")
+    public ResponseEntity<List<ReviewResponseDto>> getReviewsForVehicle(
+            @PathVariable("id") @Min(1) Long id,
+            @PathVariable("type") String type
+    )
+    {
+        try {
+            List<ReviewResponseDto> reviews = reviewService.getAllReviewsForVehicle(id, type);
+             if (reviews.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(reviews, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('reviews:read')")
     public ResponseEntity<List<ReviewDto>> getAllReviews() {
         try {
             List<ReviewDto> reviews = reviewService.getAllReviews();
+            if (reviews.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
             return new ResponseEntity<>(reviews, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -59,6 +87,7 @@ public class ReviewController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('reviews:update')")
     public ResponseEntity<ReviewDto> updateReview(@PathVariable @Min(1) Long id,@Valid @RequestBody ReviewDto reviewDTO) {
         try {
             ReviewDto updatedReview = reviewService.updateReview(id, reviewDTO);
@@ -71,6 +100,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('reviews:delete')")
     public ResponseEntity<Void> deleteReview(@PathVariable @Min(1) Long id) {
         try {
             reviewService.deleteReview(id);

@@ -14,12 +14,6 @@ import static com.WheelHub.WheelHub.constant.enums.Permission.*;
 @RequiredArgsConstructor
 public enum Role {
 
-    USER(
-            Set.of(
-                    VEHICLES_READ,
-                    USER_READ_BY_USERNAME
-            )
-    ),
     ADMIN(
             Set.of(
                     USERS_DELETE,
@@ -30,13 +24,21 @@ public enum Role {
                     VEHICLES_UPDATE,
                     VEHICLES_DELETE,
                     VEHICLES_READ,
-                    USER_READ_BY_USERNAME
+                    USER_READ_BY_USERNAME,
+                    REVIEWS_READ,
+                    REVIEWS_UPDATE,
+                    REVIEWS_CREATE,
+                    REVIEWS_DELETE
             )
     ),
     BUYER(
             Set.of(
                     VEHICLES_READ,
-                    USER_READ_BY_USERNAME
+                    USER_READ_BY_USERNAME,
+                    REVIEWS_READ,
+                    REVIEWS_UPDATE,
+                    REVIEWS_CREATE,
+                    REVIEWS_DELETE
             )
     ),
     SELLER(
@@ -45,7 +47,8 @@ public enum Role {
                     VEHICLES_UPDATE,
                     VEHICLES_DELETE,
                     VEHICLES_READ,
-                    USER_READ_BY_USERNAME
+                    USER_READ_BY_USERNAME,
+                    REVIEWS_READ
             )
     )
 

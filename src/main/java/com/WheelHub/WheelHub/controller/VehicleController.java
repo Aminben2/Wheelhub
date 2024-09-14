@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,13 @@ import java.util.List;
 @RequestMapping("/api/vehicles")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('ADMIN','SELLER','BUYER')")
 public class VehicleController {
 
     private final VehicleServiceImpl vehicleService;
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('vehicles:create')")
     public ResponseEntity<VehicleDto> createVehicle(@Valid @RequestBody VehicleDto vehicleDTO) {
         try {
             VehicleDto createdVehicle = vehicleService.createVehicle(vehicleDTO);
@@ -37,6 +40,7 @@ public class VehicleController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicles:read')")
     public ResponseEntity<VehicleResponseDto> getVehicleById(@PathVariable @Min(1) Long id) {
         try {
             VehicleResponseDto vehicleDTO = vehicleService.getVehicleById(id);
@@ -49,6 +53,7 @@ public class VehicleController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('vehicles:read')")
     public ResponseEntity<List<VehicleResponseDto>> getAllVehicles() {
         try {
             List<VehicleResponseDto> vehicles = vehicleService.getAllVehicles();
@@ -59,6 +64,7 @@ public class VehicleController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicles:update')")
     public ResponseEntity<VehicleDto> updateVehicle(@PathVariable @Min(1) Long id, @Valid @RequestBody VehicleDto vehicleDTO) {
         try {
             VehicleDto updatedVehicle = vehicleService.updateVehicle(id, vehicleDTO);
@@ -71,6 +77,7 @@ public class VehicleController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicles:delete')")
     public ResponseEntity<Void> deleteVehicle(@PathVariable @Min(1) Long id) {
         try {
             vehicleService.deleteVehicle(id);
