@@ -16,7 +16,8 @@ public enum Role {
 
     USER(
             Set.of(
-                    VEHICLES_READ
+                    VEHICLES_READ,
+                    USER_READ_BY_USERNAME
             )
     ),
     ADMIN(
@@ -28,12 +29,14 @@ public enum Role {
                     VEHICLES_CREATE,
                     VEHICLES_UPDATE,
                     VEHICLES_DELETE,
-                    VEHICLES_READ
+                    VEHICLES_READ,
+                    USER_READ_BY_USERNAME
             )
     ),
     BUYER(
             Set.of(
-                    VEHICLES_READ
+                    VEHICLES_READ,
+                    USER_READ_BY_USERNAME
             )
     ),
     SELLER(
@@ -41,7 +44,8 @@ public enum Role {
                     VEHICLES_CREATE,
                     VEHICLES_UPDATE,
                     VEHICLES_DELETE,
-                    VEHICLES_READ
+                    VEHICLES_READ,
+                    USER_READ_BY_USERNAME
             )
     )
 

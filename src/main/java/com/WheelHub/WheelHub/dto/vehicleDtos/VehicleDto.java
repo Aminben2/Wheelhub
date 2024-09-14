@@ -17,6 +17,12 @@ public class VehicleDto {
     @NotNull(message = "Seller ID is required")
     private Long sellerId;
 
+    @NotNull
+    private Long vehicleTypeId;
+
+    @NotNull
+    private Long vehicleCategoryId;
+
     @NotBlank(message = "Make is required")
     @Size(max = 255, message = "Make must be less than 255 characters")
     private String make;

@@ -9,11 +9,13 @@ import com.WheelHub.WheelHub.exception.DuplicateResourceException;
 import com.WheelHub.WheelHub.repository.UserRepository;
 import com.WheelHub.WheelHub.util.JwtResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImp {
@@ -57,12 +59,12 @@ public class AuthServiceImp {
     public JwtResponse login(LoginDto loginDto) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginDto.getEmail(),
+                        loginDto.getUsername(),
                         loginDto.getPassword()
                 )
         );
 
-        var user = userRepository.findByEmail(loginDto.getEmail())
+        var user = userRepository.findByUsername(loginDto.getUsername())
                 .orElseThrow();
         var token = jwtService.generateToken(user);
         return JwtResponse.builder()

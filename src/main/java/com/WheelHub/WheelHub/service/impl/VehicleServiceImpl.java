@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
+import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
 import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.entity.Vehicle;
 import com.WheelHub.WheelHub.mapper.VehicleMapper;
@@ -34,9 +35,9 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public VehicleDto getVehicleById(Long id) {
+    public VehicleResponseDto getVehicleById(Long id) {
         return vehicleRepository.findById(id)
-                .map(VehicleMapper::entityToDTO)
+                .map(VehicleMapper::entityToResponseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));
     }
 
@@ -46,9 +47,9 @@ public class VehicleServiceImpl implements VehicleService {
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));
     }
     @Override
-    public List<VehicleDto> getAllVehicles() {
+    public List<VehicleResponseDto> getAllVehicles() {
         return vehicleRepository.findAll().stream()
-                .map(VehicleMapper::entityToDTO)
+                .map(VehicleMapper::entityToResponseDTO)
                 .collect(Collectors.toList());
     }
 

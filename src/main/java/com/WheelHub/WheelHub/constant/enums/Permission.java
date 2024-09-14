@@ -11,6 +11,7 @@ public enum Permission {
     USERS_UPDATE("users:update"),
     USERS_CREATE("users:create"),
     USERS_DELETE("users:delete"),
+    USER_READ_BY_USERNAME("users:read-by-username"),
 
     VEHICLES_READ("vehicles:read"),
     VEHICLES_UPDATE("vehicles:update"),

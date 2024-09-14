@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
+import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
 import com.WheelHub.WheelHub.service.impl.VehicleServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -36,9 +37,9 @@ public class VehicleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VehicleDto> getVehicleById(@PathVariable @Min(1) Long id) {
+    public ResponseEntity<VehicleResponseDto> getVehicleById(@PathVariable @Min(1) Long id) {
         try {
-            VehicleDto vehicleDTO = vehicleService.getVehicleById(id);
+            VehicleResponseDto vehicleDTO = vehicleService.getVehicleById(id);
             return new ResponseEntity<>(vehicleDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -48,9 +49,9 @@ public class VehicleController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<VehicleDto>> getAllVehicles() {
+    public ResponseEntity<List<VehicleResponseDto>> getAllVehicles() {
         try {
-            List<VehicleDto> vehicles = vehicleService.getAllVehicles();
+            List<VehicleResponseDto> vehicles = vehicleService.getAllVehicles();
             return new ResponseEntity<>(vehicles, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

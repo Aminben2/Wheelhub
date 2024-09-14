@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}")
-    @PreAuthorize("hasAuthority('users:read')")
+    @PreAuthorize("hasAuthority('users:read-by-username')")
     public ResponseEntity<UserDto> getOneUserByUsername(@PathVariable String username) {
         try {
             UserDto user = userService.getUserByUsername(username);
