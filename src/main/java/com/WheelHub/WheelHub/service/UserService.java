@@ -1,20 +1,21 @@
 package com.WheelHub.WheelHub.service;
 
 import com.WheelHub.WheelHub.dto.userDtos.UserDto;
+import com.WheelHub.WheelHub.dto.userDtos.UserResponseDto;
 
 import java.util.List;
 
 public interface UserService {
 
-    UserDto createUser(UserDto userDTO);
+    UserResponseDto createUser(UserDto userDTO);
 
-    UserDto getUserById(Long id);
+    UserResponseDto getUserById(Long id);
 
-    UserDto getUserByUsername(String username);
+    UserResponseDto getUserByUsername(String username);
 
-    List<UserDto> getAllUsers();
+    List<UserResponseDto> getAllUsers();
 
-    UserDto updateUser(Long id, UserDto userDTO);
+    UserResponseDto updateUser(Long id, UserDto userDTO);
 
     void deleteUser(Long id);
 }
