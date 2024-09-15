@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.priceDropDtos.PriceDropDto;
+import com.WheelHub.WheelHub.dto.priceDropDtos.PriceDropResponseDto;
 import com.WheelHub.WheelHub.entity.PriceDrop;
 import com.WheelHub.WheelHub.entity.Vehicle;
 import com.WheelHub.WheelHub.mapper.PriceDropMapper;
@@ -22,7 +23,7 @@ public class PriceDropServiceImpl implements PriceDropService {
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public PriceDropDto createPriceDrop(PriceDropDto priceDropDTO) {
+    public PriceDropResponseDto createPriceDrop(PriceDropDto priceDropDTO) {
         Vehicle vehicle = vehicleRepository.findById(priceDropDTO.getVehicleId())
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + priceDropDTO.getVehicleId()));
 
@@ -30,25 +31,32 @@ public class PriceDropServiceImpl implements PriceDropService {
         priceDrop.setVehicle(vehicle);
 
         priceDrop = priceDropRepository.save(priceDrop);
-        return PriceDropMapper.entityToDTO(priceDrop);
+        return PriceDropMapper.entityToResponseDTO(priceDrop);
     }
 
     @Override
-    public PriceDropDto getPriceDropById(Long id) {
+    public PriceDropResponseDto getPriceDropById(Long id) {
         return priceDropRepository.findById(id)
-                .map(PriceDropMapper::entityToDTO)
+                .map(PriceDropMapper::entityToResponseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("PriceDrop not found for id:" + id));
     }
 
     @Override
-    public List<PriceDropDto> getAllPriceDrops() {
+    public PriceDropResponseDto getLatestPriceDropByVehicleId(Long id) {
+        return priceDropRepository.findFirstByVehicleIdOrderByDroppedAtDesc(id)
+                .map(PriceDropMapper::entityToResponseDTO)
+                .orElseThrow(() -> new EntityNotFoundException("PriceDrop not found for vehicle id:" + id));
+    }
+
+    @Override
+    public List<PriceDropResponseDto> getAllPriceDrops() {
         return priceDropRepository.findAll().stream()
-                .map(PriceDropMapper::entityToDTO)
+                .map(PriceDropMapper::entityToResponseDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public PriceDropDto updatePriceDrop(Long id, PriceDropDto priceDropDTO) {
+    public PriceDropResponseDto updatePriceDrop(Long id, PriceDropDto priceDropDTO) {
         PriceDrop existingPriceDrop = priceDropRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PriceDrop not found for id:" + id));
 
@@ -61,7 +69,7 @@ public class PriceDropServiceImpl implements PriceDropService {
         existingPriceDrop.setDroppedAt(priceDropDTO.getDroppedAt());
 
         PriceDrop updatedPriceDrop = priceDropRepository.save(existingPriceDrop);
-        return PriceDropMapper.entityToDTO(updatedPriceDrop);
+        return PriceDropMapper.entityToResponseDTO(updatedPriceDrop);
     }
 
     @Override
