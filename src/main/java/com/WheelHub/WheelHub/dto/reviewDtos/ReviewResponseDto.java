@@ -1,5 +1,6 @@
 package com.WheelHub.WheelHub.dto.reviewDtos;
 
+import com.WheelHub.WheelHub.constant.enums.ReviewType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,4 +24,6 @@ public class ReviewResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    private ReviewType reviewType;
 }

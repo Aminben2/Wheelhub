@@ -38,6 +38,7 @@ public class UserMapper {
 
     public UserResponseDtoForGetByUsername entityToResponseDtoForGetByUsername(User user) {
         return UserResponseDtoForGetByUsername.builder()
+                .id(user.getId())
                 .username(user.getUsername())
                 .role(user.getRole())
                 .build();

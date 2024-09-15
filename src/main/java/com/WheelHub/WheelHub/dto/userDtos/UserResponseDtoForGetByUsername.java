@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class UserResponseDtoForGetByUsername {
+    private Long id;
     private String username;
     private Role role;
 }

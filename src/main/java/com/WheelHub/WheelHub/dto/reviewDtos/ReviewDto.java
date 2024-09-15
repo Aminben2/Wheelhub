@@ -1,5 +1,6 @@
 package com.WheelHub.WheelHub.dto.reviewDtos;
 
+import com.WheelHub.WheelHub.constant.enums.ReviewType;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,4 +26,6 @@ public class ReviewDto {
     @NotBlank(message = "Comment cannot be blank")
     @Size(max = 500, message = "Comment cannot exceed 500 characters")
     private String comment;
+
+    private ReviewType reviewType;
 }

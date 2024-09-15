@@ -30,6 +30,7 @@ public class ReviewMapper {
                 .comment(review.getComment())
                 .createdAt(review.getCreatedAt())
                 .updatedAt(review.getUpdatedAt())
+                .reviewType(review.getReviewType())
                 .build();
     }
 
@@ -37,6 +38,7 @@ public class ReviewMapper {
         Review review = Review.builder()
                 .rating(reviewDTO.getRating())
                 .comment(reviewDTO.getComment())
+                .reviewType(reviewDTO.getReviewType())
                 .build();
 
         if (reviewDTO.getUserId() != null) {

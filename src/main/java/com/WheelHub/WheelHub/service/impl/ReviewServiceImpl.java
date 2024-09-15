@@ -34,8 +34,6 @@ public class ReviewServiceImpl implements ReviewService {
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + reviewDTO.getVehicleId()));
 
         Review review = ReviewMapper.dtoToEntity(reviewDTO);
-        review.setUser(user);
-        review.setVehicle(vehicle);
 
         review = reviewRepository.save(review);
         return ReviewMapper.entityToDTO(review);
