@@ -12,6 +12,7 @@ import com.WheelHub.WheelHub.service.InquiryService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class InquiryServiceImpl implements InquiryService {
     private final VehicleRepository vehicleRepository;
 
     @Override
+    @Transactional
     public InquiryDto createInquiry(InquiryDto inquiryDTO) {
         User user = userRepository.findById(inquiryDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + inquiryDTO.getUserId()));
@@ -54,6 +56,7 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     @Override
+    @Transactional
     public InquiryDto updateInquiry(Long id, InquiryDto inquiryDTO) {
         Inquiry existingInquiry = inquiryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Inquiry not found for id:" + id));

@@ -10,6 +10,7 @@ import com.WheelHub.WheelHub.service.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public NotificationDto createNotification(NotificationDto notificationDTO) {
         User user = userRepository.findById(notificationDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + notificationDTO.getUserId()));
@@ -54,6 +56,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    @Transactional
     public NotificationDto updateNotification(Long id, NotificationDto notificationDTO) {
         Notification existingNotification = notificationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Notification not found for id:" + id));

@@ -11,6 +11,7 @@ import com.WheelHub.WheelHub.service.PriceDropService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class PriceDropServiceImpl implements PriceDropService {
     private final VehicleRepository vehicleRepository;
 
     @Override
+    @Transactional
     public PriceDropResponseDto createPriceDrop(PriceDropDto priceDropDTO) {
         Vehicle vehicle = vehicleRepository.findById(priceDropDTO.getVehicleId())
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + priceDropDTO.getVehicleId()));
@@ -56,6 +58,7 @@ public class PriceDropServiceImpl implements PriceDropService {
     }
 
     @Override
+    @Transactional
     public PriceDropResponseDto updatePriceDrop(Long id, PriceDropDto priceDropDTO) {
         PriceDrop existingPriceDrop = priceDropRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PriceDrop not found for id:" + id));

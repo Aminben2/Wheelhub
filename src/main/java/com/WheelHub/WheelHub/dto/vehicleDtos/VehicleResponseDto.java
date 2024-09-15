@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.dto.vehicleDtos;
 
-import jakarta.validation.constraints.*;
+import com.WheelHub.WheelHub.entity.VehicleCategory;
+import com.WheelHub.WheelHub.entity.VehicleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,12 +34,12 @@ public class VehicleResponseDto {
 
     private String location;
 
-    private Long vehicleTypeId;
-
-    private Long vehicleCategoryId;
-
     private List<Long> features;
 
     private Boolean available;
+
+    private VehicleCategory category;
+
+    private VehicleType type;
 }
 

@@ -9,6 +9,7 @@ import com.WheelHub.WheelHub.service.MessageService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
 
     @Override
+    @Transactional
     public MessageDto save(MessageDto messageDto) {
         Message message = MessageMapper.dtoToEntity(messageDto);
         message = messageRepository.save(message);
@@ -27,6 +29,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    @Transactional
     public MessageDto update(Long id, MessageDto messageDto) {
         Message existingMessage = messageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Message not found for id: " + id));

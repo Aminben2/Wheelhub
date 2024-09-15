@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping("/api/price-drops")
 @RequiredArgsConstructor
 @Valid
+@PreAuthorize("hasAnyRole('ADMIN','BUYER','SELLER')")
 public class PriceDropController {
 
     private final PriceDropServiceImpl priceDropService;

@@ -8,6 +8,7 @@ import com.WheelHub.WheelHub.service.CurrencyService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     private final CurrencyRepository currencyRepository;
 
     @Override
+    @Transactional
     public CurrencyDto createCurrency(CurrencyDto currencyDTO) {
         Currency currency = CurrencyMapper.dtoToEntity(currencyDTO);
         currency = currencyRepository.save(currency);
@@ -40,6 +42,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
+    @Transactional
     public CurrencyDto updateCurrency(Long id, CurrencyDto currencyDTO) {
         Currency existingCurrency = currencyRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Currency not found for id:" + id));

@@ -8,6 +8,7 @@ import com.WheelHub.WheelHub.entity.User;
 import com.WheelHub.WheelHub.exception.DuplicateResourceException;
 import com.WheelHub.WheelHub.repository.UserRepository;
 import com.WheelHub.WheelHub.util.JwtResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,7 @@ public class AuthServiceImp {
     private final AuthenticationManager authenticationManager;
 
 
+    @Transactional
     public JwtResponse register(SignUpDto signUpDto) {
 
         if (userRepository.existsByEmail(signUpDto.getEmail())) {

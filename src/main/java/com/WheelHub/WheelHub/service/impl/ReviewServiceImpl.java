@@ -83,6 +83,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Double getRatingAvgForVehicle(Long id) {
+         return reviewRepository.findAverageRatingByVehicleId(id);
+    }
+
+    @Override
     public void deleteReview(Long id) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Review not found for id:" + id));

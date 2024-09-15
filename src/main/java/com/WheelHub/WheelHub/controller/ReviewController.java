@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -51,6 +52,22 @@ public class ReviewController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/ratingAvg/vehicle/{id}")
+    @PreAuthorize("hasAuthority('reviews:read')")
+    public ResponseEntity<HashMap<String,Double>> getRatingAvgForVehicle(@PathVariable @Min(1) Long id) {
+        try {
+            HashMap<String,Double> res = new HashMap<>();
+            Double avg = reviewService.getRatingAvgForVehicle(id);
+            res.put("avg",avg);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
     }
 
     @GetMapping("/vehicle/{id}/{type}")

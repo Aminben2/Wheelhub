@@ -17,5 +17,7 @@ public interface ReviewService {
 
     ReviewResponseDto updateReview(Long id, ReviewDto reviewDTO);
 
+    Double getRatingAvgForVehicle(Long id);
+
     void deleteReview(Long id);
 }

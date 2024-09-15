@@ -14,6 +14,7 @@ import com.WheelHub.WheelHub.service.LocalizationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ public class LocalizationServiceImpl implements LocalizationService {
     private final CurrencyRepository currencyRepository;
 
     @Override
+    @Transactional
     public LocalizationDto createLocalization(LocalizationDto localizationDTO) {
         User user = userRepository.findById(localizationDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + localizationDTO.getUserId()));
@@ -60,6 +62,7 @@ public class LocalizationServiceImpl implements LocalizationService {
     }
 
     @Override
+    @Transactional
     public LocalizationDto updateLocalization(Long id, LocalizationDto localizationDTO) {
         Localization existingLocalization = localizationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Localization not found for id:" + id));

@@ -12,6 +12,7 @@ import com.WheelHub.WheelHub.service.PaymentService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final VehicleRepository vehicleRepository;
 
     @Override
+    @Transactional
     public PaymentDto createPayment(PaymentDto paymentDTO) {
         User user = userRepository.findById(paymentDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + paymentDTO.getUserId()));
@@ -54,6 +56,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public PaymentDto updatePayment(Long id, PaymentDto paymentDTO) {
         Payment existingPayment = paymentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Payment not found for id:" + id));

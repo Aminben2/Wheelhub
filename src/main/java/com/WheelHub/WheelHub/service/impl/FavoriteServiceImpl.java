@@ -10,6 +10,7 @@ import com.WheelHub.WheelHub.service.FavoriteService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     private final FavoriteRepository favoriteRepository;
 
     @Override
+    @Transactional
     public FavoriteDto save(FavoriteDto favoriteDto) {
         Favorite favorite = FavoriteMapper.dtoToEntity(favoriteDto);
         favorite = favoriteRepository.save(favorite);
@@ -28,6 +30,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
+    @Transactional
     public FavoriteDto update(Long id, FavoriteDto favoriteDto) {
         Favorite existingFavorite = favoriteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Favorite not found for id: " + id));

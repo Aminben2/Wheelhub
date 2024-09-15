@@ -10,6 +10,7 @@ import com.WheelHub.WheelHub.service.OfferService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
 
     @Override
+    @Transactional
     public OfferDto save(OfferDto offerDto) {
         Offer offer = OfferMapper.dtoToEntity(offerDto);
         offer = offerRepository.save(offer);
@@ -28,6 +30,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    @Transactional
     public OfferDto update(Long id, OfferDto offerDto) {
         Offer existingOffer = offerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Offer not found for id: " + id));

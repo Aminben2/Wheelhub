@@ -8,6 +8,7 @@ import com.WheelHub.WheelHub.service.DealershipService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class DealershipServiceImpl implements DealershipService {
     private final DealershipRepository dealershipRepository;
 
     @Override
+    @Transactional
     public DealershipDto createDealership(DealershipDto dealershipDTO) {
         Dealership dealership = DealershipMapper.dtoToEntity(dealershipDTO);
         dealership = dealershipRepository.save(dealership);
@@ -40,6 +42,7 @@ public class DealershipServiceImpl implements DealershipService {
     }
 
     @Override
+    @Transactional
     public DealershipDto updateDealership(Long id, DealershipDto dealershipDTO) {
         Dealership existingDealership = dealershipRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Dealership not found for id:" + id));

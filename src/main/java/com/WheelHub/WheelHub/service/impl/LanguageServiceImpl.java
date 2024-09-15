@@ -8,6 +8,7 @@ import com.WheelHub.WheelHub.service.LanguageService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class LanguageServiceImpl implements LanguageService {
     private final LanguageRepository languageRepository;
 
     @Override
+    @Transactional
     public LanguageDto createLanguage(LanguageDto languageDTO) {
         Language language = LanguageMapper.dtoToEntity(languageDTO);
         language = languageRepository.save(language);
@@ -40,6 +42,7 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
+    @Transactional
     public LanguageDto updateLanguage(Long id, LanguageDto languageDTO) {
         Language existingLanguage = languageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Language not found for id:" + id));

@@ -8,6 +8,7 @@ import com.WheelHub.WheelHub.service.VehicleTypeService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     private final VehicleTypeRepository vehicleTypeRepository;
 
     @Override
+    @Transactional
     public VehicleTypeDto save(VehicleTypeDto vehicleTypeDto) {
         VehicleType vehicleType = VehicleTypeMapper.dtoToEntity(vehicleTypeDto);
         vehicleType = vehicleTypeRepository.save(vehicleType);
@@ -26,6 +28,7 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     }
 
     @Override
+    @Transactional
     public VehicleTypeDto update(Long id, VehicleTypeDto vehicleTypeDto) {
         VehicleType existingVehicleType = vehicleTypeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle type not found for id: " + id));

@@ -9,6 +9,7 @@ import com.WheelHub.WheelHub.service.VehicleFeatureService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class VehicleFeatureServiceImpl implements VehicleFeatureService {
     private final VehicleFeatureRepository vehicleFeatureRepository;
 
     @Override
+    @Transactional
     public VehicleFeatureResponseDto save(VehicleFeatureDto vehicleFeatureDto) {
         VehicleFeature vehicleFeature = VehicleFeatureMapper.dtoToEntity(vehicleFeatureDto);
         vehicleFeature = vehicleFeatureRepository.save(vehicleFeature);
@@ -27,6 +29,7 @@ public class VehicleFeatureServiceImpl implements VehicleFeatureService {
     }
 
     @Override
+    @Transactional
     public VehicleFeatureResponseDto update(Long id, VehicleFeatureDto vehicleFeatureDto) {
         VehicleFeature existingVehicleFeature = vehicleFeatureRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle feature not found for id: " + id));

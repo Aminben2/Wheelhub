@@ -11,6 +11,7 @@ import com.WheelHub.WheelHub.service.VehicleService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class VehicleServiceImpl implements VehicleService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public VehicleDto createVehicle(VehicleDto vehicleDTO) {
         User seller = userRepository.findById(vehicleDTO.getSellerId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + vehicleDTO.getSellerId()));
@@ -54,6 +56,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    @Transactional
     public VehicleDto updateVehicle(Long id, VehicleDto vehicleDTO) {
         Vehicle existingVehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));

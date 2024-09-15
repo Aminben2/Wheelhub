@@ -10,6 +10,7 @@ import com.WheelHub.WheelHub.service.NewsArticleService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class NewsArticleServiceImpl implements NewsArticleService {
     private final NewsArticleRepository newsArticleRepository;
 
     @Override
+    @Transactional
     public NewsArticleDto save(NewsArticleDto newsArticleDto) {
         NewsArticle newsArticle = NewsArticleMapper.dtoToEntity(newsArticleDto);
         newsArticle = newsArticleRepository.save(newsArticle);
@@ -28,6 +30,7 @@ public class NewsArticleServiceImpl implements NewsArticleService {
     }
 
     @Override
+    @Transactional
     public NewsArticleDto update(Long id, NewsArticleDto newsArticleDto) {
         NewsArticle existingNewsArticle = newsArticleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("News article not found for id: " + id));

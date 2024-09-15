@@ -10,6 +10,7 @@ import com.WheelHub.WheelHub.service.SavedSearchService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ public class SavedSearchServiceImpl implements SavedSearchService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public SavedSearchDto createSavedSearch(SavedSearchDto savedSearchDTO) {
         User user = userRepository.findById(savedSearchDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + savedSearchDTO.getUserId()));
@@ -52,6 +54,7 @@ public class SavedSearchServiceImpl implements SavedSearchService {
     }
 
     @Override
+    @Transactional
     public SavedSearchDto updateSavedSearch(Long id, SavedSearchDto savedSearchDTO) {
         SavedSearch existingSavedSearch = savedSearchRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));

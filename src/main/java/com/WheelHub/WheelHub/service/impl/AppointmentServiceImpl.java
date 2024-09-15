@@ -12,6 +12,7 @@ import com.WheelHub.WheelHub.service.AppointmentService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final VehicleRepository vehicleRepository;
 
     @Override
+    @Transactional
     public AppointmentDto createAppointment(AppointmentDto appointmentDTO) {
         User user = userRepository.findById(appointmentDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + appointmentDTO.getUserId()));
@@ -54,6 +56,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    @Transactional
     public AppointmentDto updateAppointment(Long id, AppointmentDto appointmentDTO) {
         Appointment existingAppointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Appointment not found for id:" + id));

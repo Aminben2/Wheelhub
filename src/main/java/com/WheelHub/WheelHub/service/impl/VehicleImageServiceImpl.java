@@ -10,6 +10,7 @@ import com.WheelHub.WheelHub.service.VehicleImageService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ public class VehicleImageServiceImpl implements VehicleImageService {
     private final VehicleRepository vehicleRepository;
 
     @Override
+    @Transactional
     public VehicleImageDto createVehicleImage(VehicleImageDto vehicleImageDTO) {
         Vehicle vehicle = vehicleRepository.findById(vehicleImageDTO.getVehicleId())
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + vehicleImageDTO.getVehicleId()));
@@ -48,6 +50,7 @@ public class VehicleImageServiceImpl implements VehicleImageService {
     }
 
     @Override
+    @Transactional
     public VehicleImageDto updateVehicleImage(Long id, VehicleImageDto vehicleImageDTO) {
         VehicleImage existingVehicleImage = vehicleImageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("VehicleImage not found for id:" + id));

@@ -8,6 +8,7 @@ import com.WheelHub.WheelHub.service.VehicleCategoryService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
     private final VehicleCategoryRepository vehicleCategoryRepository;
 
     @Override
+    @Transactional
     public VehicleCategoryDto save(VehicleCategoryDto vehicleCategoryDto) {
         VehicleCategory vehicleCategory = VehicleCategoryMapper.dtoToEntity(vehicleCategoryDto);
         vehicleCategory = vehicleCategoryRepository.save(vehicleCategory);
@@ -26,6 +28,7 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
     }
 
     @Override
+    @Transactional
     public VehicleCategoryDto update(Long id, VehicleCategoryDto vehicleCategoryDto) {
         VehicleCategory existingVehicleCategory = vehicleCategoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle category not found for id: " + id));

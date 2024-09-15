@@ -31,7 +31,7 @@ public class VehicleDto {
     @Size(max = 255, message = "Model must be less than 255 characters")
     private String model;
 
-    @Min(value = 1886, message = "Year must be after 1885") // The first automobile was made in 1886
+    @Min(value = 1886, message = "Year must be after 1885")
     @Max(value = 9999, message = "Year must be a valid year")
     private Integer year;
 
