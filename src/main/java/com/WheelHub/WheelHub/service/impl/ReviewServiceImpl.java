@@ -27,7 +27,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public ReviewDto createReview(ReviewDto reviewDTO) {
+    public ReviewResponseDto createReview(ReviewDto reviewDTO) {
         User user = userRepository.findById(reviewDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + reviewDTO.getUserId()));
         Vehicle vehicle = vehicleRepository.findById(reviewDTO.getVehicleId())
@@ -36,20 +36,20 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = ReviewMapper.dtoToEntity(reviewDTO);
 
         review = reviewRepository.save(review);
-        return ReviewMapper.entityToDTO(review);
+        return ReviewMapper.entityToResponseDTO(review);
     }
 
     @Override
-    public ReviewDto getReviewById(Long id) {
+    public ReviewResponseDto getReviewById(Long id) {
         return reviewRepository.findById(id)
-                .map(ReviewMapper::entityToDTO)
+                .map(ReviewMapper::entityToResponseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Review not found for id:" + id));
     }
 
     @Override
-    public List<ReviewDto> getAllReviews() {
+    public List<ReviewResponseDto> getAllReviews() {
         return reviewRepository.findAll().stream()
-                .map(ReviewMapper::entityToDTO)
+                .map(ReviewMapper::entityToResponseDTO)
                 .collect(Collectors.toList());
     }
 
@@ -62,7 +62,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewDto updateReview(Long id, ReviewDto reviewDTO) {
+    public ReviewResponseDto updateReview(Long id, ReviewDto reviewDTO) {
         Review existingReview = reviewRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Review not found for id:" + id));
 
@@ -77,7 +77,7 @@ public class ReviewServiceImpl implements ReviewService {
         existingReview.setComment(reviewDTO.getComment());
 
         Review updatedReview = reviewRepository.save(existingReview);
-        return ReviewMapper.entityToDTO(updatedReview);
+        return ReviewMapper.entityToResponseDTO(updatedReview);
     }
 
     @Override

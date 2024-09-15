@@ -28,10 +28,10 @@ public class ReviewController {
 
     @PostMapping("/")
     @PreAuthorize("hasAuthority('reviews:create')")
-    public ResponseEntity<ReviewDto> createReview(
+    public ResponseEntity<ReviewResponseDto> createReview(
             @Valid @RequestBody ReviewDto reviewDTO) {
         try {
-            ReviewDto createdReview = reviewService.createReview(reviewDTO);
+            ReviewResponseDto createdReview = reviewService.createReview(reviewDTO);
             return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -42,9 +42,9 @@ public class ReviewController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('reviews:read')")
-    public ResponseEntity<ReviewDto> getReviewById(@PathVariable @Min(1) Long id) {
+    public ResponseEntity<ReviewResponseDto> getReviewById(@PathVariable @Min(1) Long id) {
         try {
-            ReviewDto reviewDTO = reviewService.getReviewById(id);
+            ReviewResponseDto reviewDTO = reviewService.getReviewById(id);
             return new ResponseEntity<>(reviewDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -74,9 +74,9 @@ public class ReviewController {
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('reviews:read')")
-    public ResponseEntity<List<ReviewDto>> getAllReviews() {
+    public ResponseEntity<List<ReviewResponseDto>> getAllReviews() {
         try {
-            List<ReviewDto> reviews = reviewService.getAllReviews();
+            List<ReviewResponseDto> reviews = reviewService.getAllReviews();
             if (reviews.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -88,9 +88,9 @@ public class ReviewController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('reviews:update')")
-    public ResponseEntity<ReviewDto> updateReview(@PathVariable @Min(1) Long id,@Valid @RequestBody ReviewDto reviewDTO) {
+    public ResponseEntity<ReviewResponseDto> updateReview(@PathVariable @Min(1) Long id,@Valid @RequestBody ReviewDto reviewDTO) {
         try {
-            ReviewDto updatedReview = reviewService.updateReview(id, reviewDTO);
+            ReviewResponseDto updatedReview = reviewService.updateReview(id, reviewDTO);
             return new ResponseEntity<>(updatedReview, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
