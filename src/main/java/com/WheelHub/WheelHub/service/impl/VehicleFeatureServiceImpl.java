@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.vehicleFeatureDtos.VehicleFeatureDto;
+import com.WheelHub.WheelHub.dto.vehicleFeatureDtos.VehicleFeatureResponseDto;
 import com.WheelHub.WheelHub.entity.VehicleFeature;
 import com.WheelHub.WheelHub.mapper.VehicleFeatureMapper;
 import com.WheelHub.WheelHub.repository.VehicleFeatureRepository;
@@ -19,35 +20,42 @@ public class VehicleFeatureServiceImpl implements VehicleFeatureService {
     private final VehicleFeatureRepository vehicleFeatureRepository;
 
     @Override
-    public VehicleFeatureDto save(VehicleFeatureDto vehicleFeatureDto) {
+    public VehicleFeatureResponseDto save(VehicleFeatureDto vehicleFeatureDto) {
         VehicleFeature vehicleFeature = VehicleFeatureMapper.dtoToEntity(vehicleFeatureDto);
         vehicleFeature = vehicleFeatureRepository.save(vehicleFeature);
-        return VehicleFeatureMapper.entityToDTO(vehicleFeature);
+        return VehicleFeatureMapper.entityToResponseDTO(vehicleFeature);
     }
 
     @Override
-    public VehicleFeatureDto update(Long id, VehicleFeatureDto vehicleFeatureDto) {
+    public VehicleFeatureResponseDto update(Long id, VehicleFeatureDto vehicleFeatureDto) {
         VehicleFeature existingVehicleFeature = vehicleFeatureRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle feature not found for id: " + id));
 
         existingVehicleFeature.setFeatureName(vehicleFeatureDto.getFeatureName());
 
         VehicleFeature updatedVehicleFeature = vehicleFeatureRepository.save(existingVehicleFeature);
-        return VehicleFeatureMapper.entityToDTO(updatedVehicleFeature);
+        return VehicleFeatureMapper.entityToResponseDTO(updatedVehicleFeature);
     }
 
 
     @Override
-    public VehicleFeatureDto findById(Long id) {
+    public VehicleFeatureResponseDto findById(Long id) {
         return vehicleFeatureRepository.findById(id)
-                .map(VehicleFeatureMapper::entityToDTO)
+                .map(VehicleFeatureMapper::entityToResponseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle feature not found for id: " + id));
     }
 
     @Override
-    public List<VehicleFeatureDto> findAll() {
+    public List<VehicleFeatureResponseDto> findAll() {
         return vehicleFeatureRepository.findAll().stream()
-                .map(VehicleFeatureMapper::entityToDTO)
+                .map(VehicleFeatureMapper::entityToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<VehicleFeatureResponseDto> findFeaturesForVehicle(Long id) {
+        return vehicleFeatureRepository.findFeaturesByVehicleId(id).stream()
+                .map(VehicleFeatureMapper::entityToResponseDTO)
                 .collect(Collectors.toList());
     }
 

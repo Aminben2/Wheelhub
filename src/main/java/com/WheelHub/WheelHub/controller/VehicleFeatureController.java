@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.vehicleFeatureDtos.VehicleFeatureDto;
+import com.WheelHub.WheelHub.dto.vehicleFeatureDtos.VehicleFeatureResponseDto;
 import com.WheelHub.WheelHub.service.VehicleFeatureService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -22,9 +23,9 @@ public class VehicleFeatureController {
     private final VehicleFeatureService vehicleFeatureService;
 
     @PostMapping("/")
-    public ResponseEntity<VehicleFeatureDto> createVehicleFeature(@Valid @RequestBody VehicleFeatureDto vehicleFeatureDto) {
+    public ResponseEntity<VehicleFeatureResponseDto> createVehicleFeature(@Valid @RequestBody VehicleFeatureDto vehicleFeatureDto) {
         try {
-            VehicleFeatureDto createdVehicleFeature = vehicleFeatureService.save(vehicleFeatureDto);
+            VehicleFeatureResponseDto createdVehicleFeature = vehicleFeatureService.save(vehicleFeatureDto);
             return new ResponseEntity<>(createdVehicleFeature, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -32,9 +33,9 @@ public class VehicleFeatureController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VehicleFeatureDto> getVehicleFeatureById(@PathVariable @Min(1) Long id) {
+    public ResponseEntity<VehicleFeatureResponseDto> getVehicleFeatureById(@PathVariable @Min(1) Long id) {
         try {
-            VehicleFeatureDto vehicleFeatureDto = vehicleFeatureService.findById(id);
+            VehicleFeatureResponseDto vehicleFeatureDto = vehicleFeatureService.findById(id);
             return new ResponseEntity<>(vehicleFeatureDto, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -44,9 +45,20 @@ public class VehicleFeatureController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<VehicleFeatureDto>> getAllVehicleFeatures() {
+    public ResponseEntity<List<VehicleFeatureResponseDto>> getAllVehicleFeatures() {
         try {
-            List<VehicleFeatureDto> vehicleFeatures = vehicleFeatureService.findAll();
+            List<VehicleFeatureResponseDto> vehicleFeatures = vehicleFeatureService.findAll();
+            return new ResponseEntity<>(vehicleFeatures, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/vehicle/{id}")
+    public ResponseEntity<List<VehicleFeatureResponseDto>> getVehicleFeatures(@PathVariable("id") @Min(1) Long id) {
+        try {
+            List<VehicleFeatureResponseDto> vehicleFeatures = vehicleFeatureService.findFeaturesForVehicle(id);
             return new ResponseEntity<>(vehicleFeatures, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,9 +66,9 @@ public class VehicleFeatureController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VehicleFeatureDto> updateVehicleFeature(@PathVariable @Min(1) Long id, @Valid @RequestBody VehicleFeatureDto vehicleFeatureDto) {
+    public ResponseEntity<VehicleFeatureResponseDto> updateVehicleFeature(@PathVariable @Min(1) Long id, @Valid @RequestBody VehicleFeatureDto vehicleFeatureDto) {
         try {
-            VehicleFeatureDto updatedVehicleFeature = vehicleFeatureService.update(id, vehicleFeatureDto);
+            VehicleFeatureResponseDto updatedVehicleFeature = vehicleFeatureService.update(id, vehicleFeatureDto);
             return new ResponseEntity<>(updatedVehicleFeature, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

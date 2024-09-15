@@ -38,5 +38,7 @@ public class VehicleResponseDto {
     private Long vehicleCategoryId;
 
     private List<Long> features;
+
+    private Boolean available;
 }
 

@@ -55,6 +55,9 @@ public class Vehicle {
     @Size(max = 50, message = "Model cannot exceed 50 characters")
     private String model;
 
+    @Column(name = "available",nullable = false)
+    private Boolean available = true;
+
     @Column(name = "year")
     @Min(value = 1886, message = "Year must be greater than or equal to 1886")
     @Max(value = 2100, message = "Year must be less than or equal to 2100")

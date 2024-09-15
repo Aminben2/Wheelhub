@@ -46,6 +46,7 @@ public class VehicleMapper {
                 .price(vehicle.getPrice())
                 .description(vehicle.getDescription())
                 .location(vehicle.getLocation())
+                .available(vehicle.getAvailable())
                 .build();
     }
 

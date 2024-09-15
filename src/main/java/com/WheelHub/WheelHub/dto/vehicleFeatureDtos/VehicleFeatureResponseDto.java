@@ -1,6 +1,5 @@
-package com.WheelHub.WheelHub.entity;
+package com.WheelHub.WheelHub.dto.vehicleFeatureDtos;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,16 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-@Entity
-@Table(name = "vehicle_features")
-public class VehicleFeature {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class VehicleFeatureResponseDto {
     private String featureName;
-
+    private Long id;
     private String description;
 }
-

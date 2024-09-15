@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class VehicleFeatureDto {
     private String featureName;
+    private String description;
 }
 
