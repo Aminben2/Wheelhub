@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageDto;
+import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageResponseDto;
 import com.WheelHub.WheelHub.entity.Vehicle;
 import com.WheelHub.WheelHub.entity.VehicleImage;
 import com.WheelHub.WheelHub.mapper.VehicleImageMapper;
@@ -24,7 +25,7 @@ public class VehicleImageServiceImpl implements VehicleImageService {
 
     @Override
     @Transactional
-    public VehicleImageDto createVehicleImage(VehicleImageDto vehicleImageDTO) {
+    public VehicleImageResponseDto createVehicleImage(VehicleImageDto vehicleImageDTO) {
         Vehicle vehicle = vehicleRepository.findById(vehicleImageDTO.getVehicleId())
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + vehicleImageDTO.getVehicleId()));
 
@@ -32,26 +33,33 @@ public class VehicleImageServiceImpl implements VehicleImageService {
         vehicleImage.setVehicle(vehicle);
 
         vehicleImage = vehicleImageRepository.save(vehicleImage);
-        return VehicleImageMapper.entityToDTO(vehicleImage);
+        return VehicleImageMapper.entityToResponseDTO(vehicleImage);
     }
 
     @Override
-    public VehicleImageDto getVehicleImageById(Long id) {
+    public VehicleImageResponseDto getVehicleImageById(Long id) {
         return vehicleImageRepository.findById(id)
-                .map(VehicleImageMapper::entityToDTO)
+                .map(VehicleImageMapper::entityToResponseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("VehicleImage not found for id:" + id));
     }
 
     @Override
-    public List<VehicleImageDto> getAllVehicleImages() {
+    public List<VehicleImageResponseDto> getImagesForVehicle(Long id) {
+        return vehicleImageRepository.findByVehicleId(id).stream()
+                .map(VehicleImageMapper::entityToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<VehicleImageResponseDto> getAllVehicleImages() {
         return vehicleImageRepository.findAll().stream()
-                .map(VehicleImageMapper::entityToDTO)
+                .map(VehicleImageMapper::entityToResponseDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public VehicleImageDto updateVehicleImage(Long id, VehicleImageDto vehicleImageDTO) {
+    public VehicleImageResponseDto updateVehicleImage(Long id, VehicleImageDto vehicleImageDTO) {
         VehicleImage existingVehicleImage = vehicleImageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("VehicleImage not found for id:" + id));
 
@@ -62,7 +70,7 @@ public class VehicleImageServiceImpl implements VehicleImageService {
         existingVehicleImage.setImageUrl(vehicleImageDTO.getImageUrl());
 
         VehicleImage updatedVehicleImage = vehicleImageRepository.save(existingVehicleImage);
-        return VehicleImageMapper.entityToDTO(updatedVehicleImage);
+        return VehicleImageMapper.entityToResponseDTO(updatedVehicleImage);
     }
 
     @Override

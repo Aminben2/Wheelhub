@@ -1,6 +1,8 @@
 package com.WheelHub.WheelHub.mapper;
 
+import com.WheelHub.WheelHub.dto.vehicleFeatureDtos.VehicleFeatureResponseDto;
 import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageDto;
+import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageResponseDto;
 import com.WheelHub.WheelHub.entity.VehicleImage;
 import com.WheelHub.WheelHub.entity.Vehicle;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,20 @@ public class VehicleImageMapper {
 
         return VehicleImageDto.builder()
                 .vehicleId(vehicleImage.getVehicle() != null ? vehicleImage.getVehicle().getId() : null)
+                .imageUrl(vehicleImage.getImageUrl())
+                .build();
+    }
+
+
+    public static VehicleImageResponseDto entityToResponseDTO(VehicleImage vehicleImage) {
+        if (vehicleImage == null) {
+            return null;
+        }
+
+        return VehicleImageResponseDto.builder()
+                .id(vehicleImage.getId())
+                .createdAt(vehicleImage.getCreatedAt())
+                .updatedAt(vehicleImage.getUpdatedAt())
                 .imageUrl(vehicleImage.getImageUrl())
                 .build();
     }

@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +19,13 @@ import java.util.List;
 @RequestMapping("/api/vehicle-features")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('ADMIN','SELLER','BUYER')")
 public class VehicleFeatureController {
 
     private final VehicleFeatureService vehicleFeatureService;
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('vehicleFeature:create')")
     public ResponseEntity<VehicleFeatureResponseDto> createVehicleFeature(@Valid @RequestBody VehicleFeatureDto vehicleFeatureDto) {
         try {
             VehicleFeatureResponseDto createdVehicleFeature = vehicleFeatureService.save(vehicleFeatureDto);
@@ -33,6 +36,7 @@ public class VehicleFeatureController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicleFeature:read')")
     public ResponseEntity<VehicleFeatureResponseDto> getVehicleFeatureById(@PathVariable @Min(1) Long id) {
         try {
             VehicleFeatureResponseDto vehicleFeatureDto = vehicleFeatureService.findById(id);
@@ -45,6 +49,7 @@ public class VehicleFeatureController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('vehicleFeature:read')")
     public ResponseEntity<List<VehicleFeatureResponseDto>> getAllVehicleFeatures() {
         try {
             List<VehicleFeatureResponseDto> vehicleFeatures = vehicleFeatureService.findAll();
@@ -56,6 +61,7 @@ public class VehicleFeatureController {
 
 
     @GetMapping("/vehicle/{id}")
+    @PreAuthorize("hasAuthority('vehicleFeature:read')")
     public ResponseEntity<List<VehicleFeatureResponseDto>> getVehicleFeatures(@PathVariable("id") @Min(1) Long id) {
         try {
             List<VehicleFeatureResponseDto> vehicleFeatures = vehicleFeatureService.findFeaturesForVehicle(id);
@@ -66,6 +72,7 @@ public class VehicleFeatureController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicleFeature:update')")
     public ResponseEntity<VehicleFeatureResponseDto> updateVehicleFeature(@PathVariable @Min(1) Long id, @Valid @RequestBody VehicleFeatureDto vehicleFeatureDto) {
         try {
             VehicleFeatureResponseDto updatedVehicleFeature = vehicleFeatureService.update(id, vehicleFeatureDto);
@@ -78,6 +85,7 @@ public class VehicleFeatureController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicleFeature:delete')")
     public ResponseEntity<Void> deleteVehicleFeature(@PathVariable @Min(1) Long id) {
         try {
             vehicleFeatureService.deleteById(id);

@@ -26,6 +26,7 @@ public class PriceDropController {
     private final PriceDropServiceImpl priceDropService;
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('priceDrop:create')")
     public ResponseEntity<PriceDropResponseDto> createPriceDrop(@Valid @RequestBody PriceDropDto priceDropDTO) {
         try {
             PriceDropResponseDto createdPriceDrop = priceDropService.createPriceDrop(priceDropDTO);
@@ -38,6 +39,7 @@ public class PriceDropController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('priceDrop:read')")
     public ResponseEntity<PriceDropResponseDto> getPriceDropById(@PathVariable @Min(1) Long id) {
         try {
             PriceDropResponseDto priceDropDTO = priceDropService.getPriceDropById(id);
@@ -50,6 +52,7 @@ public class PriceDropController {
     }
 
     @GetMapping("/latest/vehicle/{id}")
+    @PreAuthorize("hasAuthority('priceDrop:read')")
     public ResponseEntity<PriceDropResponseDto> getLatestPriceDropForVehicle(@PathVariable @Min(1) Long id) {
         try {
             PriceDropResponseDto priceDropDTO = priceDropService.getLatestPriceDropByVehicleId(id);
@@ -62,6 +65,7 @@ public class PriceDropController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('priceDrop:read')")
     public ResponseEntity<List<PriceDropResponseDto>> getAllPriceDrops() {
         try {
             List<PriceDropResponseDto> priceDrops = priceDropService.getAllPriceDrops();
@@ -72,6 +76,7 @@ public class PriceDropController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('priceDrop:update')")
     public ResponseEntity<PriceDropResponseDto> updatePriceDrop(@PathVariable @Min(1) Long id,@Valid @RequestBody PriceDropDto priceDropDTO) {
         try {
             PriceDropResponseDto updatedPriceDrop = priceDropService.updatePriceDrop(id, priceDropDTO);
@@ -84,6 +89,7 @@ public class PriceDropController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('priceDrop:delete')")
     public ResponseEntity<Void> deletePriceDrop(@PathVariable @Min(1) Long id) {
         try {
             priceDropService.deletePriceDrop(id);

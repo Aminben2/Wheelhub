@@ -20,15 +20,32 @@ public enum Role {
                     USERS_CREATE,
                     USERS_READ,
                     USERS_UPDATE,
+                    USER_READ_BY_USERNAME,
+
                     VEHICLES_CREATE,
                     VEHICLES_UPDATE,
                     VEHICLES_DELETE,
                     VEHICLES_READ,
-                    USER_READ_BY_USERNAME,
+
                     REVIEWS_READ,
                     REVIEWS_UPDATE,
                     REVIEWS_CREATE,
-                    REVIEWS_DELETE
+                    REVIEWS_DELETE,
+
+                    PRICE_DROP_READ,
+                    PRICE_DROP_UPDATE,
+                    PRICE_DROP_CREATE,
+                    PRICE_DROP_DELETE,
+
+                    VEHICLE_IMAGE_READ,
+                    VEHICLE_IMAGE_UPDATE,
+                    VEHICLE_IMAGE_CREATE,
+                    VEHICLE_IMAGE_DELETE,
+
+                    VEHICLE_FEATURE_READ,
+                    VEHICLE_FEATURE_UPDATE,
+                    VEHICLE_FEATURE_CREATE,
+                    VEHICLE_FEATURE_DELETE
             )
     ),
     BUYER(
@@ -38,7 +55,10 @@ public enum Role {
                     REVIEWS_READ,
                     REVIEWS_UPDATE,
                     REVIEWS_CREATE,
-                    REVIEWS_DELETE
+                    REVIEWS_DELETE,
+                    VEHICLE_FEATURE_READ,
+                    VEHICLE_IMAGE_READ,
+                    PRICE_DROP_READ
             )
     ),
     SELLER(
@@ -47,8 +67,22 @@ public enum Role {
                     VEHICLES_UPDATE,
                     VEHICLES_DELETE,
                     VEHICLES_READ,
+
                     USER_READ_BY_USERNAME,
-                    REVIEWS_READ
+
+                    REVIEWS_READ,
+
+                    VEHICLE_FEATURE_UPDATE,
+                    VEHICLE_FEATURE_CREATE,
+                    VEHICLE_FEATURE_DELETE,
+
+                    VEHICLE_IMAGE_UPDATE,
+                    VEHICLE_IMAGE_CREATE,
+                    VEHICLE_IMAGE_DELETE,
+
+                    PRICE_DROP_UPDATE,
+                    PRICE_DROP_CREATE,
+                    PRICE_DROP_DELETE
             )
     )
 

@@ -23,6 +23,20 @@ public enum Permission {
     REVIEWS_CREATE("reviews:create"),
     REVIEWS_DELETE("reviews:delete"),
 
+    PRICE_DROP_READ("priceDrop:read"),
+    PRICE_DROP_UPDATE("priceDrop:update"),
+    PRICE_DROP_CREATE("priceDrop:create"),
+    PRICE_DROP_DELETE("priceDrop:delete"),
+
+    VEHICLE_IMAGE_READ("vehicleImage:read"),
+    VEHICLE_IMAGE_UPDATE("vehicleImage:update"),
+    VEHICLE_IMAGE_CREATE("vehicleImage:create"),
+    VEHICLE_IMAGE_DELETE("vehicleImage:delete"),
+
+    VEHICLE_FEATURE_READ("vehicleFeature:read"),
+    VEHICLE_FEATURE_UPDATE("vehicleFeature:update"),
+    VEHICLE_FEATURE_CREATE("vehicleFeature:create"),
+    VEHICLE_FEATURE_DELETE("vehicleFeature:delete"),
     ;
 
     private final String permission;

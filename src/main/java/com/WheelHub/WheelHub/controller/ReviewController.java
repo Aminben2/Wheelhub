@@ -64,10 +64,9 @@ public class ReviewController {
             return new ResponseEntity<>(res, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
     }
 
     @GetMapping("/vehicle/{id}/{type}")
