@@ -1,5 +1,6 @@
 package com.WheelHub.WheelHub.controller;
 
+import com.WheelHub.WheelHub.constant.enums.Role;
 import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.dto.userDtos.UserResponseDto;
 import com.WheelHub.WheelHub.dto.userDtos.UserResponseDtoForGetByUsername;
@@ -26,11 +27,11 @@ public class UserController {
 
     private final UserServiceImpl userService;
 
-    @GetMapping("/all")
+    @GetMapping("/all/{role}")
     @PreAuthorize("hasAuthority('users:read')")
-    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDto>> getUsers(@PathVariable String role) {
         try {
-            List<UserResponseDto> users = userService.getAllUsers();
+            List<UserResponseDto> users = userService.getUsers(Role.valueOf(role.toUpperCase()));
             return ResponseEntity.ok(users);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

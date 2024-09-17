@@ -1,5 +1,6 @@
 package com.WheelHub.WheelHub.service.impl;
 
+import com.WheelHub.WheelHub.constant.enums.Role;
 import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.dto.userDtos.UserResponseDto;
 import com.WheelHub.WheelHub.dto.userDtos.UserResponseDtoForGetByUsername;
@@ -45,8 +46,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDto> getAllUsers() {
-        return userRepository.findAll().stream()
+    public List<UserResponseDto> getUsers(Role role) {
+        return userRepository.findByRole(role).stream()
                 .map(userMapper::entityToResponseDTO)
                 .collect(Collectors.toList());
     }

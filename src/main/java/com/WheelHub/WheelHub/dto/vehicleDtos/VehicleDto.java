@@ -1,5 +1,6 @@
 package com.WheelHub.WheelHub.dto.vehicleDtos;
 
+import com.WheelHub.WheelHub.constant.enums.AvailabilityStatus;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,4 +49,7 @@ public class VehicleDto {
 
     @Size(max = 255, message = "Location must be less than 255 characters")
     private String location;
+
+    @NotNull(message = "Status is required")
+    private AvailabilityStatus status;
 }

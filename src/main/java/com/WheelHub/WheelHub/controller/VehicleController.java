@@ -2,6 +2,10 @@ package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
+import com.WheelHub.WheelHub.entity.Vehicle;
+import com.WheelHub.WheelHub.entity.VehicleImage;
+import com.WheelHub.WheelHub.repository.VehicleRepository;
+import com.WheelHub.WheelHub.service.impl.VehicleImageServiceImpl;
 import com.WheelHub.WheelHub.service.impl.VehicleServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -13,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,6 +30,14 @@ import java.util.List;
 public class VehicleController {
 
     private final VehicleServiceImpl vehicleService;
+
+    @PostMapping("/{vehicleId}/upload-images")
+    public ResponseEntity<List<String>> uploadVehicleImages(
+            @PathVariable Long vehicleId,
+            @RequestParam("images") MultipartFile[] imageFiles) {
+        List<String> imageUrls = vehicleService.saveImages(imageFiles, vehicleId);
+        return ResponseEntity.ok(imageUrls);
+    }
 
     @PostMapping("/")
     @PreAuthorize("hasAuthority('vehicles:create')")

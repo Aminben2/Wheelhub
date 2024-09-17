@@ -2,6 +2,7 @@ package com.WheelHub.WheelHub.service;
 
 import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageDto;
 import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageResponseDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

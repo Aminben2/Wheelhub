@@ -2,9 +2,7 @@ package com.WheelHub.WheelHub.mapper;
 
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
-import com.WheelHub.WheelHub.entity.Vehicle;
-import com.WheelHub.WheelHub.entity.User;
-import com.WheelHub.WheelHub.entity.VehicleFeature;
+import com.WheelHub.WheelHub.entity.*;
 import org.springframework.stereotype.Component;
 
 
@@ -41,13 +39,12 @@ public class VehicleMapper {
                 .sellerId(vehicle.getSeller() != null ? vehicle.getSeller().getId() : null)
                 .make(vehicle.getMake())
                 .model(vehicle.getModel())
-
                 .year(vehicle.getYear())
                 .mileage(vehicle.getMileage())
                 .price(vehicle.getPrice())
                 .description(vehicle.getDescription())
                 .location(vehicle.getLocation())
-                .available(vehicle.getAvailable())
+                .status(vehicle.getStatus())
                 .build();
     }
 
@@ -63,12 +60,26 @@ public class VehicleMapper {
                 .mileage(vehicleDTO.getMileage())
                 .price(vehicleDTO.getPrice())
                 .description(vehicleDTO.getDescription())
+                .status(vehicleDTO.getStatus())
                 .location(vehicleDTO.getLocation());
+
 
         if (vehicleDTO.getSellerId() != null) {
             User seller = new User();
             seller.setId(vehicleDTO.getSellerId());
             vehicleBuilder.seller(seller);
+        }
+
+        if (vehicleDTO.getVehicleTypeId() != null) {
+            VehicleType type = new VehicleType();
+            type.setId(vehicleDTO.getVehicleTypeId());
+            vehicleBuilder.vehicleType(type);
+        }
+
+        if (vehicleDTO.getVehicleCategoryId() != null) {
+            VehicleCategory category = new VehicleCategory();
+            category.setId(vehicleDTO.getVehicleCategoryId());
+            vehicleBuilder.category(category);
         }
 
         return vehicleBuilder.build();

@@ -1,5 +1,6 @@
 package com.WheelHub.WheelHub.dto.vehicleDtos;
 
+import com.WheelHub.WheelHub.constant.enums.AvailabilityStatus;
 import com.WheelHub.WheelHub.entity.VehicleCategory;
 import com.WheelHub.WheelHub.entity.VehicleType;
 import lombok.AllArgsConstructor;
@@ -36,7 +37,7 @@ public class VehicleResponseDto {
 
     private List<Long> features;
 
-    private Boolean available;
+    private AvailabilityStatus status;
 
     private VehicleCategory category;
 

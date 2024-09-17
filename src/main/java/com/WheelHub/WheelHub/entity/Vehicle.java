@@ -1,5 +1,6 @@
 package com.WheelHub.WheelHub.entity;
 
+import com.WheelHub.WheelHub.constant.enums.AvailabilityStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -44,6 +47,9 @@ public class Vehicle {
     )
     private Set<VehicleFeature> features = new HashSet<>();
 
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
+    private List<VehicleImage> images = new ArrayList<>();
+
 
     @Column(name = "make", nullable = false)
     @NotBlank(message = "Make is mandatory")
@@ -55,8 +61,9 @@ public class Vehicle {
     @Size(max = 50, message = "Model cannot exceed 50 characters")
     private String model;
 
-    @Column(name = "available",nullable = false)
-    private Boolean available = true;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private AvailabilityStatus status = AvailabilityStatus.IN_STOCK;
 
     @Column(name = "year")
     @Min(value = 1886, message = "Year must be greater than or equal to 1886")

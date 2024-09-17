@@ -2,6 +2,7 @@ package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageDto;
 import com.WheelHub.WheelHub.dto.vehicleImagesDtos.VehicleImageResponseDto;
+import com.WheelHub.WheelHub.repository.VehicleRepository;
 import com.WheelHub.WheelHub.service.impl.VehicleImageServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -25,6 +26,7 @@ import java.util.List;
 public class VehicleImageController {
 
     private final VehicleImageServiceImpl vehicleImageService;
+    private final VehicleRepository vehicleRepository;
 
     @PostMapping("/")
     @PreAuthorize("hasAuthority('vehicleFeature:create')")

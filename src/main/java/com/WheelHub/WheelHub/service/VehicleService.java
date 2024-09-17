@@ -4,6 +4,7 @@ import com.WheelHub.WheelHub.dto.reviewDtos.ReviewDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
 import com.WheelHub.WheelHub.entity.Vehicle;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface VehicleService {
     void deleteVehicle(Long id);
 
     Vehicle findById(Long id);
+
+    public List<String> saveImages(MultipartFile[] imageFiles, Long vehicleId);
 }
