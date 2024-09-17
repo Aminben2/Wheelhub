@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.vehicleCategoryDtos.VehicleCategoryDto;
+import com.WheelHub.WheelHub.dto.vehicleCategoryDtos.VehicleCategoryResponseDto;
 import com.WheelHub.WheelHub.entity.VehicleCategory;
 import com.WheelHub.WheelHub.mapper.VehicleCategoryMapper;
 import com.WheelHub.WheelHub.repository.VehicleCategoryRepository;
@@ -21,36 +22,36 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
 
     @Override
     @Transactional
-    public VehicleCategoryDto save(VehicleCategoryDto vehicleCategoryDto) {
+    public VehicleCategoryResponseDto save(VehicleCategoryDto vehicleCategoryDto) {
         VehicleCategory vehicleCategory = VehicleCategoryMapper.dtoToEntity(vehicleCategoryDto);
         vehicleCategory = vehicleCategoryRepository.save(vehicleCategory);
-        return VehicleCategoryMapper.entityToDTO(vehicleCategory);
+        return VehicleCategoryMapper.entityToResponseDTO(vehicleCategory);
     }
 
     @Override
     @Transactional
-    public VehicleCategoryDto update(Long id, VehicleCategoryDto vehicleCategoryDto) {
+    public VehicleCategoryResponseDto update(Long id, VehicleCategoryDto vehicleCategoryDto) {
         VehicleCategory existingVehicleCategory = vehicleCategoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle category not found for id: " + id));
 
         existingVehicleCategory.setCategoryName(vehicleCategoryDto.getCategoryName());
 
         VehicleCategory updatedVehicleCategory = vehicleCategoryRepository.save(existingVehicleCategory);
-        return VehicleCategoryMapper.entityToDTO(updatedVehicleCategory);
+        return VehicleCategoryMapper.entityToResponseDTO(updatedVehicleCategory);
     }
 
 
     @Override
-    public VehicleCategoryDto findById(Long id) {
+    public VehicleCategoryResponseDto findById(Long id) {
         return vehicleCategoryRepository.findById(id)
-                .map(VehicleCategoryMapper::entityToDTO)
+                .map(VehicleCategoryMapper::entityToResponseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle category not found for id: " + id));
     }
 
     @Override
-    public List<VehicleCategoryDto> findAll() {
+    public List<VehicleCategoryResponseDto> findAll() {
         return vehicleCategoryRepository.findAll().stream()
-                .map(VehicleCategoryMapper::entityToDTO)
+                .map(VehicleCategoryMapper::entityToResponseDTO)
                 .collect(Collectors.toList());
     }
 

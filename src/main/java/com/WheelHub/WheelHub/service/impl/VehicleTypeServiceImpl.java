@@ -1,6 +1,7 @@
 package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.vehicleTypeDtos.VehicleTypeDto;
+import com.WheelHub.WheelHub.dto.vehicleTypeDtos.VehicleTypeResponseDto;
 import com.WheelHub.WheelHub.entity.VehicleType;
 import com.WheelHub.WheelHub.mapper.VehicleTypeMapper;
 import com.WheelHub.WheelHub.repository.VehicleTypeRepository;
@@ -21,36 +22,36 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
 
     @Override
     @Transactional
-    public VehicleTypeDto save(VehicleTypeDto vehicleTypeDto) {
+    public VehicleTypeResponseDto save(VehicleTypeDto vehicleTypeDto) {
         VehicleType vehicleType = VehicleTypeMapper.dtoToEntity(vehicleTypeDto);
         vehicleType = vehicleTypeRepository.save(vehicleType);
-        return VehicleTypeMapper.entityToDTO(vehicleType);
+        return VehicleTypeMapper.entityToResponseDTO(vehicleType);
     }
 
     @Override
     @Transactional
-    public VehicleTypeDto update(Long id, VehicleTypeDto vehicleTypeDto) {
+    public VehicleTypeResponseDto update(Long id, VehicleTypeDto vehicleTypeDto) {
         VehicleType existingVehicleType = vehicleTypeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle type not found for id: " + id));
 
         existingVehicleType.setTypeName(vehicleTypeDto.getTypeName());
 
         VehicleType updatedVehicleType = vehicleTypeRepository.save(existingVehicleType);
-        return VehicleTypeMapper.entityToDTO(updatedVehicleType);
+        return VehicleTypeMapper.entityToResponseDTO(updatedVehicleType);
     }
 
 
     @Override
-    public VehicleTypeDto findById(Long id) {
+    public VehicleTypeResponseDto findById(Long id) {
         return vehicleTypeRepository.findById(id)
-                .map(VehicleTypeMapper::entityToDTO)
+                .map(VehicleTypeMapper::entityToResponseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle type not found for id: " + id));
     }
 
     @Override
-    public List<VehicleTypeDto> findAll() {
+    public List<VehicleTypeResponseDto> findAll() {
         return vehicleTypeRepository.findAll().stream()
-                .map(VehicleTypeMapper::entityToDTO)
+                .map(VehicleTypeMapper::entityToResponseDTO)
                 .collect(Collectors.toList());
     }
 
