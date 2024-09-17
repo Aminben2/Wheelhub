@@ -17,6 +17,7 @@ public enum Permission {
     VEHICLES_UPDATE("vehicles:update"),
     VEHICLES_CREATE("vehicles:create"),
     VEHICLES_DELETE("vehicles:delete"),
+    VEHICLES_IMAGE_UPLOAD("vehicles:imageUpload"),
 
     REVIEWS_READ("reviews:read"),
     REVIEWS_UPDATE("reviews:update"),
@@ -37,6 +38,16 @@ public enum Permission {
     VEHICLE_FEATURE_UPDATE("vehicleFeature:update"),
     VEHICLE_FEATURE_CREATE("vehicleFeature:create"),
     VEHICLE_FEATURE_DELETE("vehicleFeature:delete"),
+
+    VEHICLE_CATEGORY_READ("vehicleCategory:read"),
+    VEHICLE_CATEGORY_UPDATE("vehicleCategory:update"),
+    VEHICLE_CATEGORY_CREATE("vehicleCategory:create"),
+    VEHICLE_CATEGORY_DELETE("vehicleCategory:delete"),
+
+    VEHICLE_TYPE_READ("vehicleType:read"),
+    VEHICLE_TYPE_UPDATE("vehicleType:update"),
+    VEHICLE_TYPE_CREATE("vehicleType:create"),
+    VEHICLE_TYPE_DELETE("vehicleType:delete"),
     ;
 
     private final String permission;

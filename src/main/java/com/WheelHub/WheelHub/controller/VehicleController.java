@@ -2,10 +2,6 @@ package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
-import com.WheelHub.WheelHub.entity.Vehicle;
-import com.WheelHub.WheelHub.entity.VehicleImage;
-import com.WheelHub.WheelHub.repository.VehicleRepository;
-import com.WheelHub.WheelHub.service.impl.VehicleImageServiceImpl;
 import com.WheelHub.WheelHub.service.impl.VehicleServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -32,6 +28,7 @@ public class VehicleController {
     private final VehicleServiceImpl vehicleService;
 
     @PostMapping("/{vehicleId}/upload-images")
+    @PreAuthorize("hasAuthority('vehicles:imageUpload')")
     public ResponseEntity<List<String>> uploadVehicleImages(
             @PathVariable Long vehicleId,
             @RequestParam("images") MultipartFile[] imageFiles) {

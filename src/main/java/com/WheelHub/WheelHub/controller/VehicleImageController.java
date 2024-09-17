@@ -29,7 +29,7 @@ public class VehicleImageController {
     private final VehicleRepository vehicleRepository;
 
     @PostMapping("/")
-    @PreAuthorize("hasAuthority('vehicleFeature:create')")
+    @PreAuthorize("hasAuthority('vehicleImage:create')")
     public ResponseEntity<VehicleImageResponseDto> createVehicleImage(@Valid @RequestBody VehicleImageDto vehicleImageDTO) {
         try {
             VehicleImageResponseDto createdVehicleImage = vehicleImageService.createVehicleImage(vehicleImageDTO);
@@ -42,7 +42,7 @@ public class VehicleImageController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('vehicleFeature:read')")
+    @PreAuthorize("hasAuthority('vehicleImage:read')")
     public ResponseEntity<VehicleImageResponseDto> getVehicleImageById(@PathVariable @Min(1) Long id) {
         try {
             VehicleImageResponseDto vehicleImageDTO = vehicleImageService.getVehicleImageById(id);
@@ -55,7 +55,7 @@ public class VehicleImageController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('vehicleFeature:read')")
+    @PreAuthorize("hasAuthority('vehicleImage:read')")
     public ResponseEntity<List<VehicleImageResponseDto>> getAllVehicleImages() {
         try {
             List<VehicleImageResponseDto> vehicleImages = vehicleImageService.getAllVehicleImages();
@@ -66,7 +66,7 @@ public class VehicleImageController {
     }
 
     @GetMapping("/vehicle/{id}")
-    @PreAuthorize("hasAuthority('vehicleFeature:read')")
+    @PreAuthorize("hasAuthority('vehicleImage:read')")
     public ResponseEntity<List<VehicleImageResponseDto>> getImagesForVehicle(@PathVariable @Min(1) Long id) {
         try {
             List<VehicleImageResponseDto> vehicleImages = vehicleImageService.getImagesForVehicle(id);
@@ -77,7 +77,7 @@ public class VehicleImageController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('vehicleFeature:update')")
+    @PreAuthorize("hasAuthority('vehicleImage:update')")
     public ResponseEntity<VehicleImageResponseDto> updateVehicleImage(@PathVariable @Min(1) Long id,@Valid @RequestBody VehicleImageDto vehicleImageDTO) {
         try {
             VehicleImageResponseDto updatedVehicleImage = vehicleImageService.updateVehicleImage(id, vehicleImageDTO);
@@ -90,7 +90,7 @@ public class VehicleImageController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('vehicleFeature:delete')")
+    @PreAuthorize("hasAuthority('vehicleImage:delete')")
     public ResponseEntity<Void> deleteVehicleImage(@PathVariable @Min(1) Long id) {
         try {
             vehicleImageService.deleteVehicleImage(id);

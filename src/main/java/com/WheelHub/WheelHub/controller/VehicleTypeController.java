@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +18,13 @@ import java.util.List;
 @RequestMapping("/api/vehicle-types")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('ADMIN','SELLER','BUYER')")
 public class VehicleTypeController {
 
     private final VehicleTypeService vehicleTypeService;
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('vehicleType:create')")
     public ResponseEntity<VehicleTypeDto> createVehicleType(@Valid @RequestBody VehicleTypeDto vehicleTypeDto) {
         try {
             VehicleTypeDto createdVehicleType = vehicleTypeService.save(vehicleTypeDto);
@@ -32,6 +35,7 @@ public class VehicleTypeController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicleType:read')")
     public ResponseEntity<VehicleTypeDto> getVehicleTypeById(@PathVariable @Min(1) Long id) {
         try {
             VehicleTypeDto vehicleTypeDto = vehicleTypeService.findById(id);
@@ -44,6 +48,7 @@ public class VehicleTypeController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('vehicleType:read')")
     public ResponseEntity<List<VehicleTypeDto>> getAllVehicleTypes() {
         try {
             List<VehicleTypeDto> vehicleTypes = vehicleTypeService.findAll();
@@ -54,6 +59,7 @@ public class VehicleTypeController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicleType:update')")
     public ResponseEntity<VehicleTypeDto> updateVehicleType(@PathVariable @Min(1) Long id, @Valid @RequestBody VehicleTypeDto vehicleTypeDto) {
         try {
             VehicleTypeDto updatedVehicleType = vehicleTypeService.update(id, vehicleTypeDto);
@@ -66,6 +72,7 @@ public class VehicleTypeController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicleType:delete')")
     public ResponseEntity<Void> deleteVehicleType(@PathVariable @Min(1) Long id) {
         try {
             vehicleTypeService.deleteById(id);

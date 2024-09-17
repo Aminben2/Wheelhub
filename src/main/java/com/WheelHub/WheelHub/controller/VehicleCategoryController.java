@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +18,13 @@ import java.util.List;
 @RequestMapping("/api/vehicle-categories")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('ADMIN','SELLER','BUYER')")
 public class VehicleCategoryController {
 
     private final VehicleCategoryService vehicleCategoryService;
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('vehicleCategory:create')")
     public ResponseEntity<VehicleCategoryDto> createVehicleCategory(@Valid @RequestBody VehicleCategoryDto vehicleCategoryDto) {
         try {
             VehicleCategoryDto createdVehicleCategory = vehicleCategoryService.save(vehicleCategoryDto);
@@ -32,6 +35,7 @@ public class VehicleCategoryController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicleCategory:read')")
     public ResponseEntity<VehicleCategoryDto> getVehicleCategoryById(@PathVariable @Min(1) Long id) {
         try {
             VehicleCategoryDto vehicleCategoryDto = vehicleCategoryService.findById(id);
@@ -44,6 +48,7 @@ public class VehicleCategoryController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('vehicleCategory:read')")
     public ResponseEntity<List<VehicleCategoryDto>> getAllVehicleCategories() {
         try {
             List<VehicleCategoryDto> vehicleCategories = vehicleCategoryService.findAll();
@@ -54,6 +59,7 @@ public class VehicleCategoryController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicleCategory:update')")
     public ResponseEntity<VehicleCategoryDto> updateVehicleCategory(@PathVariable @Min(1) Long id, @Valid @RequestBody VehicleCategoryDto vehicleCategoryDto) {
         try {
             VehicleCategoryDto updatedVehicleCategory = vehicleCategoryService.update(id, vehicleCategoryDto);
@@ -66,6 +72,7 @@ public class VehicleCategoryController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('vehicleCategory:delete')")
     public ResponseEntity<Void> deleteVehicleCategory(@PathVariable @Min(1) Long id) {
         try {
             vehicleCategoryService.deleteById(id);
