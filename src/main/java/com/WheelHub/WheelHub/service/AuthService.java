@@ -6,7 +6,7 @@ import com.WheelHub.WheelHub.util.JwtResponse;
 
 public interface AuthService {
 
-    JwtResponse register(SignUpDto signUpDto);
-    JwtResponse login(LoginDto loginDto);
+  JwtResponse register(SignUpDto signUpDto);
 
+  JwtResponse login(LoginDto loginDto);
 }

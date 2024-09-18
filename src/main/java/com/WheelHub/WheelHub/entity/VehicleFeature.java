@@ -14,12 +14,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "vehicle_features")
 public class VehicleFeature {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String featureName;
+  private String featureName;
 
-    private String description;
+  private String description;
 }
-

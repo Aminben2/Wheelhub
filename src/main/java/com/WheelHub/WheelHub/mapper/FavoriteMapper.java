@@ -9,28 +9,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class FavoriteMapper {
 
-    public static FavoriteDto entityToDTO(Favorite favorite) {
-        return FavoriteDto.builder()
-                .userId(favorite.getUser() != null ? favorite.getUser().getId() : null)
-                .vehicleId(favorite.getVehicle() != null ? favorite.getVehicle().getId() : null)
-                .build();
+  public static FavoriteDto entityToDTO(Favorite favorite) {
+    return FavoriteDto.builder()
+        .userId(favorite.getUser() != null ? favorite.getUser().getId() : null)
+        .vehicleId(favorite.getVehicle() != null ? favorite.getVehicle().getId() : null)
+        .build();
+  }
+
+  public static Favorite dtoToEntity(FavoriteDto favoriteDto) {
+    Favorite favorite = Favorite.builder().build();
+
+    if (favoriteDto.getUserId() != null) {
+      User user = new User();
+      user.setId(favoriteDto.getUserId());
+      favorite.setUser(user);
+    }
+    if (favoriteDto.getVehicleId() != null) {
+      Vehicle vehicle = new Vehicle();
+      vehicle.setId(favoriteDto.getVehicleId());
+      favorite.setVehicle(vehicle);
     }
 
-    public static Favorite dtoToEntity(FavoriteDto favoriteDto) {
-        Favorite favorite = Favorite.builder()
-                .build();
-
-        if (favoriteDto.getUserId() != null) {
-            User user = new User();
-            user.setId(favoriteDto.getUserId());
-            favorite.setUser(user);
-        }
-        if (favoriteDto.getVehicleId() != null) {
-            Vehicle vehicle = new Vehicle();
-            vehicle.setId(favoriteDto.getVehicleId());
-            favorite.setVehicle(vehicle);
-        }
-
-        return favorite;
-    }
+    return favorite;
+  }
 }

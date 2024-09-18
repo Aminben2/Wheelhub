@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class DealershipInventoryDto {
 
-    @NotNull(message = "Dealership ID is mandatory")
-    private Long dealershipId;
+  @NotNull(message = "Dealership ID is mandatory")
+  private Long dealershipId;
 
-    @NotNull(message = "Vehicle ID is mandatory")
-    private Long vehicleId;
+  @NotNull(message = "Vehicle ID is mandatory")
+  private Long vehicleId;
 
-    @Min(value = 0, message = "Stock cannot be negative")
-    private int stock;
+  @Min(value = 0, message = "Stock cannot be negative")
+  private int stock;
 }

@@ -8,71 +8,87 @@ import com.WheelHub.WheelHub.repository.SavedSearchRepository;
 import com.WheelHub.WheelHub.repository.UserRepository;
 import com.WheelHub.WheelHub.service.SavedSearchService;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class SavedSearchServiceImpl implements SavedSearchService {
 
-    private final SavedSearchRepository savedSearchRepository;
-    private final UserRepository userRepository;
+  private final SavedSearchRepository savedSearchRepository;
+  private final UserRepository userRepository;
 
-    @Override
-    @Transactional
-    public SavedSearchDto createSavedSearch(SavedSearchDto savedSearchDTO) {
-        User user = userRepository.findById(savedSearchDTO.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + savedSearchDTO.getUserId()));
+  @Override
+  @Transactional
+  public SavedSearchDto createSavedSearch(SavedSearchDto savedSearchDTO) {
+    User user =
+        userRepository
+            .findById(savedSearchDTO.getUserId())
+            .orElseThrow(
+                () ->
+                    new EntityNotFoundException(
+                        "User not found for id:" + savedSearchDTO.getUserId()));
 
-        SavedSearch savedSearch = SavedSearchMapper.dtoToEntity(savedSearchDTO);
-        savedSearch.setUser(user);
-        savedSearch = savedSearchRepository.save(savedSearch);
-        return SavedSearchMapper.entityToDTO(savedSearch);
-    }
+    SavedSearch savedSearch = SavedSearchMapper.dtoToEntity(savedSearchDTO);
+    savedSearch.setUser(user);
+    savedSearch = savedSearchRepository.save(savedSearch);
+    return SavedSearchMapper.entityToDTO(savedSearch);
+  }
 
-    @Override
-    public SavedSearchDto getSavedSearchById(Long id) {
-        return savedSearchRepository.findById(id)
-                .map(SavedSearchMapper::entityToDTO)
-                .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));
-    }
+  @Override
+  public SavedSearchDto getSavedSearchById(Long id) {
+    return savedSearchRepository
+        .findById(id)
+        .map(SavedSearchMapper::entityToDTO)
+        .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));
+  }
 
-    @Override
-    public List<SavedSearchDto> getAllSavedSearches() {
-        return savedSearchRepository.findAll().stream()
-                .map(SavedSearchMapper::entityToDTO)
-                .collect(Collectors.toList());
-    }
-    @Override
-    public SavedSearch findById(Long id) {
-        return savedSearchRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));
-    }
+  @Override
+  public List<SavedSearchDto> getAllSavedSearches() {
+    return savedSearchRepository.findAll().stream()
+        .map(SavedSearchMapper::entityToDTO)
+        .collect(Collectors.toList());
+  }
 
-    @Override
-    @Transactional
-    public SavedSearchDto updateSavedSearch(Long id, SavedSearchDto savedSearchDTO) {
-        SavedSearch existingSavedSearch = savedSearchRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));
+  @Override
+  public SavedSearch findById(Long id) {
+    return savedSearchRepository
+        .findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));
+  }
 
-        User user = userRepository.findById(savedSearchDTO.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + savedSearchDTO.getUserId()));
+  @Override
+  @Transactional
+  public SavedSearchDto updateSavedSearch(Long id, SavedSearchDto savedSearchDTO) {
+    SavedSearch existingSavedSearch =
+        savedSearchRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));
 
-        existingSavedSearch.setUser(user);
-        existingSavedSearch.setSearchCriteria(savedSearchDTO.getSearchCriteria());
+    User user =
+        userRepository
+            .findById(savedSearchDTO.getUserId())
+            .orElseThrow(
+                () ->
+                    new EntityNotFoundException(
+                        "User not found for id:" + savedSearchDTO.getUserId()));
 
-        SavedSearch updatedSavedSearch = savedSearchRepository.save(existingSavedSearch);
-        return SavedSearchMapper.entityToDTO(updatedSavedSearch);
-    }
+    existingSavedSearch.setUser(user);
+    existingSavedSearch.setSearchCriteria(savedSearchDTO.getSearchCriteria());
 
-    @Override
-    public void deleteSavedSearch(Long id) {
-        SavedSearch savedSearch = savedSearchRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));
-        savedSearchRepository.delete(savedSearch);
-    }
+    SavedSearch updatedSavedSearch = savedSearchRepository.save(existingSavedSearch);
+    return SavedSearchMapper.entityToDTO(updatedSavedSearch);
+  }
+
+  @Override
+  public void deleteSavedSearch(Long id) {
+    SavedSearch savedSearch =
+        savedSearchRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("SavedSearch not found for id:" + id));
+    savedSearchRepository.delete(savedSearch);
+  }
 }

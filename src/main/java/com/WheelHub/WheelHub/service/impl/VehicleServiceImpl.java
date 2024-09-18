@@ -11,121 +11,139 @@ import com.WheelHub.WheelHub.repository.VehicleImageRepository;
 import com.WheelHub.WheelHub.repository.VehicleRepository;
 import com.WheelHub.WheelHub.service.VehicleService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class VehicleServiceImpl implements VehicleService {
 
-    private final VehicleRepository vehicleRepository;
-    private final UserRepository userRepository;
-    private final VehicleImageRepository vehicleImageRepository;
+  private final VehicleRepository vehicleRepository;
+  private final UserRepository userRepository;
+  private final VehicleImageRepository vehicleImageRepository;
 
-    @Value("${app.upload.dir}")
-    private String uploadDir;
+  @Value("${app.upload.dir}")
+  private String uploadDir;
 
-    @Override
-    public List<String> saveImages(MultipartFile[] imageFiles, Long vehicleId) {
-        try {
-            Vehicle vehicle = vehicleRepository.findById(vehicleId)
-                    .orElseThrow(() -> new RuntimeException("Vehicle not found"));
+  @Override
+  public List<String> saveImages(MultipartFile[] imageFiles, Long vehicleId) {
+    try {
+      Vehicle vehicle =
+          vehicleRepository
+              .findById(vehicleId)
+              .orElseThrow(() -> new RuntimeException("Vehicle not found"));
 
-            List<String> imageUrls = new ArrayList<>();
+      List<String> imageUrls = new ArrayList<>();
 
-            File dir = new File(uploadDir);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
+      File dir = new File(uploadDir);
+      if (!dir.exists()) {
+        dir.mkdirs();
+      }
 
-            for (MultipartFile imageFile : imageFiles) {
-                String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-                File file = new File(dir, fileName);
+      for (MultipartFile imageFile : imageFiles) {
+        String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+        File file = new File(dir, fileName);
 
-                imageFile.transferTo(file);
+        imageFile.transferTo(file);
 
-                VehicleImage vehicleImage = new VehicleImage();
-                vehicleImage.setImageUrl("/uploads/vehicleImages/" + fileName);
-                vehicleImage.setVehicle(vehicle);
-                vehicleImageRepository.save(vehicleImage);
+        VehicleImage vehicleImage = new VehicleImage();
+        vehicleImage.setImageUrl("/uploads/vehicleImages/" + fileName);
+        vehicleImage.setVehicle(vehicle);
+        vehicleImageRepository.save(vehicleImage);
 
-                imageUrls.add("/uploads/vehicleImages/" + fileName);
-            }
+        imageUrls.add("/uploads/vehicleImages/" + fileName);
+      }
 
-            return imageUrls;
-        }catch (IOException e) {
-            throw new RuntimeException("Failed to save images", e);
-        }
+      return imageUrls;
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to save images", e);
     }
+  }
 
-    @Override
-    @Transactional
-    public VehicleDto createVehicle(VehicleDto vehicleDTO) {
-        User seller = userRepository.findById(vehicleDTO.getSellerId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + vehicleDTO.getSellerId()));
+  @Override
+  @Transactional
+  public VehicleDto createVehicle(VehicleDto vehicleDTO) {
+    User seller =
+        userRepository
+            .findById(vehicleDTO.getSellerId())
+            .orElseThrow(
+                () ->
+                    new EntityNotFoundException(
+                        "User not found for id:" + vehicleDTO.getSellerId()));
 
-        Vehicle vehicle = VehicleMapper.dtoToEntity(vehicleDTO);
-        vehicle.setSeller(seller);
+    Vehicle vehicle = VehicleMapper.dtoToEntity(vehicleDTO);
+    vehicle.setSeller(seller);
 
-        vehicle = vehicleRepository.save(vehicle);
-        return VehicleMapper.entityToDTO(vehicle);
-    }
+    vehicle = vehicleRepository.save(vehicle);
+    return VehicleMapper.entityToDTO(vehicle);
+  }
 
-    @Override
-    public VehicleResponseDto getVehicleById(Long id) {
-        return vehicleRepository.findById(id)
-                .map(VehicleMapper::entityToResponseDTO)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));
-    }
+  @Override
+  public VehicleResponseDto getVehicleById(Long id) {
+    return vehicleRepository
+        .findById(id)
+        .map(VehicleMapper::entityToResponseDTO)
+        .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));
+  }
 
-    @Override
-    public Vehicle findById(Long id) {
-        return vehicleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));
-    }
-    @Override
-    public List<VehicleResponseDto> getAllVehicles() {
-        return vehicleRepository.findAll().stream()
-                .map(VehicleMapper::entityToResponseDTO)
-                .collect(Collectors.toList());
-    }
+  @Override
+  public Vehicle findById(Long id) {
+    return vehicleRepository
+        .findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));
+  }
 
-    @Override
-    @Transactional
-    public VehicleDto updateVehicle(Long id, VehicleDto vehicleDTO) {
-        Vehicle existingVehicle = vehicleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));
+  @Override
+  public List<VehicleResponseDto> getAllVehicles() {
+    return vehicleRepository.findAll().stream()
+        .map(VehicleMapper::entityToResponseDTO)
+        .collect(Collectors.toList());
+  }
 
-        User seller = userRepository.findById(vehicleDTO.getSellerId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found for id:" + vehicleDTO.getSellerId()));
+  @Override
+  @Transactional
+  public VehicleDto updateVehicle(Long id, VehicleDto vehicleDTO) {
+    Vehicle existingVehicle =
+        vehicleRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));
 
-        existingVehicle.setSeller(seller);
-        existingVehicle.setMake(vehicleDTO.getMake());
-        existingVehicle.setModel(vehicleDTO.getModel());
-        existingVehicle.setYear(vehicleDTO.getYear());
-        existingVehicle.setMileage(vehicleDTO.getMileage());
-        existingVehicle.setPrice(vehicleDTO.getPrice());
-        existingVehicle.setDescription(vehicleDTO.getDescription());
-        existingVehicle.setLocation(vehicleDTO.getLocation());
+    User seller =
+        userRepository
+            .findById(vehicleDTO.getSellerId())
+            .orElseThrow(
+                () ->
+                    new EntityNotFoundException(
+                        "User not found for id:" + vehicleDTO.getSellerId()));
 
-        Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
-        return VehicleMapper.entityToDTO(updatedVehicle);
-    }
+    existingVehicle.setSeller(seller);
+    existingVehicle.setMake(vehicleDTO.getMake());
+    existingVehicle.setModel(vehicleDTO.getModel());
+    existingVehicle.setYear(vehicleDTO.getYear());
+    existingVehicle.setMileage(vehicleDTO.getMileage());
+    existingVehicle.setPrice(vehicleDTO.getPrice());
+    existingVehicle.setDescription(vehicleDTO.getDescription());
+    existingVehicle.setLocation(vehicleDTO.getLocation());
 
-    @Override
-    public void deleteVehicle(Long id) {
-        Vehicle vehicle = vehicleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));
-        vehicleRepository.delete(vehicle);
-    }
+    Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
+    return VehicleMapper.entityToDTO(updatedVehicle);
+  }
+
+  @Override
+  public void deleteVehicle(Long id) {
+    Vehicle vehicle =
+        vehicleRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Vehicle not found for id:" + id));
+    vehicleRepository.delete(vehicle);
+  }
 }

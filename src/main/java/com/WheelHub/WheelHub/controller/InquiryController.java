@@ -4,12 +4,12 @@ import com.WheelHub.WheelHub.dto.InquiryDtos.InquiryDto;
 import com.WheelHub.WheelHub.service.impl.InquiryServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -24,17 +24,17 @@ public class InquiryController {
 
     @PostMapping("/")
     public ResponseEntity<InquiryDto> createInquiry(@Valid @RequestBody InquiryDto inquiryDTO) {
- 
-            InquiryDto createdInquiry = inquiryService.createInquiry(inquiryDTO);
-            return new ResponseEntity<>(createdInquiry, HttpStatus.CREATED);
+
+        InquiryDto createdInquiry = inquiryService.createInquiry(inquiryDTO);
+        return new ResponseEntity<>(createdInquiry, HttpStatus.CREATED);
 
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<InquiryDto> getInquiryById(@PathVariable @Min(1) Long id) {
- 
-            InquiryDto inquiryDTO = inquiryService.getInquiryById(id);
-            return new ResponseEntity<>(inquiryDTO, HttpStatus.OK);
+
+        InquiryDto inquiryDTO = inquiryService.getInquiryById(id);
+        return new ResponseEntity<>(inquiryDTO, HttpStatus.OK);
 
     }
 
@@ -47,9 +47,8 @@ public class InquiryController {
     @PutMapping("/{id}")
     public ResponseEntity<InquiryDto> updateInquiry(@PathVariable @Min(1) Long id,
                                                     @Valid @RequestBody InquiryDto inquiryDTO) {
- 
-            InquiryDto updatedInquiry = inquiryService.updateInquiry(id, inquiryDTO);
-            return new ResponseEntity<>(updatedInquiry, HttpStatus.OK);
+        InquiryDto updatedInquiry = inquiryService.updateInquiry(id, inquiryDTO);
+        return new ResponseEntity<>(updatedInquiry, HttpStatus.OK);
 
     }
 

@@ -1,26 +1,24 @@
 package com.WheelHub.WheelHub.service;
 
-import com.WheelHub.WheelHub.dto.reviewDtos.ReviewDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
 import com.WheelHub.WheelHub.entity.Vehicle;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface VehicleService {
 
-    VehicleDto createVehicle(VehicleDto vehicleDTO);
+  VehicleDto createVehicle(VehicleDto vehicleDTO);
 
-    VehicleResponseDto getVehicleById(Long id);
+  VehicleResponseDto getVehicleById(Long id);
 
-    List<VehicleResponseDto> getAllVehicles();
+  List<VehicleResponseDto> getAllVehicles();
 
-    VehicleDto updateVehicle(Long id, VehicleDto vehicleDTO);
+  VehicleDto updateVehicle(Long id, VehicleDto vehicleDTO);
 
-    void deleteVehicle(Long id);
+  void deleteVehicle(Long id);
 
-    Vehicle findById(Long id);
+  Vehicle findById(Long id);
 
-    public List<String> saveImages(MultipartFile[] imageFiles, Long vehicleId);
+  List<String> saveImages(MultipartFile[] imageFiles, Long vehicleId);
 }
