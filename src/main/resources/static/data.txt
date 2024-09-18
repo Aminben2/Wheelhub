@@ -1,0 +1,235 @@
+SET FOREIGN_KEY_CHECKS = 0;
+
+DELETE FROM appointments;
+DELETE FROM dealership_inventory;
+DELETE FROM favorites;
+DELETE FROM inquiries;
+DELETE FROM localization;
+DELETE FROM news_articles;
+DELETE FROM notifications;
+DELETE FROM offers;
+DELETE FROM payments;
+DELETE FROM price_drops;
+DELETE FROM reviews;
+DELETE FROM saved_searches;
+DELETE FROM vehicle_feature_mapping;
+DELETE FROM vehicle_images;
+DELETE FROM vehicles;
+DELETE FROM users;
+DELETE FROM vehicle_categories;
+DELETE FROM vehicle_features;
+DELETE FROM vehicle_types;
+DELETE FROM dealerships;
+DELETE FROM currencies;
+DELETE FROM languages;
+
+
+INSERT INTO currencies (id, created_at, currency_code, currency_name, exchange_rate, updated_at) VALUES
+(1, NOW(), 'USD', 'US Dollar', 1.000000, NOW()),
+(2, NOW(), 'EUR', 'Euro', 0.850000, NOW()),
+(3, NOW(), 'JPY', 'Japanese Yen', 110.000000, NOW()),
+(4, NOW(), 'GBP', 'British Pound', 0.750000, NOW()),
+(5, NOW(), 'AUD', 'Australian Dollar', 1.300000, NOW()),
+(6, NOW(), 'CAD', 'Canadian Dollar', 1.250000, NOW()),
+(7, NOW(), 'CHF', 'Swiss Franc', 0.920000, NOW()),
+(8, NOW(), 'CNY', 'Chinese Yuan', 6.450000, NOW()),
+(9, NOW(), 'SEK', 'Swedish Krona', 8.700000, NOW()),
+(10, NOW(), 'NZD', 'New Zealand Dollar', 1.400000, NOW());
+
+
+INSERT INTO users (id, created_at, email, enabled, name, password, phone_number, profile_picture, role, updated_at, username) VALUES
+(1, NOW(), 'user1@example.com', TRUE, 'User One', 'pass1', '111-222-3333', NULL, 'ADMIN', NOW(), 'userone'),
+(2, NOW(), 'user2@example.com', TRUE, 'User Two', 'pass2', '222-333-4444', NULL, 'BUYER', NOW(), 'usertwo'),
+(3, NOW(), 'user3@example.com', TRUE, 'User Three', 'pass3', '333-444-5555', NULL, 'SELLER', NOW(), 'userthree'),
+(4, NOW(), 'user4@example.com', TRUE, 'User Four', 'pass4', '444-555-6666', NULL, 'ADMIN', NOW(), 'userfour'),
+(5, NOW(), 'user5@example.com', TRUE, 'User Five', 'pass5', '555-666-7777', NULL, 'BUYER', NOW(), 'userfive'),
+(6, NOW(), 'user6@example.com', TRUE, 'User Six', 'pass6', '666-777-8888', NULL, 'SELLER', NOW(), 'usersix'),
+(7, NOW(), 'user7@example.com', TRUE, 'User Seven', 'pass7', '777-888-9999', NULL, 'ADMIN', NOW(), 'userseven'),
+(8, NOW(), 'user8@example.com', TRUE, 'User Eight', 'pass8', '888-999-0000', NULL, 'BUYER', NOW(), 'usereight'),
+(9, NOW(), 'user9@example.com', TRUE, 'User Nine', 'pass9', '999-000-1111', NULL, 'SELLER', NOW(), 'usernine'),
+(10, NOW(), 'user10@example.com', TRUE, 'User Ten', 'pass10', '000-111-2222', NULL, 'ADMIN', NOW(), 'userten');
+
+INSERT INTO users (id, created_at, email, enabled, name, password, phone_number, profile_picture, role, updated_at, username) VALUES
+(11, NOW(), 'user11@example.com', TRUE, 'User Eleven', 'pass11', '111-111-1111', NULL, 'SELLER', NOW(), 'usereleven'),
+(12, NOW(), 'user12@example.com', TRUE, 'User Twelve', 'pass12', '222-111-1111', NULL, 'BUYER', NOW(), 'usertwelve'),
+(13, NOW(), 'user13@example.com', TRUE, 'User Thirteen', 'pass13', '333-111-1111', NULL, 'ADMIN', NOW(), 'userthirteen'),
+(14, NOW(), 'user14@example.com', TRUE, 'User Fourteen', 'pass14', '444-111-1111', NULL, 'SELLER', NOW(), 'userfourteen'),
+(15, NOW(), 'user15@example.com', TRUE, 'User Fifteen', 'pass15', '555-111-1111', NULL, 'BUYER', NOW(), 'userfifteen'),
+(16, NOW(), 'user16@example.com', TRUE, 'User Sixteen', 'pass16', '666-111-1111', NULL, 'SELLER', NOW(), 'usersixteen'),
+(17, NOW(), 'user17@example.com', TRUE, 'User Seventeen', 'pass17', '777-111-1111', NULL, 'ADMIN', NOW(), 'userseventeen'),
+(18, NOW(), 'user18@example.com', TRUE, 'User Eighteen', 'pass18', '888-111-1111', NULL, 'SELLER', NOW(), 'usereighteen'),
+(19, NOW(), 'user19@example.com', TRUE, 'User Nineteen', 'pass19', '999-111-1111', NULL, 'BUYER', NOW(), 'usernineteen'),
+(20, NOW(), 'user20@example.com', TRUE, 'User Twenty', 'pass20', '000-111-1111', NULL, 'SELLER', NOW(), 'usertwenty');
+
+
+INSERT INTO dealerships (id, contact_info, created_at, location, name, updated_at) VALUES
+(1, 'info@dealership1.com', NOW(), 'Location 1', 'Dealership 1', NOW()),
+(2, 'info@dealership2.com', NOW(), 'Location 2', 'Dealership 2', NOW()),
+(3, 'info@dealership3.com', NOW(), 'Location 3', 'Dealership 3', NOW()),
+(4, 'info@dealership4.com', NOW(), 'Location 4', 'Dealership 4', NOW()),
+(5, 'info@dealership5.com', NOW(), 'Location 5', 'Dealership 5', NOW()),
+(6, 'info@dealership6.com', NOW(), 'Location 6', 'Dealership 6', NOW()),
+(7, 'info@dealership7.com', NOW(), 'Location 7', 'Dealership 7', NOW()),
+(8, 'info@dealership8.com', NOW(), 'Location 8', 'Dealership 8', NOW()),
+(9, 'info@dealership9.com', NOW(), 'Location 9', 'Dealership 9', NOW()),
+(10, 'info@dealership10.com', NOW(), 'Location 10', 'Dealership 10', NOW());
+
+
+INSERT INTO appointments (id, appointment_type, created_at, scheduled_at, updated_at, user_id, vehicle_id) VALUES
+(1, 'SERVICE', NOW(), NOW(), NOW(), 1, 1),
+(2, 'TEST_DRIVE', NOW(), NOW(), NOW(), 2, 2),
+(3, 'SERVICE', NOW(), NOW(), NOW(), 3, 3),
+(4, 'TEST_DRIVE', NOW(), NOW(), NOW(), 4, 4),
+(5, 'SERVICE', NOW(), NOW(), NOW(), 5, 5),
+(6, 'TEST_DRIVE', NOW(), NOW(), NOW(), 6, 6),
+(7, 'SERVICE', NOW(), NOW(), NOW(), 7, 7),
+(8, 'TEST_DRIVE', NOW(), NOW(), NOW(), 8, 8),
+(9, 'SERVICE', NOW(), NOW(), NOW(), 9, 9),
+(10, 'TEST_DRIVE', NOW(), NOW(), NOW(), 10, 10);
+
+
+INSERT INTO dealership_inventory (id, created_at, stock, updated_at, dealership_id, vehicle_id) VALUES
+(1, NOW(), 10, NOW(), 1, 1),
+(2, NOW(), 15, NOW(), 2, 2),
+(3, NOW(), 20, NOW(), 3, 3),
+(4, NOW(), 25, NOW(), 4, 4),
+(5, NOW(), 30, NOW(), 5, 5),
+(6, NOW(), 35, NOW(), 6, 6),
+(7, NOW(), 40, NOW(), 7, 7),
+(8, NOW(), 45, NOW(), 8, 8),
+(9, NOW(), 50, NOW(), 9, 9),
+(10, NOW(), 55, NOW(), 10, 10);
+
+
+INSERT INTO vehicle_types (id, type_name) VALUES
+(1, 'Sedan'),
+(2, 'SUV'),
+(3, 'Convertible'),
+(4, 'Coupe'),
+(5, 'Wagon'),
+(6, 'Hatchback'),
+(7, 'Truck'),
+(8, 'Van'),
+(9, 'Electric'),
+(10, 'Hybrid');
+
+
+INSERT INTO vehicle_categories (id, category_name) VALUES
+(1, 'Economy'),
+(2, 'Luxury'),
+(3, 'Mid-range'),
+(4, 'Premium'),
+(5, 'Basic'),
+(6, 'Performance'),
+(7, 'Utility'),
+(8, 'Commercial'),
+(9, 'Off-road'),
+(10, 'Sport');
+
+
+INSERT INTO vehicle_features (id, feature_name) VALUES
+(1, 'Air Conditioning'),
+(2, 'Leather Seats'),
+(3, 'Bluetooth'),
+(4, 'Backup Camera'),
+(5, 'Navigation System'),
+(6, 'Heated Seats'),
+(7, 'Sunroof'),
+(8, 'Alloy Wheels'),
+(9, 'Parking Sensors'),
+(10, 'Cruise Control');
+
+INSERT INTO vehicle_features (id, feature_name) VALUES
+(11, 'Electric Windows'),
+(12, 'Keyless Entry'),
+(13, 'Power Steering'),
+(14, 'Satellite Radio'),
+(15, 'USB Ports'),
+(16, 'Wireless Charging'),
+(17, 'Automatic Braking'),
+(18, 'Lane Departure Warning'),
+(19, 'Blind Spot Monitoring'),
+(20, 'Adaptive Cruise Control');
+
+
+INSERT INTO vehicle_feature_mapping (vehicle_id, feature_id) VALUES
+(1, 1),
+(1, 2),
+(2, 3),
+(2, 4),
+(3, 5),
+(3, 6),
+(4, 7),
+(4, 8),
+(5, 9),
+(5, 10);
+
+INSERT INTO vehicle_feature_mapping (vehicle_id, feature_id) VALUES
+(11, 11),
+(11, 12),
+(12, 13),
+(12, 14),
+(13, 15),
+(13, 16),
+(14, 17),
+(14, 18),
+(15, 19),
+(15, 20);
+
+
+
+INSERT INTO vehicle_images (id, vehicle_id, image_url) VALUES
+(1, 1, 'http://example.com/img1.jpg'),
+(2, 1, 'http://example.com/img2.jpg'),
+(3, 2, 'http://example.com/img3.jpg'),
+(4, 2, 'http://example.com/img4.jpg'),
+(5, 3, 'http://example.com/img5.jpg'),
+(6, 3, 'http://example.com/img6.jpg'),
+(7, 4, 'http://example.com/img7.jpg'),
+(8, 4, 'http://example.com/img8.jpg'),
+(9, 5, 'http://example.com/img9.jpg'),
+(10, 5, 'http://example.com/img10.jpg');
+
+INSERT INTO vehicle_images (id, vehicle_id, image_url) VALUES
+(11, 11, 'http://example.com/img11.jpg'),
+(12, 11, 'http://example.com/img12.jpg'),
+(13, 12, 'http://example.com/img13.jpg'),
+(14, 12, 'http://example.com/img14.jpg'),
+(15, 13, 'http://example.com/img15.jpg'),
+(16, 13, 'http://example.com/img16.jpg'),
+(17, 14, 'http://example.com/img17.jpg'),
+(18, 14, 'http://example.com/img18.jpg'),
+(19, 15, 'http://example.com/img19.jpg'),
+(20, 15, 'http://example.com/img20.jpg');
+
+
+
+INSERT INTO vehicles (id, created_at, description, location, make, mileage, model, price, status, updated_at, year, category_id, seller_id, type_id) VALUES
+(1, NOW(), 'Compact car', 'Location A', 'Toyota', 10000, 'Corolla', 20000.00, 'IN_STOCK', NOW(), 2020, 1, 1, 1),
+(2, NOW(), 'Sedan', 'Location B', 'Honda', 5000, 'Civic', 18000.00, 'IN_STOCK', NOW(), 2019, 2, 1, 2),
+(3, NOW(), 'SUV', 'Location C', 'Ford', 15000, 'Escape', 25000.00, 'IN_STOCK', NOW(), 2021, 3, 1, 2),
+(4, NOW(), 'Truck', 'Location D', 'Chevrolet', 20000, 'Silverado', 30000.00, 'IN_STOCK', NOW(), 2020, 7, 1, 7),
+(5, NOW(), 'Convertible', 'Location E', 'BMW', 8000, 'Z4', 45000.00, 'IN_STOCK', NOW(), 2021, 3, 1, 3),
+(6, NOW(), 'Coupe', 'Location F', 'Audi', 6000, 'A5', 40000.00, 'IN_STOCK', NOW(), 2020, 4, 1, 4),
+(7, NOW(), 'Minivan', 'Location G', 'Chrysler', 30000, 'Pacifica', 32000.00, 'IN_STOCK', NOW(), 2019, 8, 1, 8),
+(8, NOW(), 'Hatchback', 'Location H', 'Kia', 12000, 'Rio', 16000.00, 'IN_STOCK', NOW(), 2020, 6, 1, 6),
+(9, NOW(), 'Sports Car', 'Location I', 'Porsche', 5000, '911', 100000.00, 'IN_STOCK', NOW(), 2021, 10, 1, 9),
+(10, NOW(), 'Hybrid', 'Location J', 'Tesla', 2000, 'Model 3', 35000.00, 'IN_STOCK', NOW(), 2021, 10, 1, 9);
+
+INSERT INTO vehicles (id, created_at, description, location, make, mileage, model, price, status, updated_at, year, category_id, seller_id, type_id) VALUES
+(11, NOW(), 'Luxury Sedan', 'Location K', 'Mercedes', 5000, 'S-Class', 90000.00, 'IN_STOCK', NOW(), 2021, 2, 11, 1),
+(12, NOW(), 'Economy Sedan', 'Location L', 'Hyundai', 15000, 'Elantra', 18000.00, 'IN_STOCK', NOW(), 2020, 1, 14, 1),
+(13, NOW(), 'Full-size SUV', 'Location M', 'Chevrolet', 20000, 'Tahoe', 60000.00, 'IN_STOCK', NOW(), 2019, 3, 16, 2),
+(14, NOW(), 'Compact SUV', 'Location N', 'Jeep', 10000, 'Renegade', 22000.00, 'IN_STOCK', NOW(), 2021, 1, 18, 2),
+(15, NOW(), 'Sports Coupe', 'Location O', 'Ford', 8000, 'Mustang', 35000.00, 'IN_STOCK', NOW(), 2020, 10, 11, 4),
+(16, NOW(), 'Electric Sedan', 'Location P', 'Tesla', 12000, 'Model S', 75000.00, 'IN_STOCK', NOW(), 2021, 9, 14, 9),
+(17, NOW(), 'Hybrid SUV', 'Location Q', 'Toyota', 15000, 'RAV4', 34000.00, 'IN_STOCK', NOW(), 2019, 10, 16, 10),
+(18, NOW(), 'Minivan', 'Location R', 'Honda', 30000, 'Odyssey', 32000.00, 'IN_STOCK', NOW(), 2020, 8, 18, 8),
+(19, NOW(), 'Pickup Truck', 'Location S', 'Ford', 5000, 'F-150', 28000.00, 'IN_STOCK', NOW(), 2021, 7, 11, 7),
+(20, NOW(), 'Luxury Coupe', 'Location T', 'BMW', 7000, '4 Series', 45000.00, 'IN_STOCK', NOW(), 2021, 2, 14, 4);
+
+
+
+
+
+SET FOREIGN_KEY_CHECKS = 1;
