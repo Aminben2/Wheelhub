@@ -26,6 +26,13 @@ public class UserController {
 
   private final UserServiceImpl userService;
 
+  @GetMapping("/all")
+  @PreAuthorize("hasAuthority('users:read')")
+  public ResponseEntity<List<UserResponseDto>> getALlUsers() {
+    List<UserResponseDto> users = userService.getAllUsers();
+    return ResponseEntity.ok(users);
+  }
+
   @GetMapping("/all/{role}")
   @PreAuthorize("hasAuthority('users:read')")
   public ResponseEntity<List<UserResponseDto>> getUsers(@PathVariable String role) {

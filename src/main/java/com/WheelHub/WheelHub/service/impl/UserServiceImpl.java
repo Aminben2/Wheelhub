@@ -62,6 +62,13 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public List<UserResponseDto> getAllUsers() {
+    return userRepository.findAll().stream()
+        .map(userMapper::entityToResponseDTO)
+        .collect(Collectors.toList());
+  }
+
+  @Override
   @Transactional
   public UserResponseDto updateUser(Long id, UserDto userDTO) {
     User existingUser =
