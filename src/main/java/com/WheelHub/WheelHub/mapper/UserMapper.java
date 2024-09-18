@@ -50,6 +50,9 @@ public class UserMapper {
                 .username(userDTO.getUsername())
                 .email(userDTO.getEmail())
                 .role(userDTO.getRole())
+                .profilePicture(userDTO.getProfilePicture())
+                .phoneNumber(userDTO.getPhoneNumber())
+                .password(userDTO.getPassword())
                 .build();
     }
 }

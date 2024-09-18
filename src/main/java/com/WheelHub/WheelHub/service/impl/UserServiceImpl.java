@@ -5,6 +5,7 @@ import com.WheelHub.WheelHub.dto.userDtos.UserDto;
 import com.WheelHub.WheelHub.dto.userDtos.UserResponseDto;
 import com.WheelHub.WheelHub.dto.userDtos.UserResponseDtoForGetByUsername;
 import com.WheelHub.WheelHub.entity.User;
+import com.WheelHub.WheelHub.exception.DuplicateResourceException;
 import com.WheelHub.WheelHub.mapper.UserMapper;
 import com.WheelHub.WheelHub.repository.UserRepository;
 import com.WheelHub.WheelHub.service.UserService;
@@ -26,6 +27,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponseDto createUser(UserDto userDTO) {
+        if (userRepository.existsByEmail(userDTO.getEmail())) {
+            throw new DuplicateResourceException("Email is already in use.");
+        }
+        if (userRepository.existsByUsername(userDTO.getUsername())) {
+            throw new DuplicateResourceException("Username is already in use.");
+        }
+
         User user = userMapper.dtoToEntity(userDTO);
         user = userRepository.save(user);
         return userMapper.entityToResponseDTO(user);

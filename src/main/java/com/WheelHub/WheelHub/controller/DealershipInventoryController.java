@@ -25,13 +25,8 @@ public class DealershipInventoryController {
 
     @PostMapping("/")
     public ResponseEntity<DealershipInventoryDto> createDealershipInventory(@Valid @RequestBody DealershipInventoryDto dealershipInventoryDTO) {
-        try {
-            DealershipInventoryDto createdDealershipInventory = dealershipInventoryService.createDealershipInventory(dealershipInventoryDTO);
-            return new ResponseEntity<>(createdDealershipInventory, HttpStatus.CREATED);
-        } catch (Exception e) {
-            log.error("Error creating dealership inventory: {}", e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        DealershipInventoryDto createdDealershipInventory = dealershipInventoryService.createDealershipInventory(dealershipInventoryDTO);
+        return new ResponseEntity<>(createdDealershipInventory, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -41,19 +36,13 @@ public class DealershipInventoryController {
             return new ResponseEntity<>(dealershipInventoryDTO, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<DealershipInventoryDto>> getAllDealershipInventories() {
-        try {
-            List<DealershipInventoryDto> dealershipInventories = dealershipInventoryService.getAllDealershipInventories();
-            return new ResponseEntity<>(dealershipInventories, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<DealershipInventoryDto> dealershipInventories = dealershipInventoryService.getAllDealershipInventories();
+        return new ResponseEntity<>(dealershipInventories, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -63,8 +52,6 @@ public class DealershipInventoryController {
             return new ResponseEntity<>(updatedDealershipInventory, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -75,8 +62,6 @@ public class DealershipInventoryController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

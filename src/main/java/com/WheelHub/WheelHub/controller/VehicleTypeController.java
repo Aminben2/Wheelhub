@@ -3,7 +3,6 @@ package com.WheelHub.WheelHub.controller;
 import com.WheelHub.WheelHub.dto.vehicleTypeDtos.VehicleTypeDto;
 import com.WheelHub.WheelHub.dto.vehicleTypeDtos.VehicleTypeResponseDto;
 import com.WheelHub.WheelHub.service.VehicleTypeService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -27,61 +26,41 @@ public class VehicleTypeController {
     @PostMapping("/")
     @PreAuthorize("hasAuthority('vehicleType:create')")
     public ResponseEntity<VehicleTypeResponseDto> createVehicleType(@Valid @RequestBody VehicleTypeDto vehicleTypeDto) {
-        try {
             VehicleTypeResponseDto createdVehicleType = vehicleTypeService.save(vehicleTypeDto);
             return new ResponseEntity<>(createdVehicleType, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('vehicleType:read')")
     public ResponseEntity<VehicleTypeResponseDto> getVehicleTypeById(@PathVariable @Min(1) Long id) {
-        try {
+     
             VehicleTypeResponseDto vehicleTypeDto = vehicleTypeService.findById(id);
             return new ResponseEntity<>(vehicleTypeDto, HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('vehicleType:read')")
     public ResponseEntity<List<VehicleTypeResponseDto>> getAllVehicleTypes() {
-        try {
             List<VehicleTypeResponseDto> vehicleTypes = vehicleTypeService.findAll();
             return new ResponseEntity<>(vehicleTypes, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('vehicleType:update')")
     public ResponseEntity<VehicleTypeResponseDto> updateVehicleType(@PathVariable @Min(1) Long id, @Valid @RequestBody VehicleTypeDto vehicleTypeDto) {
-        try {
+     
             VehicleTypeResponseDto updatedVehicleType = vehicleTypeService.update(id, vehicleTypeDto);
             return new ResponseEntity<>(updatedVehicleType, HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('vehicleType:delete')")
     public ResponseEntity<Void> deleteVehicleType(@PathVariable @Min(1) Long id) {
-        try {
+     
             vehicleTypeService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 }

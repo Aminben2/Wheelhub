@@ -38,35 +38,27 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<String> saveImages(MultipartFile[] imageFiles, Long vehicleId) {
         try {
-
-            // Ensure the vehicle exists
             Vehicle vehicle = vehicleRepository.findById(vehicleId)
                     .orElseThrow(() -> new RuntimeException("Vehicle not found"));
 
-            // List to hold URLs of uploaded images
             List<String> imageUrls = new ArrayList<>();
 
-            // Generate the directory for saving images
-            File dir = new File(uploadDir + "/vehicleImages/");
+            File dir = new File(uploadDir);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
 
-            // Loop through each image file
             for (MultipartFile imageFile : imageFiles) {
                 String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
                 File file = new File(dir, fileName);
 
-                // Save the file locally
                 imageFile.transferTo(file);
 
-                // Create a VehicleImage entity and save it
                 VehicleImage vehicleImage = new VehicleImage();
-                vehicleImage.setImageUrl("/uploads/vehicleImages/" + fileName); // Store relative path
+                vehicleImage.setImageUrl("/uploads/vehicleImages/" + fileName);
                 vehicleImage.setVehicle(vehicle);
                 vehicleImageRepository.save(vehicleImage);
 
-                // Add the image URL to the list
                 imageUrls.add("/uploads/vehicleImages/" + fileName);
             }
 

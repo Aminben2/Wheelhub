@@ -3,6 +3,7 @@ package com.WheelHub.WheelHub.dto.userDtos;
 import com.WheelHub.WheelHub.constant.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,4 +32,12 @@ public class UserDto {
     private String email;
 
     private Role role;
+
+    private String phoneNumber;
+
+    private String profilePicture;
+
+    @NotBlank
+    @NotNull
+    private String password;
 }
