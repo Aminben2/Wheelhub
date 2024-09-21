@@ -8,13 +8,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface VehicleService {
 
-  VehicleDto createVehicle(VehicleDto vehicleDTO);
+  VehicleResponseDto createVehicle(VehicleDto vehicleDTO);
 
   VehicleResponseDto getVehicleById(Long id);
 
   List<VehicleResponseDto> getAllVehicles();
 
-  VehicleDto updateVehicle(Long id, VehicleDto vehicleDTO);
+  VehicleResponseDto updateVehicle(Long id, VehicleDto vehicleDTO);
 
   void deleteVehicle(Long id);
 

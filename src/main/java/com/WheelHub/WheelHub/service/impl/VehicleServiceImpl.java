@@ -10,11 +10,16 @@ import com.WheelHub.WheelHub.repository.UserRepository;
 import com.WheelHub.WheelHub.repository.VehicleImageRepository;
 import com.WheelHub.WheelHub.repository.VehicleRepository;
 import com.WheelHub.WheelHub.service.VehicleService;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +35,7 @@ public class VehicleServiceImpl implements VehicleService {
   private final VehicleRepository vehicleRepository;
   private final UserRepository userRepository;
   private final VehicleImageRepository vehicleImageRepository;
+  private final Cloudinary cloudinary;
 
   @Value("${app.upload.dir}")
   private String uploadDir;
@@ -44,7 +50,8 @@ public class VehicleServiceImpl implements VehicleService {
 
       List<String> imageUrls = new ArrayList<>();
 
-      File dir = new File(uploadDir);
+      Path staticUploadPath = Paths.get(uploadDir).toAbsolutePath();
+      File dir = staticUploadPath.toFile();
       if (!dir.exists()) {
         dir.mkdirs();
       }
@@ -69,9 +76,30 @@ public class VehicleServiceImpl implements VehicleService {
     }
   }
 
+  public Vehicle uploadVehicleImages(Long vehicleId, List<MultipartFile> files) throws IOException {
+    Vehicle vehicle =
+        vehicleRepository
+            .findById(vehicleId)
+            .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
+
+    for (MultipartFile file : files) {
+      Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+      String imageUrl = uploadResult.get("secure_url").toString();
+
+      VehicleImage vehicleImage = new VehicleImage();
+      vehicleImage.setImageUrl(imageUrl);
+      vehicleImage.setVehicle(vehicle);
+
+      vehicle.getImages().add(vehicleImage);
+      vehicleImageRepository.save(vehicleImage);
+    }
+
+    return vehicleRepository.save(vehicle);
+  }
+
   @Override
   @Transactional
-  public VehicleDto createVehicle(VehicleDto vehicleDTO) {
+  public VehicleResponseDto createVehicle(VehicleDto vehicleDTO) {
     User seller =
         userRepository
             .findById(vehicleDTO.getSellerId())
@@ -84,7 +112,7 @@ public class VehicleServiceImpl implements VehicleService {
     vehicle.setSeller(seller);
 
     vehicle = vehicleRepository.save(vehicle);
-    return VehicleMapper.entityToDTO(vehicle);
+    return VehicleMapper.entityToResponseDTO(vehicle);
   }
 
   @Override
@@ -111,7 +139,7 @@ public class VehicleServiceImpl implements VehicleService {
 
   @Override
   @Transactional
-  public VehicleDto updateVehicle(Long id, VehicleDto vehicleDTO) {
+  public VehicleResponseDto updateVehicle(Long id, VehicleDto vehicleDTO) {
     Vehicle existingVehicle =
         vehicleRepository
             .findById(id)
@@ -135,7 +163,7 @@ public class VehicleServiceImpl implements VehicleService {
     existingVehicle.setLocation(vehicleDTO.getLocation());
 
     Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
-    return VehicleMapper.entityToDTO(updatedVehicle);
+    return VehicleMapper.entityToResponseDTO(updatedVehicle);
   }
 
   @Override

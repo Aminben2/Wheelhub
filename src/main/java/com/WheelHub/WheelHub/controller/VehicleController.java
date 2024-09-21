@@ -2,6 +2,7 @@ package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
+import com.WheelHub.WheelHub.entity.Vehicle;
 import com.WheelHub.WheelHub.service.impl.VehicleServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -28,16 +29,29 @@ public class VehicleController {
   @PostMapping("/{vehicleId}/upload")
   @PreAuthorize("hasAuthority('vehicles:imageUpload')")
   public ResponseEntity<List<String>> uploadVehicleImages(
-      @PathVariable Long vehicleId, @RequestParam("images") MultipartFile[] imageFiles) {
+      @PathVariable("vehicleId") Long vehicleId,
+      @RequestParam("images") MultipartFile[] imageFiles) {
     List<String> imageUrls = vehicleService.saveImages(imageFiles, vehicleId);
     return ResponseEntity.ok(imageUrls);
   }
 
+  @PostMapping("/{vehicleId}/uploadCloud")
+  public ResponseEntity<Vehicle> uploadVehicleImages(
+      @PathVariable Long vehicleId, @RequestParam("images") List<MultipartFile> files) {
+    try {
+      Vehicle vehicle = vehicleService.uploadVehicleImages(vehicleId, files);
+      return ResponseEntity.ok(vehicle);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
+  }
+
   @PostMapping("/")
   @PreAuthorize("hasAuthority('vehicles:create')")
-  public ResponseEntity<VehicleDto> createVehicle(@Valid @RequestBody VehicleDto vehicleDTO) {
+  public ResponseEntity<VehicleResponseDto> createVehicle(
+      @Valid @RequestBody VehicleDto vehicleDTO) {
 
-    VehicleDto createdVehicle = vehicleService.createVehicle(vehicleDTO);
+    VehicleResponseDto createdVehicle = vehicleService.createVehicle(vehicleDTO);
     return new ResponseEntity<>(createdVehicle, HttpStatus.CREATED);
   }
 
@@ -58,10 +72,10 @@ public class VehicleController {
 
   @PutMapping("/{id}")
   @PreAuthorize("hasAuthority('vehicles:update')")
-  public ResponseEntity<VehicleDto> updateVehicle(
+  public ResponseEntity<VehicleResponseDto> updateVehicle(
       @PathVariable @Min(1) Long id, @Valid @RequestBody VehicleDto vehicleDTO) {
 
-    VehicleDto updatedVehicle = vehicleService.updateVehicle(id, vehicleDTO);
+    VehicleResponseDto updatedVehicle = vehicleService.updateVehicle(id, vehicleDTO);
     return new ResponseEntity<>(updatedVehicle, HttpStatus.OK);
   }
 

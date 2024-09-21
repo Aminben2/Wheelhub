@@ -32,7 +32,10 @@ public class VehicleMapper {
 
     return VehicleResponseDto.builder()
         .id(vehicle.getId())
-        .features(vehicle.getFeatures().stream().map(VehicleFeature::getId).toList())
+        .features(
+            vehicle.getFeatures() != null
+                ? vehicle.getFeatures().stream().map(VehicleFeature::getId).toList()
+                : null)
         .type(vehicle.getVehicleType() != null ? vehicle.getVehicleType() : null)
         .category(vehicle.getCategory() != null ? vehicle.getCategory() : null)
         .sellerId(vehicle.getSeller() != null ? vehicle.getSeller().getId() : null)
