@@ -2,7 +2,9 @@ package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
+import com.WheelHub.WheelHub.dto.vehicleFeatureDtos.VehicleFeatureDto;
 import com.WheelHub.WheelHub.entity.*;
+import com.WheelHub.WheelHub.mapper.VehicleFeatureMapper;
 import com.WheelHub.WheelHub.mapper.VehicleMapper;
 import com.WheelHub.WheelHub.repository.*;
 import com.WheelHub.WheelHub.service.VehicleService;
@@ -127,11 +129,12 @@ public class VehicleServiceImpl implements VehicleService {
     vehicle.setVehicleType(type);
 
     Set<VehicleFeature> managedFeatures = new HashSet<>();
-    for (VehicleFeature feature : vehicle.getFeatures()) {
+    for (VehicleFeatureDto feature : vehicleDTO.getFeatures()) {
       VehicleFeature managedFeature =
           vehicleFeatureRepository
               .findByFeatureName(feature.getFeatureName())
-              .orElseGet(() -> vehicleFeatureRepository.save(feature));
+              .orElseGet(
+                  () -> vehicleFeatureRepository.save(VehicleFeatureMapper.dtoToEntity(feature)));
       managedFeatures.add(managedFeature);
     }
     vehicle.setFeatures(managedFeatures);
