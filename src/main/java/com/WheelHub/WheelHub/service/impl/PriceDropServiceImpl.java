@@ -53,7 +53,7 @@ public class PriceDropServiceImpl implements PriceDropService {
     return priceDropRepository
         .findFirstByVehicleIdOrderByDroppedAtDesc(id)
         .map(PriceDropMapper::entityToResponseDTO)
-        .orElseThrow(() -> new EntityNotFoundException("PriceDrop not found for vehicle id:" + id));
+        .orElseGet(PriceDropResponseDto::new);
   }
 
   @Override
