@@ -2,13 +2,9 @@ package com.WheelHub.WheelHub.service.impl;
 
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
-import com.WheelHub.WheelHub.entity.User;
-import com.WheelHub.WheelHub.entity.Vehicle;
-import com.WheelHub.WheelHub.entity.VehicleImage;
+import com.WheelHub.WheelHub.entity.*;
 import com.WheelHub.WheelHub.mapper.VehicleMapper;
-import com.WheelHub.WheelHub.repository.UserRepository;
-import com.WheelHub.WheelHub.repository.VehicleImageRepository;
-import com.WheelHub.WheelHub.repository.VehicleRepository;
+import com.WheelHub.WheelHub.repository.*;
 import com.WheelHub.WheelHub.service.VehicleService;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -17,10 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +27,9 @@ public class VehicleServiceImpl implements VehicleService {
 
   private final VehicleRepository vehicleRepository;
   private final UserRepository userRepository;
+  private final VehicleFeatureRepository vehicleFeatureRepository;
+  private final VehicleCategoryRepository vehicleCategoryRepository;
+  private final VehicleTypeRepository vehicleTypeRepository;
   private final VehicleImageRepository vehicleImageRepository;
   private final Cloudinary cloudinary;
 
@@ -76,11 +72,14 @@ public class VehicleServiceImpl implements VehicleService {
     }
   }
 
-  public Vehicle uploadVehicleImages(Long vehicleId, List<MultipartFile> files) throws IOException {
+  public List<String> uploadVehicleImages(Long vehicleId, List<MultipartFile> files)
+      throws IOException {
     Vehicle vehicle =
         vehicleRepository
             .findById(vehicleId)
             .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
+
+    List<String> imageUrls = new ArrayList<>();
 
     for (MultipartFile file : files) {
       Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
@@ -89,12 +88,10 @@ public class VehicleServiceImpl implements VehicleService {
       VehicleImage vehicleImage = new VehicleImage();
       vehicleImage.setImageUrl(imageUrl);
       vehicleImage.setVehicle(vehicle);
-
-      vehicle.getImages().add(vehicleImage);
       vehicleImageRepository.save(vehicleImage);
+      imageUrls.add(imageUrl);
     }
-
-    return vehicleRepository.save(vehicle);
+    return imageUrls;
   }
 
   @Override
@@ -108,10 +105,36 @@ public class VehicleServiceImpl implements VehicleService {
                     new EntityNotFoundException(
                         "User not found for id:" + vehicleDTO.getSellerId()));
 
+    VehicleCategory category =
+        vehicleCategoryRepository
+            .findById(vehicleDTO.getVehicleCategoryId())
+            .orElseThrow(
+                () ->
+                    new EntityNotFoundException(
+                        "vehicle category not found for id:" + vehicleDTO.getVehicleCategoryId()));
+
+    VehicleType type =
+        vehicleTypeRepository
+            .findById(vehicleDTO.getVehicleTypeId())
+            .orElseThrow(
+                () ->
+                    new EntityNotFoundException(
+                        "vehicle type not found for id:" + vehicleDTO.getVehicleTypeId()));
+
     Vehicle vehicle = VehicleMapper.dtoToEntity(vehicleDTO);
     vehicle.setSeller(seller);
+    vehicle.setCategory(category);
+    vehicle.setVehicleType(type);
 
-    vehicle = vehicleRepository.save(vehicle);
+    Set<VehicleFeature> managedFeatures = new HashSet<>();
+    for (VehicleFeature feature : vehicle.getFeatures()) {
+      VehicleFeature managedFeature =
+          vehicleFeatureRepository
+              .findByFeatureName(feature.getFeatureName())
+              .orElseGet(() -> vehicleFeatureRepository.save(feature));
+      managedFeatures.add(managedFeature);
+    }
+    vehicle.setFeatures(managedFeatures);
     return VehicleMapper.entityToResponseDTO(vehicle);
   }
 

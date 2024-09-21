@@ -17,30 +17,27 @@ import java.util.List;
 @Data
 public class VehicleResponseDto {
 
-    private Long id;
+  private Long id;
 
-    private Long sellerId;
+  private Long sellerId;
 
-    private String make;
+  private String make;
 
-    private String model;
+  private String model;
 
-    private Integer year;
+  private Integer year;
 
-    private Integer mileage;
+  private Integer mileage;
 
-    private BigDecimal price;
+  private BigDecimal price;
 
-    private String description;
+  private String description;
 
-    private String location;
+  private String location;
 
-    private List<Long> features;
+  private AvailabilityStatus status;
 
-    private AvailabilityStatus status;
+  private VehicleCategory category;
 
-    private VehicleCategory category;
-
-    private VehicleType type;
+  private VehicleType type;
 }
-

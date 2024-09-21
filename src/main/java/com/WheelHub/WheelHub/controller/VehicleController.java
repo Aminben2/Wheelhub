@@ -2,7 +2,6 @@ package com.WheelHub.WheelHub.controller;
 
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
-import com.WheelHub.WheelHub.entity.Vehicle;
 import com.WheelHub.WheelHub.service.impl.VehicleServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -36,12 +35,13 @@ public class VehicleController {
   }
 
   @PostMapping("/{vehicleId}/uploadCloud")
-  public ResponseEntity<Vehicle> uploadVehicleImages(
+  public ResponseEntity<List<String>> uploadVehicleImages(
       @PathVariable Long vehicleId, @RequestParam("images") List<MultipartFile> files) {
     try {
-      Vehicle vehicle = vehicleService.uploadVehicleImages(vehicleId, files);
-      return ResponseEntity.ok(vehicle);
+      List<String> imageUrls = vehicleService.uploadVehicleImages(vehicleId, files);
+      return ResponseEntity.ok(imageUrls);
     } catch (Exception e) {
+      log.error(e.getMessage());
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
   }

@@ -18,6 +18,7 @@ public class VehicleFeature {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(name = "feature_name", unique = true, nullable = false)
   private String featureName;
 
   private String description;

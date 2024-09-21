@@ -24,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Slf4j
 public class SecurityConfig {
 
-  private static final String[] WHITE_LIST_URL = {"/api/auth/**"};
+  private static final String[] WHITE_LIST_URL = {"/api/auth/**", "/uploads/**"};
   private final JwtAuthenticationFilter jwtAuthFilter;
   private final AuthenticationProvider authenticationProvider;
 
@@ -34,10 +34,8 @@ public class SecurityConfig {
       response.setStatus(HttpServletResponse.SC_FORBIDDEN);
       response.setContentType("application/json");
 
-      // Log the error message for debugging purposes
       log.error("Access Denied Error: {}", accessDeniedException.getMessage());
 
-      // Write a detailed error message to the response
       response
           .getWriter()
           .write(

@@ -38,7 +38,7 @@ public class Vehicle {
   @JoinColumn(name = "category_id")
   private VehicleCategory category;
 
-  @ManyToMany
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(
       name = "vehicle_feature_mapping",
       joinColumns = @JoinColumn(name = "vehicle_id"),

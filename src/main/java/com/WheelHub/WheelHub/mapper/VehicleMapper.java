@@ -3,6 +3,7 @@ package com.WheelHub.WheelHub.mapper;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleDto;
 import com.WheelHub.WheelHub.dto.vehicleDtos.VehicleResponseDto;
 import com.WheelHub.WheelHub.entity.*;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,10 +33,6 @@ public class VehicleMapper {
 
     return VehicleResponseDto.builder()
         .id(vehicle.getId())
-        .features(
-            vehicle.getFeatures() != null
-                ? vehicle.getFeatures().stream().map(VehicleFeature::getId).toList()
-                : null)
         .type(vehicle.getVehicleType() != null ? vehicle.getVehicleType() : null)
         .category(vehicle.getCategory() != null ? vehicle.getCategory() : null)
         .sellerId(vehicle.getSeller() != null ? vehicle.getSeller().getId() : null)
@@ -64,6 +61,12 @@ public class VehicleMapper {
             .price(vehicleDTO.getPrice())
             .description(vehicleDTO.getDescription())
             .status(vehicleDTO.getStatus())
+            .features(
+                vehicleDTO.getFeatures() != null
+                    ? vehicleDTO.getFeatures().stream()
+                        .map(VehicleFeatureMapper::dtoToEntity)
+                        .collect(Collectors.toSet())
+                    : null)
             .location(vehicleDTO.getLocation());
 
     if (vehicleDTO.getSellerId() != null) {
