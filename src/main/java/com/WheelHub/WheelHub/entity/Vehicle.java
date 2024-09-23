@@ -62,18 +62,11 @@ public class Vehicle {
             orphanRemoval = true)
     private List<DealershipInventory> dealershipInventories = new ArrayList<>();
 
-    @OneToMany(
-            mappedBy = "vehicle",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true)
-    private List<Notification> notifications;
-
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Favorite> favorites;
 
     @OneToMany(
-            mappedBy = "inquiry",
+            mappedBy = "vehicle",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             orphanRemoval = true)

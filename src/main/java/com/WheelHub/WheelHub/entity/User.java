@@ -97,14 +97,14 @@ public class User implements UserDetails {
     private List<SavedSearch> savedSearches;
 
     @OneToMany(
-            mappedBy = "favorite",
+            mappedBy = "user",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             orphanRemoval = true)
     private List<Favorite> favorites;
 
     @OneToMany(
-            mappedBy = "inquiry",
+            mappedBy = "user",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             orphanRemoval = true)
