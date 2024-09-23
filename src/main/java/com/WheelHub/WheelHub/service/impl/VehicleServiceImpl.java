@@ -78,6 +78,33 @@ public class VehicleServiceImpl implements VehicleService {
         }
     }
 
+    @Override
+    public void deleteAllVehiclesByIds(List<Long> vehiclesIds) {
+        vehicleRepository.deleteAllById(vehiclesIds);
+    }
+
+    @Override
+    @Transactional
+    public void softDeleteAllVehiclesByIds(List<Long> vehicleIds) {
+        List<Vehicle> vehicles = vehicleRepository.findAllById(vehicleIds);
+        if (vehicles.size() != vehicleIds.size()) {
+            throw new EntityNotFoundException("One or more vehicle IDs are invalid.");
+        }
+        vehicles.forEach(vehicle -> vehicle.setIsDeleted(true));
+        vehicleRepository.saveAll(vehicles);
+    }
+
+    @Override
+    @Transactional
+    public void recoverAllVehiclesByIds(List<Long> vehicleIds) {
+        List<Vehicle> vehicles = vehicleRepository.findAllById(vehicleIds);
+        if (vehicles.size() != vehicleIds.size()) {
+            throw new EntityNotFoundException("One or more vehicle IDs are invalid.");
+        }
+        vehicles.forEach(vehicle -> vehicle.setIsDeleted(false));
+        vehicleRepository.saveAll(vehicles);
+    }
+
     public List<String> uploadVehicleImages(Long vehicleId, List<MultipartFile> files)
             throws IOException {
         Vehicle vehicle =
@@ -172,6 +199,20 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<VehicleResponseDto> getAllVehicles() {
         return vehicleRepository.findAll().stream()
+                .map(VehicleMapper::entityToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<VehicleResponseDto> getAllDeletedVehicles() {
+        return vehicleRepository.findByIsDeletedTrue().stream()
+                .map(VehicleMapper::entityToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<VehicleResponseDto> getAllNotDeletedVehicles() {
+        return vehicleRepository.findByIsDeletedFalse().stream()
                 .map(VehicleMapper::entityToResponseDTO)
                 .collect(Collectors.toList());
     }
